@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Kontak — EcoVera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main id="main">
+      <div class="page">
+        <div class="split">
+          <div>
+            <h1>Hubungi kami</h1>
+            <p class="lead">
+              Punya pertanyaan, koreksi data, atau foto dokumentasi untuk
+              galeri? Tulis di sini.
+            </p>
+            <p style="margin-top: 1rem">
+              Website ini statis dan tidak punya server. Tombol kirim membuka
+              aplikasi email Anda dengan pesan yang sudah terisi, dan pesan baru
+              terkirim setelah Anda menekan kirim di sana.
+            </p>
+          </div>
+          <form novalidate>
+            <div>
+              <label for="nama">Nama</label
+              ><input id="nama" name="nama" autocomplete="name" /><span
+                class="err"
+              ></span>
+            </div>
+            <div>
+              <label for="email">Email</label
+              ><input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+              /><span class="err"></span>
+            </div>
+            <div>
+              <label for="pesan">Pesan</label
+              ><textarea id="pesan" name="pesan" rows="5"></textarea
+              ><span class="err"></span>
+            </div>
+            <button class="btn" type="submit">Kirim lewat email</button>
+            <p class="note" role="status">
+              Aplikasi email Anda seharusnya terbuka. Jika tidak, periksa
+              pengaturan email default perangkat.
+            </p>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="js/script.js"></script>
+  </body>
+</html>
