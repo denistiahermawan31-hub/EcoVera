@@ -3,173 +3,606 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Enam pembahasan, dari pengertian hingga kesadaran lingkungan. Untuk angka dan data terbaru, buka sumber rujukan di setiap artikel."
+    />
     <title>Artikel — EcoVera</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* Indikator Progres Bacaan di Atas Layar */
+      .read-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--em);
+        transform: scaleX(0);
+        transform-origin: left;
+        z-index: 60;
+        pointer-events: none;
+        transition: transform 0.1s linear;
+      }
+
+      /* Full-screen background menyatu penuh dari kiri ke kanan */
+      .article-page {
+        width: 100%;
+        max-width: none;
+        min-height: 100vh;
+        background: var(--cream);
+        padding: 8.5rem 5vw 6rem;
+      }
+
+      /* Pembungkus isi di dalam layar penuh agar tetap rapi & proporsional */
+      .article-container {
+        width: 100%;
+        max-width: 1320px;
+        margin: 0 auto;
+      }
+
+      .article-header {
+        padding-bottom: 2.75rem;
+        border-bottom: 1px solid var(--sg);
+      }
+
+      .article-header .lead {
+        margin-top: 1.15rem;
+        max-width: 60ch;
+        font-size: 1.12rem;
+        line-height: 1.72;
+        color: var(--olive);
+      }
+
+      /* Layout Editorial 2 Kolom: Sidebar Daftar Isi (Kiri) + Konten Artikel (Kanan) */
+      .editorial-grid {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        gap: 3.5rem;
+        align-items: start;
+        margin-top: 2.5rem;
+      }
+
+      /* Sidebar Daftar Isi Sticky */
+      .toc-sidebar {
+        position: sticky;
+        top: 96px;
+      }
+
+      .toc-label {
+        display: block;
+        margin-bottom: 0.85rem;
+        font: 700 0.75rem var(--h);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--olive);
+      }
+
+      .article-page .toc {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-left: 1px solid var(--sg);
+      }
+
+      .article-page .toc a {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.6rem 0.9rem;
+        margin-left: -1px;
+        border: none;
+        border-left: 2px solid transparent;
+        border-radius: 0;
+        background: transparent;
+        color: var(--olive);
+        font: 600 0.9rem var(--h);
+        text-decoration: none;
+        transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+      }
+
+      .article-page .toc a span {
+        font-size: 0.78rem;
+        opacity: 0.75;
+      }
+
+      .article-page .toc a:hover {
+        color: var(--char);
+        background: var(--ivory);
+      }
+
+      .article-page .toc a.active {
+        color: var(--em);
+        border-left-color: var(--em);
+        background: var(--ivory);
+        font-weight: 700;
+      }
+
+      /* Daftar Artikel */
+      .article-list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .article-page .art {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 2.5rem;
+        align-items: start;
+        padding: 3.25rem 0;
+        border-top: none;
+        border-bottom: 1px solid var(--sg);
+        scroll-margin-top: 96px;
+      }
+
+      .article-page .art:first-child {
+        padding-top: 0.25rem;
+      }
+
+      .article-page .art:last-child {
+        border-bottom: none;
+      }
+
+      /* Frame Gambar dengan Zoom Halus Saat Muncul */
+      .art-media {
+        overflow: hidden;
+        border-radius: 4px;
+        border: 1px solid var(--sg);
+        background: var(--mint);
+      }
+
+      .article-page .art .photo {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border: none;
+        border-radius: 0;
+        transform: scale(1.04);
+        transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .art.is-visible .photo {
+        transform: scale(1);
+      }
+
+      /* Animasi Scroll Reveal Bertahap */
+      .reveal-media,
+      .reveal-body {
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .reveal-body {
+        transition-delay: 0.12s;
+      }
+
+      .art.is-visible .reveal-media,
+      .art.is-visible .reveal-body {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .article-num {
+        font: 700 0.82rem var(--h);
+        color: var(--em);
+        letter-spacing: 0.06em;
+      }
+
+      .article-page .cat {
+        display: inline-block;
+        margin-bottom: 0;
+        padding: 0.22rem 0.65rem;
+        border-radius: 4px;
+        background: var(--mint);
+        border: 1px solid var(--sg);
+        color: var(--char);
+        font: 700 0.74rem var(--h);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .article-page .art h2 {
+        font-size: clamp(1.55rem, 2.5vw, 2.15rem);
+        line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+
+      .article-page .art p {
+        font-size: 1.03rem;
+        line-height: 1.78;
+        max-width: 62ch;
+      }
+
+      .article-page .art p + p {
+        margin-top: 0.95rem;
+      }
+
+      /* Kotak Sumber Rujukan */
+      .article-page .src {
+        margin-top: 1.4rem;
+        padding: 0.8rem 1rem;
+        background: var(--ivory);
+        border: 1px solid var(--sg);
+        border-left: 3px solid var(--em);
+        border-radius: 4px;
+        font-size: 0.86rem;
+        line-height: 1.6;
+        color: var(--olive);
+      }
+
+      /* Responsif Tablet & Mobile */
+      @media (max-width: 980px) {
+        .editorial-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .toc-sidebar {
+          position: sticky;
+          top: 58px;
+          z-index: 25;
+          background: var(--cream);
+          padding: 0.85rem 0;
+          border-bottom: 1px solid var(--sg);
+        }
+
+        .toc-label {
+          display: none;
+        }
+
+        .article-page .toc {
+          flex-direction: row;
+          overflow-x: auto;
+          border-left: none;
+          gap: 0.5rem;
+          scrollbar-width: none;
+        }
+
+        .article-page .toc::-webkit-scrollbar {
+          display: none;
+        }
+
+        .article-page .toc a {
+          flex-shrink: 0;
+          margin-left: 0;
+          padding: 0.45rem 0.85rem;
+          border: 1px solid var(--sg);
+          border-radius: 4px;
+          background: var(--ivory);
+        }
+
+        .article-page .toc a.active {
+          background: var(--em);
+          border-color: var(--em);
+          color: var(--ivory);
+        }
+
+        .article-page .art {
+          scroll-margin-top: 128px;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .article-page {
+          padding-top: 6.75rem;
+        }
+
+        .article-page .art {
+          grid-template-columns: 1fr;
+          gap: 1.4rem;
+          padding: 2.5rem 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-media,
+        .reveal-body,
+        .article-page .art .photo {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div class="read-progress" aria-hidden="true"></div>
+
     <main id="main">
-      <div class="page">
-        <h1>Artikel edukasi sampah</h1>
-        <p class="lead">
-          Enam pembahasan, dari pengertian hingga kesadaran lingkungan. Untuk
-          angka dan data terbaru, buka sumber rujukan di setiap artikel.
-        </p>
-        <nav class="toc" aria-label="Daftar artikel">
-          <a href="#memahami">Memahami sampah</a
-          ><a href="#jenis">Jenis sampah</a><a href="#dampak">Dampak</a
-          ><a href="#kelola">Pengelolaan</a><a href="#3r">3R</a
-          ><a href="#sadar">Kesadaran</a>
-        </nav>
-        <article class="art" id="memahami">
-          <div
-            class="photo"
-            style="--img: url(&quot;assets/images/memahami.jpg&quot;)"
-          ></div>
-          <div>
-            <span class="cat">Dasar</span>
-            <h2>Memahami sampah</h2>
-            <p>
-              Sampah adalah sisa kegiatan sehari-hari manusia atau proses alam
-              yang berbentuk padat. Di Indonesia, pengertian dan kewajiban
-              pengelolaannya diatur dalam Undang-Undang Nomor 18 Tahun 2008
-              tentang Pengelolaan Sampah.
+      <div class="page article-page">
+        <div class="article-container">
+          <header class="article-header">
+            <h1>Artikel edukasi sampah</h1>
+            <p class="lead">
+              Enam pembahasan, dari pengertian hingga kesadaran lingkungan. Untuk
+              angka dan data terbaru, buka sumber rujukan di setiap artikel.
             </p>
-            <p>
-              Sampah muncul di setiap tahap: produksi, distribusi, dan konsumsi.
-              Memahami asalnya penting, sebab pengurangan paling efektif
-              dilakukan sebelum sesuatu menjadi sampah.
-            </p>
-            <p class="src">
-              Sumber rujukan: UU No. 18 Tahun 2008; SIPSN, Kementerian
-              Lingkungan Hidup (sipsn.kemenlh.go.id)
-            </p>
+          </header>
+
+          <div class="editorial-grid">
+            <aside class="toc-sidebar">
+              <span class="toc-label">Daftar Pembahasan</span>
+              <nav class="toc" aria-label="Daftar artikel">
+                <a href="#memahami" class="active"><span>01</span> Memahami sampah</a>
+                <a href="#jenis"><span>02</span> Jenis sampah</a>
+                <a href="#dampak"><span>03</span> Dampak</a>
+                <a href="#kelola"><span>04</span> Pengelolaan</a>
+                <a href="#3r"><span>05</span> 3R</a>
+                <a href="#sadar"><span>06</span> Kesadaran</a>
+              </nav>
+            </aside>
+
+            <div class="article-list">
+              <article class="art" id="memahami">
+                <div class="art-media reveal-media">
+                  <div
+                    class="photo"
+                    role="img"
+                    aria-label="Ilustrasi memahami sampah"
+                    style="--img: url(&quot;assets/images/memahami.jpg&quot;)"
+                  ></div>
+                </div>
+                <div class="reveal-body">
+                  <div class="article-meta">
+                    <span class="article-num">01</span>
+                    <span class="cat">Dasar</span>
+                  </div>
+                  <h2>Memahami sampah</h2>
+                  <p>
+                    Sampah adalah sisa kegiatan sehari-hari manusia atau proses alam
+                    yang berbentuk padat. Di Indonesia, pengertian dan kewajiban
+                    pengelolaannya diatur dalam Undang-Undang Nomor 18 Tahun 2008
+                    tentang Pengelolaan Sampah.
+                  </p>
+                  <p>
+                    Sampah muncul di setiap tahap: produksi, distribusi, dan
+                    konsumsi. Memahami asalnya penting, sebab pengurangan paling
+                    efektif dilakukan sebelum sesuatu menjadi sampah.
+                  </p>
+                  <p class="src">
+                    Sumber rujukan: UU No. 18 Tahun 2008; SIPSN, Kementerian
+                    Lingkungan Hidup (sipsn.kemenlh.go.id)
+                  </p>
+                </div>
+              </article>
+
+              <article class="art" id="jenis">
+                <div class="art-media reveal-media">
+                  <div
+                    class="photo"
+                    role="img"
+                    aria-label="Ilustrasi jenis-jenis sampah"
+                    style="--img: url(&quot;assets/images/jenis.jpg&quot;)"
+                  ></div>
+                </div>
+                <div class="reveal-body">
+                  <div class="article-meta">
+                    <span class="article-num">02</span>
+                    <span class="cat">Klasifikasi</span>
+                  </div>
+                  <h2>Jenis-jenis sampah</h2>
+                  <p>
+                    Sampah organik berasal dari makhluk hidup, seperti sisa makanan
+                    dan daun, dan dapat terurai. Sampah anorganik, seperti plastik,
+                    kaca, dan logam, sulit terurai tetapi banyak yang bisa didaur
+                    ulang.
+                  </p>
+                  <p>
+                    Sampah B3 rumah tangga (baterai, lampu, obat kedaluwarsa)
+                    mengandung zat berbahaya dan tidak boleh dicampur dengan sampah
+                    biasa. Sampah residu adalah sisa yang tidak dapat diolah lagi.
+                  </p>
+                  <p class="src">
+                    Sumber rujukan: SIPSN, Kementerian Lingkungan Hidup; UU No. 18
+                    Tahun 2008
+                  </p>
+                </div>
+              </article>
+
+              <article class="art" id="dampak">
+                <div class="art-media reveal-media">
+                  <div
+                    class="photo"
+                    role="img"
+                    aria-label="Ilustrasi dampak sampah terhadap ekosistem"
+                    style="--img: url(&quot;assets/images/dampak.jpg&quot;)"
+                  ></div>
+                </div>
+                <div class="reveal-body">
+                  <div class="article-meta">
+                    <span class="article-num">03</span>
+                    <span class="cat">Lingkungan</span>
+                  </div>
+                  <h2>Dampak sampah terhadap ekosistem</h2>
+                  <p>
+                    Sampah plastik yang tidak terkelola dapat terbawa air ke sungai
+                    dan laut, lalu terpecah menjadi mikroplastik. Organisme akuatik
+                    dapat menelannya atau terjerat.
+                  </p>
+                  <p>
+                    Food waste yang menumpuk di tempat pembuangan menghasilkan
+                    metana. Sampah juga menyumbat saluran air dan memperparah banjir
+                    di permukiman.
+                  </p>
+                  <p class="src">
+                    Sumber rujukan: UNEP (unep.org), laporan tentang polusi plastik
+                    dan food waste; FAO (fao.org), publikasi tentang food loss and
+                    waste
+                  </p>
+                </div>
+              </article>
+
+              <article class="art" id="kelola">
+                <div class="art-media reveal-media">
+                  <div
+                    class="photo"
+                    role="img"
+                    aria-label="Ilustrasi pemilahan dan pengelolaan sampah"
+                    style="--img: url(&quot;assets/images/kelola.jpg&quot;)"
+                  ></div>
+                </div>
+                <div class="reveal-body">
+                  <div class="article-meta">
+                    <span class="article-num">04</span>
+                    <span class="cat">Praktik</span>
+                  </div>
+                  <h2>Pemilahan dan pengelolaan sampah</h2>
+                  <p>
+                    Pemilahan dimulai di rumah dengan memisahkan sampah organik,
+                    anorganik, B3, dan residu. Sampah yang terpilah lebih mudah
+                    dikomposkan, didaur ulang, atau ditangani khusus.
+                  </p>
+                  <p>
+                    Pengelolaan yang baik juga membutuhkan sistem: pengangkutan
+                    terpisah, fasilitas pengolahan, dan peran bank sampah atau TPS3R
+                    di tingkat komunitas.
+                  </p>
+                  <p class="src">
+                    Sumber rujukan: Kementerian Lingkungan Hidup; World Bank, seri
+                    laporan What a Waste (worldbank.org)
+                  </p>
+                </div>
+              </article>
+
+              <article class="art" id="3r">
+                <div class="art-media reveal-media">
+                  <div
+                    class="photo"
+                    role="img"
+                    aria-label="Ilustrasi prinsip Reduce, Reuse, Recycle"
+                    style="--img: url(&quot;assets/images/3r.jpg&quot;)"
+                  ></div>
+                </div>
+                <div class="reveal-body">
+                  <div class="article-meta">
+                    <span class="article-num">05</span>
+                    <span class="cat">Prinsip</span>
+                  </div>
+                  <h2>Reduce, Reuse, Recycle</h2>
+                  <p>
+                    Reduce berarti mengurangi: membawa tas dan botol sendiri,
+                    membeli secukupnya. Reuse berarti memakai ulang wadah atau
+                    barang sebelum membuangnya.
+                  </p>
+                  <p>
+                    Recycle mengolah sampah menjadi bahan baru dan menjadi pilihan
+                    terakhir dari ketiganya, karena butuh energi dan hanya bisa
+                    dilakukan pada sampah yang bersih dan terpilah.
+                  </p>
+                  <p class="src">
+                    Sumber rujukan: UU No. 18 Tahun 2008; Kementerian Lingkungan
+                    Hidup
+                  </p>
+                </div>
+              </article>
+
+              <article class="art" id="sadar">
+                <div class="art-media reveal-media">
+                  <div
+                    class="photo"
+                    role="img"
+                    aria-label="Ilustrasi kesadaran lingkungan"
+                    style="--img: url(&quot;assets/images/sadar.jpg&quot;)"
+                  ></div>
+                </div>
+                <div class="reveal-body">
+                  <div class="article-meta">
+                    <span class="article-num">06</span>
+                    <span class="cat">Kesadaran</span>
+                  </div>
+                  <h2>Kesadaran lingkungan</h2>
+                  <p>
+                    Pengetahuan baru berguna bila berubah menjadi kebiasaan. Mulailah
+                    dari satu langkah yang konkret: memilah di rumah, mengurangi
+                    kemasan sekali pakai, atau mengomposkan sisa dapur.
+                  </p>
+                  <p>
+                    Kebiasaan itu menular. Ketika keluarga, sekolah, atau lingkungan
+                    tempat tinggal ikut memilah, sistem pengelolaan di sekitarnya
+                    ikut terbantu.
+                  </p>
+                  <p class="src">
+                    Sumber rujukan: UNEP, materi edukasi lingkungan (unep.org)
+                  </p>
+                </div>
+              </article>
+            </div>
           </div>
-        </article>
-        <article class="art" id="jenis">
-          <div
-            class="photo"
-            style="--img: url(&quot;assets/images/jenis.jpg&quot;)"
-          ></div>
-          <div>
-            <span class="cat">Klasifikasi</span>
-            <h2>Jenis-jenis sampah</h2>
-            <p>
-              Sampah organik berasal dari makhluk hidup, seperti sisa makanan
-              dan daun, dan dapat terurai. Sampah anorganik, seperti plastik,
-              kaca, dan logam, sulit terurai tetapi banyak yang bisa didaur
-              ulang.
-            </p>
-            <p>
-              Sampah B3 rumah tangga (baterai, lampu, obat kedaluwarsa)
-              mengandung zat berbahaya dan tidak boleh dicampur dengan sampah
-              biasa. Sampah residu adalah sisa yang tidak dapat diolah lagi.
-            </p>
-            <p class="src">
-              Sumber rujukan: SIPSN, Kementerian Lingkungan Hidup; UU No. 18
-              Tahun 2008
-            </p>
-          </div>
-        </article>
-        <article class="art" id="dampak">
-          <div class="photo" style="--img: url(&quot;assets/images/dampak.jpg&quot;)"></div>
-          <div>
-            <span class="cat">Lingkungan</span>
-            <h2>Dampak sampah terhadap ekosistem</h2>
-            <p>
-              Sampah plastik yang tidak terkelola dapat terbawa air ke sungai
-              dan laut, lalu terpecah menjadi mikroplastik. Organisme akuatik
-              dapat menelannya atau terjerat.
-            </p>
-            <p>
-              Food waste yang menumpuk di tempat pembuangan menghasilkan metana.
-              Sampah juga menyumbat saluran air dan memperparah banjir di
-              permukiman.
-            </p>
-            <p class="src">
-              Sumber rujukan: UNEP (unep.org), laporan tentang polusi plastik
-              dan food waste; FAO (fao.org), publikasi tentang food loss and
-              waste
-            </p>
-          </div>
-        </article>
-        <article class="art" id="kelola">
-          <div
-            class="photo"
-            style="--img: url(&quot;assets/images/kelola.jpg&quot;)"
-          ></div>
-          <div>
-            <span class="cat">Praktik</span>
-            <h2>Pemilahan dan pengelolaan sampah</h2>
-            <p>
-              Pemilahan dimulai di rumah dengan memisahkan sampah organik,
-              anorganik, B3, dan residu. Sampah yang terpilah lebih mudah
-              dikomposkan, didaur ulang, atau ditangani khusus.
-            </p>
-            <p>
-              Pengelolaan yang baik juga membutuhkan sistem: pengangkutan
-              terpisah, fasilitas pengolahan, dan peran bank sampah atau TPS3R
-              di tingkat komunitas.
-            </p>
-            <p class="src">
-              Sumber rujukan: Kementerian Lingkungan Hidup; World Bank, seri
-              laporan What a Waste (worldbank.org)
-            </p>
-          </div>
-        </article>
-        <article class="art" id="3r">
-          <div
-            class="photo"
-            style="--img: url(&quot;assets/images/3r.jpg&quot;)"
-          ></div>
-          <div>
-            <span class="cat">Prinsip</span>
-            <h2>Reduce, Reuse, Recycle</h2>
-            <p>
-              Reduce berarti mengurangi: membawa tas dan botol sendiri, membeli
-              secukupnya. Reuse berarti memakai ulang wadah atau barang sebelum
-              membuangnya.
-            </p>
-            <p>
-              Recycle mengolah sampah menjadi bahan baru dan menjadi pilihan
-              terakhir dari ketiganya, karena butuh energi dan hanya bisa
-              dilakukan pada sampah yang bersih dan terpilah.
-            </p>
-            <p class="src">
-              Sumber rujukan: UU No. 18 Tahun 2008; Kementerian Lingkungan Hidup
-            </p>
-          </div>
-        </article>
-        <article class="art" id="sadar">
-          <div
-            class="photo"
-            style="--img: url(&quot;assets/images/sadar.jpg&quot;)"
-          ></div>
-          <div>
-            <span class="cat">Kesadaran</span>
-            <h2>Kesadaran lingkungan</h2>
-            <p>
-              Pengetahuan baru berguna bila berubah menjadi kebiasaan. Mulailah
-              dari satu langkah yang konkret: memilah di rumah, mengurangi
-              kemasan sekali pakai, atau mengomposkan sisa dapur.
-            </p>
-            <p>
-              Kebiasaan itu menular. Ketika keluarga, sekolah, atau lingkungan
-              tempat tinggal ikut memilah, sistem pengelolaan di sekitarnya ikut
-              terbantu.
-            </p>
-            <p class="src">
-              Sumber rujukan: UNEP, materi edukasi lingkungan (unep.org)
-            </p>
-          </div>
-        </article>
+        </div>
       </div>
     </main>
+
     <script src="js/script.js"></script>
+    <script>
+      (function () {
+        const articles = Array.from(document.querySelectorAll(".article-page .art"));
+        const tocLinks = Array.from(document.querySelectorAll(".article-page .toc a"));
+        const progressBar = document.querySelector(".read-progress");
+
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.14 }
+        );
+
+        articles.forEach((art) => revealObserver.observe(art));
+
+        const onScroll = () => {
+          if (progressBar) {
+            const docHeight =
+              document.documentElement.scrollHeight - window.innerHeight;
+            const ratio =
+              docHeight > 0 ? Math.min(Math.max(window.scrollY / docHeight, 0), 1) : 0;
+            progressBar.style.transform = `scaleX(${ratio})`;
+          }
+
+          let activeId = articles[0]?.id || "";
+          for (const art of articles) {
+            if (art.getBoundingClientRect().top <= 180) {
+              activeId = art.id;
+            }
+          }
+
+          tocLinks.forEach((link) => {
+            const isMatch = link.getAttribute("href") === `#${activeId}`;
+            link.classList.toggle("active", isMatch);
+            if (isMatch) {
+              link.setAttribute("aria-current", "true");
+            } else {
+              link.removeAttribute("aria-current");
+            }
+          });
+        };
+
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      })();
+    </script>
   </body>
 </html>

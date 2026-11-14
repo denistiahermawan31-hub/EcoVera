@@ -105,58 +105,139 @@ a {
   border-color: var(--lime);
 }
 
+/* Dynamic Floating Pill Navbar */
 nav.top {
   position: fixed;
-  inset: 0 0 auto;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
-  display: flex;
-  justify-content: space-between;
+  display: inline-flex;
   align-items: center;
-  padding: 1rem 5vw;
-  color: #fff;
-  transition: background 0.3s, color 0.3s, padding 0.3s;
+  gap: 2.15rem;
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
+  background: var(--char);
+  color: var(--cream);
+  border: 1px solid rgba(181, 201, 155, 0.25);
+  box-shadow: 0 10px 28px rgba(41, 51, 43, 0.25);
+  transition: padding 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              gap 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.3s ease;
+  max-width: 92vw;
 }
 
-nav.top.solid {
-  background: var(--cream);
-  color: var(--olive);
-  padding: 0.6rem 5vw;
-  box-shadow: 0 1px 0 rgba(66, 93, 60, 0.15);
-}
-
+/* Brand / Logo Area */
 .logo {
-  font: 800 1.5rem var(--h);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font: 800 1.32rem var(--h);
   text-decoration: none;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-nav ul {
+.logo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--em);
+  color: var(--lime);
+  flex-shrink: 0;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.logo-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.logo:hover .logo-icon {
+  transform: scale(1.06);
+}
+
+.logo-text {
+  display: inline-block;
+  max-width: 120px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-width 0.3s ease, opacity 0.25s ease;
+}
+
+/* Menu Links */
+nav.top ul {
   display: flex;
-  gap: 1.8rem;
+  align-items: center;
+  gap: 1.6rem;
   list-style: none;
   padding: 0;
+  margin: 0;
+  max-width: 350px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
 }
 
-nav li a {
+nav.top li a {
   text-decoration: none;
-  font: 600 0.95rem var(--h);
-  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
-  transition: background-size 0.3s;
-  padding-bottom: 3px;
+  font: 600 0.96rem var(--h);
+  color: var(--cream);
+  white-space: nowrap;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
 }
 
-nav li a:hover,
-nav li a[aria-current] {
-  background-size: 100% 2px;
+nav.top li a:hover {
+  color: var(--lime);
+}
+
+nav.top li a[aria-current="page"] {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+/* Mode Ringkas Saat Di-scroll (Hanya Ikon Logo) */
+nav.top.collapsed {
+  gap: 0;
+  padding: 0.72rem;
+  background: var(--olive);
+}
+
+nav.top.collapsed .logo {
+  gap: 0;
+}
+
+nav.top.collapsed .logo-text,
+nav.top.collapsed ul {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .burger {
   display: none;
-  background: none;
-  border: 0;
-  color: inherit;
-  font: 700 1rem var(--h);
-  cursor: pointer;
+}
+
+/* Responsif Layar Kecil (< 640px) */
+@media (max-width: 640px) {
+  nav.top {
+    gap: 1rem;
+    padding: 0.75rem 1.35rem;
+  }
+
+  nav.top ul {
+    gap: 0.9rem;
+  }
+
+  nav.top li a {
+    font-size: 0.86rem;
+  }
 }
 
 .photo {
