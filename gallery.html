@@ -6,51 +6,56 @@
     <title>Galeri — EcoVera</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/gallery.css" />
   </head>
   <body>
     <main id="main">
-      <div class="page">
-        <h1>Galeri dokumentasi</h1>
-        <!-- <p class="lead">
-          Klik foto untuk memperbesar. Tempatkan foto Anda di
-          <code>assets/images/</code> dan hubungkan lewat atribut
-          <code>--img</code> pada tiap kotak.
-        </p> -->
-        <div class="grid">
-          <figure class="w t">
-            <div class="photo"></div>
-            <figcaption>Pemilahan sampah di rumah tangga</figcaption>
-          </figure>
-          <figure>
-            <div class="photo" style="filter: hue-rotate(20deg)"></div>
-            <figcaption>Sampah plastik di sungai</figcaption>
-          </figure>
-          <figure>
-            <div class="photo" style="filter: hue-rotate(-20deg)"></div>
-            <figcaption>Kompos dari sisa dapur</figcaption>
-          </figure>
-          <figure class="w">
-            <div class="photo" style="filter: hue-rotate(40deg)"></div>
-            <figcaption>Bank sampah komunitas</figcaption>
-          </figure>
-          <figure>
-            <div class="photo"></div>
-            <figcaption>Kegiatan bersih pantai</figcaption>
-          </figure>
-          <figure class="t">
-            <div class="photo" style="filter: hue-rotate(-30deg)"></div>
-            <figcaption>Daur ulang kertas dan kardus</figcaption>
-          </figure>
+      <div class="gallery-scroll-track" id="galleryTrack">
+        <div class="gallery-viewport">
+          <div class="gallery-world" id="galleryWorld">
+            <div class="room-ceiling"></div>
+            <div class="room-floor"></div>
+            <div class="room-wall-left"></div>
+            <div class="room-wall-right"></div>
+            <div class="room-wall-back"></div>
+
+            <!-- 13 Bingkai Foto yang tersedia di folder assets/images -->
+            <figure class="art-frame frame-1" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto1.jpeg&quot;)"></div></figure>
+            <figure class="art-frame frame-2" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto2.jpeg&quot;); filter: hue-rotate(15deg)"></div></figure>
+            <figure class="art-frame frame-3" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto3.jpeg&quot;); filter: hue-rotate(-15deg)"></div></figure>
+            <figure class="art-frame frame-4" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto4.jpeg&quot;); filter: hue-rotate(30deg)"></div></figure>
+
+            <figure class="art-frame frame-5" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto5.jpeg&quot;)"></div></figure>
+            <figure class="art-frame frame-6" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto6.jpeg&quot;); filter: hue-rotate(45deg)"></div></figure>
+            <figure class="art-frame frame-7" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto7.jpeg&quot;); filter: hue-rotate(-30deg)"></div></figure>
+            <figure class="art-frame frame-8" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto8.jpeg&quot;); filter: hue-rotate(20deg)"></div></figure>
+
+            <figure class="art-frame frame-9" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto9.jpeg&quot;)"></div></figure>
+            <figure class="art-frame frame-10" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto10.jpeg&quot;); filter: hue-rotate(-40deg)"></div></figure>
+            <figure class="art-frame frame-11" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto11.jpeg&quot;); filter: hue-rotate(60deg)"></div></figure>
+            <figure class="art-frame frame-12" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto12.jpeg&quot;); filter: hue-rotate(-25deg)"></div></figure>
+
+            <figure class="art-frame frame-13" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto13.jpeg&quot;)"></div></figure>
+          </div>
+
+          <div class="scroll-rail" aria-hidden="true">
+            <div class="scroll-rail-fill" id="scrollFill"></div>
+          </div>
         </div>
       </div>
-      <dialog>
+
+      <dialog id="photoDialog">
         <div class="photo"></div>
-        <div><p></p></div>
-        <form method="dialog"><button class="btn">Tutup</button></form>
+        <form method="dialog"><button class="btn" aria-label="Tutup">&times;</button></form>
       </dialog>
     </main>
-    <script src="js/script.js"></script>
+
+    <script src="./js/script.js"></script>
+    <script src="./js/gallery.js"></script>
   </body>
 </html>
