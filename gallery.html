@@ -1,61 +1,52 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Galeri — EcoVera</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/gallery.css" />
-  </head>
-  <body>
-    <main id="main">
-      <div class="gallery-scroll-track" id="galleryTrack">
-        <div class="gallery-viewport">
-          <div class="gallery-world" id="galleryWorld">
-            <div class="room-ceiling"></div>
-            <div class="room-floor"></div>
-            <div class="room-wall-left"></div>
-            <div class="room-wall-right"></div>
-            <div class="room-wall-back"></div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1d3327">
+<meta name="description" content="Galeri foto EcoVera: jelajahi dokumentasi aksi peduli lingkungan lewat lorong galeri 3D.">
+<title>Galeri | EcoVera</title>
+<link rel="preload" as="image" href="assets/images/gallery/01.jpg">
+<link rel="preload" as="image" href="assets/images/gallery/02.jpg">
+<link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+<main id="scene" aria-label="Galeri foto EcoVera"><div id="world"></div></main>
 
-            <!-- 13 Bingkai Foto yang tersedia di folder assets/images -->
-            <figure class="art-frame frame-1" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto1.jpeg&quot;)"></div></figure>
-            <figure class="art-frame frame-2" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto2.jpeg&quot;); filter: hue-rotate(15deg)"></div></figure>
-            <figure class="art-frame frame-3" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto3.jpeg&quot;); filter: hue-rotate(-15deg)"></div></figure>
-            <figure class="art-frame frame-4" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto4.jpeg&quot;); filter: hue-rotate(30deg)"></div></figure>
+<noscript><p class="nojs">Galeri membutuhkan JavaScript. <a href="index.html">Kembali ke beranda</a></p></noscript>
 
-            <figure class="art-frame frame-5" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto5.jpeg&quot;)"></div></figure>
-            <figure class="art-frame frame-6" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto6.jpeg&quot;); filter: hue-rotate(45deg)"></div></figure>
-            <figure class="art-frame frame-7" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto7.jpeg&quot;); filter: hue-rotate(-30deg)"></div></figure>
-            <figure class="art-frame frame-8" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto8.jpeg&quot;); filter: hue-rotate(20deg)"></div></figure>
+<a class="ui pill home" href="index.html" aria-label="Kembali ke beranda">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7M6 10v10h4v-6h4v6h4V10"/></svg>
+  <span>Beranda</span>
+</a>
 
-            <figure class="art-frame frame-9" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto9.jpeg&quot;)"></div></figure>
-            <figure class="art-frame frame-10" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto10.jpeg&quot;); filter: hue-rotate(-40deg)"></div></figure>
-            <figure class="art-frame frame-11" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto11.jpeg&quot;); filter: hue-rotate(60deg)"></div></figure>
-            <figure class="art-frame frame-12" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto12.jpeg&quot;); filter: hue-rotate(-25deg)"></div></figure>
+<div class="ui pill count" id="count" aria-hidden="true">01 / 20</div>
 
-            <figure class="art-frame frame-13" tabindex="0"><div class="photo" style="--img: url(&quot;./assets/images/Foto13.jpeg&quot;)"></div></figure>
-          </div>
+<div class="ui dock">
+  <div class="caption">
+    <strong id="capTitle"></strong>
+    <small id="hint">
+      <span class="h-fine">Gunakan panah keyboard atau tombol untuk berjalan &middot; klik foto untuk memperbesar</span>
+      <span class="h-touch">Geser untuk berjalan &middot; ketuk foto untuk memperbesar</span>
+    </small>
+  </div>
+  <div class="nav">
+    <button id="prev" class="btn" type="button" aria-label="Foto sebelumnya" title="Foto sebelumnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="track" aria-hidden="true"><i id="bar"></i></div>
+    <button id="next" class="btn" type="button" aria-label="Foto berikutnya" title="Foto berikutnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
 
-          <div class="scroll-rail" aria-hidden="true">
-            <div class="scroll-rail-fill" id="scrollFill"></div>
-          </div>
-        </div>
-      </div>
+<p id="live" class="sr" role="status" aria-live="polite"></p>
 
-      <dialog id="photoDialog">
-        <div class="photo"></div>
-        <form method="dialog"><button class="btn" aria-label="Tutup">&times;</button></form>
-      </dialog>
-    </main>
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto" aria-hidden="true">
+  <img id="lbImg" alt="" decoding="async">
+  <div class="lbbar" aria-live="polite"><span id="lbCount"></span><span id="lbCap"></span></div>
+  <button id="lbPrev" class="btn lbnav lbprev" type="button" aria-label="Foto sebelumnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button id="lbNext" class="btn lbnav lbnext" type="button" aria-label="Foto berikutnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button id="close" class="btn" type="button" aria-label="Tutup pratinjau"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+</div>
 
-    <script src="./js/script.js"></script>
-    <script src="./js/gallery.js"></script>
-  </body>
+<script src="js/gallery.js"></script>
+</body>
 </html>

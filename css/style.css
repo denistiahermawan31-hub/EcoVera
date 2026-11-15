@@ -1,13 +1,22 @@
 :root {
-  --em: #287c59;
-  --fr: #80a96b;
-  --sg: #b5c99b;
-  --mint: #dcebd4;
-  --cream: #f7f5e9;
-  --ivory: #fffff6;
-  --lime: #d7eb83;
-  --olive: #425d3c;
-  --char: #29332b;
+  /* Palet Emerald Utama Sesuai Permintaan */
+  --em-light: #28c780;   /* Kiri Atas (Terang) - Emerald Mint */
+  --em-mint-alt: #26c281;
+  --em: #1fb876;         /* Tengah (Base) - Vibrant Emerald */
+  --em-dark: #149c62;    /* Kanan Bawah (Gelap) - Deep Emerald */
+  --em-deep-alt: #159f65;
+  --white: #ffffff;      /* Teks & Lingkaran Ikon */
+
+  /* Gradasi Utama & Variasi Latar Terang */
+  --em-grad: linear-gradient(135deg, #28c780 0%, #1fb876 50%, #149c62 100%);
+  --em-grad-soft: linear-gradient(135deg, #f3fcf8 0%, #e4f7ee 100%);
+  --surface-light: #f6fcf9;
+  --mint: #e1f6ec;
+  --sg: #bce7d3;
+  --char: #0e2e20;       /* Hijau sangat gelap untuk kontras bacaan tinggi */
+  --olive: #145e3e;      /* Hijau sedang untuk sub-teks & heading terang */
+
+  /* Tipografi */
   --h: 'Manrope', system-ui, sans-serif;
   --b: 'DM Sans', system-ui, sans-serif;
   --s: 'Instrument Serif', Georgia, serif;
@@ -24,7 +33,7 @@ html {
 
 body {
   font: 1.05rem/1.7 var(--b);
-  background: var(--ivory);
+  background: var(--white);
   color: var(--char);
 }
 
@@ -32,18 +41,18 @@ h1,
 h2,
 h3 {
   font-family: var(--h);
-  line-height: 1.05;
-  color: var(--olive);
+  line-height: 1.08;
+  color: var(--char);
   letter-spacing: -0.03em;
 }
 
 h1 {
-  font-size: clamp(2.4rem, 7vw, 6rem);
+  font-size: clamp(2.4rem, 7vw, 5.8rem);
   font-weight: 800;
 }
 
 h2 {
-  font-size: clamp(1.9rem, 4.5vw, 3.6rem);
+  font-size: clamp(1.9rem, 4.5vw, 3.5rem);
   font-weight: 800;
 }
 
@@ -66,43 +75,86 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid var(--lime);
+  outline: 3px solid var(--em-light);
   outline-offset: 3px;
 }
 
+/* Tombol Modern dengan Gradasi Emerald & Putih */
 .btn {
-  display: inline-block;
-  padding: 0.85rem 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.88rem 1.75rem;
   border-radius: 99px;
-  background: var(--em);
-  color: #fff;
+  background: var(--em-grad);
+  color: var(--white);
   text-decoration: none;
   font: 700 0.95rem var(--h);
-  border: 2px solid var(--em);
+  border: 2px solid transparent;
   cursor: pointer;
-  transition: background 0.25s, transform 0.25s, color 0.25s;
+  box-shadow: 0 8px 20px rgba(20, 156, 98, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
 .btn:hover {
-  background: var(--olive);
-  border-color: var(--olive);
   transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow: 0 12px 26px rgba(20, 156, 98, 0.35);
 }
 
 .btn:active {
   transform: none;
 }
 
+/* Varian Tombol Putih (Untuk latar belakang Emerald) */
+.btn.white {
+  background: var(--white);
+  color: var(--em-dark);
+  border-color: var(--white);
+  box-shadow: 0 8px 20px rgba(14, 46, 32, 0.16);
+}
+
+.btn.white:hover {
+  background: #f0fbf6;
+  color: var(--char);
+}
+
 .btn.ghost {
-  background: transparent;
-  color: inherit;
-  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: none;
 }
 
 .btn.ghost:hover {
-  background: var(--lime);
-  color: var(--char);
-  border-color: var(--lime);
+  background: var(--white);
+  color: var(--em-dark);
+  border-color: var(--white);
+}
+
+/* Lingkaran Ikon Putih (#FFFFFF) */
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--em);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 18px rgba(20, 156, 98, 0.16);
+  flex-shrink: 0;
+}
+
+.icon-circle svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
 }
 
 /* Dynamic Floating Pill Navbar */
@@ -115,51 +167,53 @@ nav.top {
   display: inline-flex;
   align-items: center;
   gap: 2.15rem;
-  padding: 0.85rem 1.9rem;
+  padding: 0.75rem 1.75rem;
   border-radius: 999px;
-  background: var(--char);
-  color: var(--cream);
-  border: 1px solid rgba(181, 201, 155, 0.25);
-  box-shadow: 0 10px 28px rgba(41, 51, 43, 0.25);
+  background: rgba(20, 156, 98, 0.92);
+  backdrop-filter: blur(12px);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 32px rgba(20, 156, 98, 0.28);
   transition: padding 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               gap 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               background-color 0.3s ease;
   max-width: 92vw;
 }
 
-/* Brand / Logo Area */
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  font: 800 1.32rem var(--h);
+  gap: 0.65rem;
+  font: 800 1.3rem var(--h);
   text-decoration: none;
   letter-spacing: -0.03em;
-  color: var(--cream);
+  color: var(--white);
   white-space: nowrap;
   cursor: pointer;
 }
 
+/* Lingkaran Ikon Putih pada Logo */
 .logo-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: var(--em);
-  color: var(--lime);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--em);
   flex-shrink: 0;
-  transition: transform 0.25s ease, background-color 0.25s ease;
+  box-shadow: 0 4px 10px rgba(14, 46, 32, 0.15);
+  transition: transform 0.25s ease;
 }
 
 .logo-icon svg {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
 }
 
 .logo:hover .logo-icon {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .logo-text {
@@ -170,7 +224,6 @@ nav.top {
   transition: max-width 0.3s ease, opacity 0.25s ease;
 }
 
-/* Menu Links */
 nav.top ul {
   display: flex;
   align-items: center;
@@ -178,7 +231,7 @@ nav.top ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-width: 350px;
+  max-width: 380px;
   overflow: hidden;
   opacity: 1;
   transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
@@ -186,27 +239,29 @@ nav.top ul {
 
 nav.top li a {
   text-decoration: none;
-  font: 600 0.96rem var(--h);
-  color: var(--cream);
+  font: 600 0.95rem var(--h);
+  color: rgba(255, 255, 255, 0.88);
   white-space: nowrap;
-  padding-bottom: 2px;
-  transition: color 0.2s ease;
+  padding: 0.3rem 0.7rem;
+  border-radius: 99px;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 nav.top li a:hover {
-  color: var(--lime);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 nav.top li a[aria-current="page"] {
-  color: var(--lime);
+  background: var(--white);
+  color: var(--em-dark);
   font-weight: 700;
 }
 
-/* Mode Ringkas Saat Di-scroll (Hanya Ikon Logo) */
 nav.top.collapsed {
   gap: 0;
-  padding: 0.72rem;
-  background: var(--olive);
+  padding: 0.65rem;
+  background: var(--em-grad);
 }
 
 nav.top.collapsed .logo {
@@ -224,25 +279,25 @@ nav.top.collapsed ul {
   display: none;
 }
 
-/* Responsif Layar Kecil (< 640px) */
 @media (max-width: 640px) {
   nav.top {
-    gap: 1rem;
-    padding: 0.75rem 1.35rem;
+    gap: 0.85rem;
+    padding: 0.65rem 1.2rem;
   }
 
   nav.top ul {
-    gap: 0.9rem;
+    gap: 0.5rem;
   }
 
   nav.top li a {
-    font-size: 0.86rem;
+    font-size: 0.84rem;
+    padding: 0.25rem 0.55rem;
   }
 }
 
+/* Frame Foto & Overlay Emerald */
 .photo {
-  background: var(--img, none) center/cover,
-    linear-gradient(135deg, var(--em), var(--fr) 60%, var(--lime));
+  background: var(--img, none) center/cover, var(--em-grad);
   position: relative;
   overflow: hidden;
 }
@@ -251,9 +306,15 @@ nav.top.collapsed ul {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(215, 235, 131, 0.45), transparent 50%);
+  background: linear-gradient(
+    135deg,
+    rgba(40, 199, 128, 0.28) 0%,
+    rgba(31, 184, 118, 0.15) 50%,
+    rgba(20, 156, 98, 0.45) 100%
+  );
 }
 
+/* Stacking Sections */
 .stack > section {
   position: sticky;
   top: 0;
@@ -263,7 +324,7 @@ nav.top.collapsed ul {
   justify-content: center;
   padding: 7rem 6vw 4rem;
   border-radius: 2rem 2rem 0 0;
-  box-shadow: 0 -20px 50px rgba(41, 51, 43, 0.18);
+  box-shadow: 0 -20px 50px rgba(14, 46, 32, 0.14);
 }
 
 .stack > section:first-child {
@@ -276,20 +337,33 @@ nav.top.collapsed ul {
   padding: 6rem 6vw;
 }
 
+/* Hero Section dengan Overlay Gradasi Emerald */
 .hero {
-  color: #fff;
+  color: var(--white);
   justify-content: flex-end !important;
   padding-bottom: 5rem !important;
+  background: var(--em-grad);
+}
+
+.hero .photo::after {
+  background: linear-gradient(
+    135deg,
+    rgba(40, 199, 128, 0.72) 0%,
+    rgba(31, 184, 118, 0.68) 50%,
+    rgba(20, 156, 98, 0.85) 100%
+  );
 }
 
 .hero h1 {
-  color: #fff;
+  color: var(--white);
   max-width: 14ch;
+  text-shadow: 0 4px 20px rgba(14, 46, 32, 0.18);
 }
 
 .hero p {
   margin: 1.4rem 0;
   font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .hero .row {
@@ -300,7 +374,8 @@ nav.top.collapsed ul {
 }
 
 .hero .mission {
-  color: var(--lime);
+  color: var(--white);
+  opacity: 0.95;
   margin-top: 2rem;
 }
 
@@ -310,6 +385,7 @@ nav.top.collapsed ul {
   bottom: 2rem;
   writing-mode: vertical-rl;
   font: 600 0.8rem var(--h);
+  color: var(--white);
 }
 
 .scroll::after {
@@ -317,7 +393,7 @@ nav.top.collapsed ul {
   display: inline-block;
   width: 2px;
   height: 60px;
-  background: var(--lime);
+  background: var(--white);
   margin-top: 0.6rem;
   animation: drop 2s infinite;
 }
@@ -327,51 +403,71 @@ nav.top.collapsed ul {
     transform: scaleY(0);
     transform-origin: top;
   }
-
   50% {
     transform: scaleY(1);
     transform-origin: top;
   }
-
   51% {
     transform-origin: bottom;
   }
-
   100% {
     transform: scaleY(0);
     transform-origin: bottom;
   }
 }
 
+/* Variasi Background Section */
 .cream {
-  background: var(--cream);
+  background: var(--white);
+  color: var(--char);
+}
+
+.cream h2 {
+  color: var(--char);
 }
 
 .mintbg {
-  background: var(--mint);
+  background: var(--em-grad-soft);
+  color: var(--char);
 }
 
-.green {
-  background: var(--em);
-  color: var(--cream);
+/* Section Gradasi Emerald Utama (#28C780 -> #1FB876 -> #149C62) */
+.green,
+.emerald-grad {
+  background: var(--em-grad);
+  color: var(--white);
 }
 
 .green h2,
-.green h3 {
-  color: var(--lime);
+.green h3,
+.green p,
+.emerald-grad h2,
+.emerald-grad h3,
+.emerald-grad p {
+  color: var(--white);
 }
 
+/* Section Fakta / Highlight Emerald Terang-Base */
 .lime {
-  background: var(--lime);
+  background: linear-gradient(135deg, #e7f9f0 0%, #d2f3e4 100%);
+  color: var(--char);
 }
 
+.lime h2,
+.lime h3 {
+  color: var(--em-dark);
+}
+
+/* Section Deep Emerald */
 .olive {
-  background: var(--olive);
-  color: var(--cream);
+  background: linear-gradient(135deg, #1fb876 0%, #149c62 100%);
+  color: var(--white);
 }
 
-.olive h2 {
-  color: var(--lime);
+.olive h2,
+.olive h3,
+.olive p {
+  color: var(--white);
 }
 
 .split {
@@ -383,7 +479,8 @@ nav.top.collapsed ul {
 
 .split .photo {
   min-height: 55vh;
-  border-radius: 1.2rem 6rem 1.2rem 1.2rem;
+  border-radius: 1.5rem 5rem 1.5rem 1.5rem;
+  box-shadow: 0 20px 45px rgba(20, 156, 98, 0.18);
 }
 
 .split p + p,
@@ -391,41 +488,71 @@ h2 + p {
   margin-top: 1.1rem;
 }
 
+/* Grid Kartu Modern dengan Efek Kaca / Putih Bersih */
 .cols {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.75rem;
   margin-top: 2.5rem;
 }
 
 .cols > div {
-  border-top: 3px solid currentColor;
-  padding-top: 1rem;
+  padding: 1.75rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(8px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cols > div:hover {
+  transform: translateY(-4px);
+}
+
+/* Kartu di atas latar terang (.cream, .mintbg, .lime) */
+.cream .cols > div,
+.mintbg .cols > div,
+.lime .cols > div {
+  background: var(--white);
+  border: 1px solid var(--sg);
+  box-shadow: 0 10px 28px rgba(20, 156, 98, 0.08);
+}
+
+.cream .cols > div .icon-circle,
+.mintbg .cols > div .icon-circle,
+.lime .cols > div .icon-circle {
+  background: var(--em-grad);
+  color: var(--white);
 }
 
 .cols p {
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
   font-size: 0.98rem;
+  opacity: 0.92;
 }
 
 .big {
   font: 800 clamp(1.6rem, 3.2vw, 2.6rem) / 1.15 var(--h);
   letter-spacing: -0.03em;
   max-width: 22ch;
+  color: var(--em-dark);
 }
 
+/* Halaman Internal */
 .page {
   padding: 9rem 6vw 5rem;
-  background: var(--cream);
+  background: var(--surface-light);
 }
 
 .page h1 {
   font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  color: var(--char);
 }
 
 .page .lead {
   margin-top: 1.2rem;
   font-size: 1.15rem;
+  color: var(--olive);
 }
 
 .art {
@@ -443,10 +570,11 @@ h2 + p {
 
 .cat {
   display: inline-block;
-  background: var(--lime);
-  padding: 0.1rem 0.8rem;
+  background: var(--em-grad);
+  color: var(--white);
+  padding: 0.2rem 0.85rem;
   border-radius: 99px;
-  font: 700 0.8rem var(--h);
+  font: 700 0.78rem var(--h);
   margin-bottom: 0.6rem;
 }
 
@@ -473,37 +601,42 @@ h2 + p {
 }
 
 .toc a {
-  padding: 0.3rem 1rem;
-  border: 2px solid var(--sg);
+  padding: 0.35rem 1rem;
+  border: 1.5px solid var(--sg);
   border-radius: 99px;
   text-decoration: none;
   font: 600 0.9rem var(--h);
-  transition: background 0.2s;
+  background: var(--white);
+  transition: background 0.2s, color 0.2s;
 }
 
 .toc a:hover {
-  background: var(--lime);
+  background: var(--em);
+  color: var(--white);
+  border-color: var(--em);
 }
 
+/* Grid Galeri */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 200px;
-  gap: 1rem;
+  grid-auto-rows: 210px;
+  gap: 1.1rem;
   margin-top: 2.5rem;
 }
 
 .grid figure {
   cursor: pointer;
-  border-radius: 1rem;
+  border-radius: 1.15rem;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 10px 25px rgba(20, 156, 98, 0.12);
 }
 
 .grid .photo {
   position: absolute;
   inset: 0;
-  transition: transform 0.6s;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .grid figure:hover .photo {
@@ -515,10 +648,10 @@ h2 + p {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 1rem;
-  color: #fff;
-  font: 600 0.9rem var(--h);
-  background: linear-gradient(transparent, rgba(41, 51, 43, 0.8));
+  padding: 1.1rem;
+  color: var(--white);
+  font: 600 0.92rem var(--h);
+  background: linear-gradient(transparent, rgba(14, 46, 32, 0.85));
   z-index: 2;
 }
 
@@ -532,14 +665,16 @@ h2 + p {
 
 dialog {
   border: 0;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   padding: 0;
   width: min(90vw, 820px);
-  background: var(--ivory);
+  background: var(--white);
+  box-shadow: 0 25px 60px rgba(14, 46, 32, 0.35);
 }
 
 dialog::backdrop {
-  background: rgba(41, 51, 43, 0.8);
+  background: rgba(14, 46, 32, 0.78);
+  backdrop-filter: blur(4px);
 }
 
 dialog .photo {
@@ -554,14 +689,21 @@ dialog button {
   margin: 0 1.5rem 1.5rem;
 }
 
+/* Formulir Kontak */
 form {
   display: grid;
-  gap: 1.2rem;
+  gap: 1.25rem;
   max-width: 560px;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--sg);
+  box-shadow: 0 14px 35px rgba(20, 156, 98, 0.08);
 }
 
 label {
   font: 700 0.95rem var(--h);
+  color: var(--char);
 }
 
 input,
@@ -569,20 +711,23 @@ textarea {
   width: 100%;
   padding: 0.85rem 1rem;
   border: 2px solid var(--sg);
-  border-radius: 0.7rem;
+  border-radius: 0.85rem;
   font: inherit;
-  background: var(--ivory);
-  margin-top: 0.3rem;
+  background: var(--surface-light);
+  color: var(--char);
+  margin-top: 0.35rem;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 
 input:focus,
 textarea:focus {
   border-color: var(--em);
+  background: var(--white);
   outline: 0;
 }
 
 .err {
-  color: #a3341f;
+  color: #c93b2b;
   font-size: 0.88rem;
   min-height: 1.2em;
 }
@@ -591,32 +736,35 @@ textarea:focus {
   margin-top: 1rem;
   padding: 1rem;
   background: var(--mint);
-  border-radius: 0.7rem;
+  color: var(--char);
+  border-radius: 0.85rem;
   display: none;
 }
 
+/* Footer dengan Deep Emerald */
 footer {
-  background: var(--char);
-  color: var(--cream);
-  padding: 3rem 6vw;
+  background: linear-gradient(135deg, #169e64 0%, #0f7a4c 100%);
+  color: var(--white);
+  padding: 3.5rem 6vw;
   position: relative;
   z-index: 3;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1.5rem;
-  font-size: 0.92rem;
+  font-size: 0.94rem;
 }
 
 footer .logo {
-  color: var(--lime);
+  color: var(--white);
 }
 
+/* Intro Splash Screen dengan Gradasi 3 Warna Emerald */
 #intro {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: var(--em);
+  background: var(--em-grad);
   display: grid;
   place-items: center;
   transition: transform 0.8s cubic-bezier(0.7, 0, 0.2, 1);
@@ -629,7 +777,7 @@ footer .logo {
 #intro span {
   display: inline-block;
   font: 800 clamp(3rem, 12vw, 8rem) var(--h);
-  color: var(--lime);
+  color: var(--white);
   letter-spacing: -0.05em;
   opacity: 0;
   transform: translateY(40px);
@@ -666,8 +814,8 @@ footer .logo {
     right: 0;
     flex-direction: column;
     gap: 0;
-    background: var(--cream);
-    color: var(--olive);
+    background: var(--white);
+    color: var(--char);
     padding: 0 5vw;
     max-height: 0;
     overflow: hidden;
@@ -731,4 +879,3 @@ footer .logo {
     display: none;
   }
 }
-
