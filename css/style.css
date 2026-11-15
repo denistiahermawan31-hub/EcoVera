@@ -50,6 +50,13 @@ h1 {
   font-size: clamp(2.4rem, 7vw, 5.8rem);
   font-weight: 800;
 }
+.hero h1 {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  line-height: 1.12;
+  color: var(--white);
+  max-width: 16ch;
+  text-shadow: 0 4px 20px rgba(14, 46, 32, 0.18);
+}
 
 h2 {
   font-size: clamp(1.9rem, 4.5vw, 3.5rem);
@@ -357,48 +364,26 @@ nav.top.collapsed ul {
   padding: 6rem 6vw;
 }
 
-/* Hero Section dengan Overlay Gradasi Emerald */
+
 .hero {
   color: var(--white);
-  justify-content: flex-end !important;
-  padding-bottom: 5rem !important;
-  background: var(--em-grad);
+  justify-content: flex-start !important; 
+  padding-top: 8.5rem !important;        
+  padding-bottom: 12rem !important;     
+  background:
+    linear-gradient(
+      90deg,
+      rgba(14, 46, 32, 0.72) 0%,
+      rgba(14, 46, 32, 0.38) 55%,
+      rgba(14, 46, 32, 0.08) 100%
+    ),
+    url("../assets/images/background.png") center bottom / cover no-repeat !important;
 }
 
+.hero .photo,
 .hero .photo::after {
-  background: linear-gradient(
-    135deg,
-    rgba(40, 199, 128, 0.72) 0%,
-    rgba(31, 184, 118, 0.68) 50%,
-    rgba(20, 156, 98, 0.85) 100%
-  );
+  display: none !important;
 }
-
-.hero h1 {
-  color: var(--white);
-  max-width: 14ch;
-  text-shadow: 0 4px 20px rgba(14, 46, 32, 0.18);
-}
-
-.hero p {
-  margin: 1.4rem 0;
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.hero .row {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
-
-.hero .mission {
-  color: var(--white);
-  opacity: 0.95;
-  margin-top: 2rem;
-}
-
 .scroll {
   position: absolute;
   right: 6vw;
