@@ -1,7 +1,30 @@
 (() => {
   'use strict';
   const TOTAL = 20, SP = 560, D = 560;            // jumlah foto, jarak antar pasangan bingkai, jarak kamera ke bingkai pertama
-  const IMG = n => `assets/images/gallery/${String(n + 1).padStart(2, '0')}.jpg`;
+  const PHOTOS = [
+  'assets/images/Foto1.jpeg',
+  'assets/images/Foto2.jpeg',
+  'assets/images/Foto3.jpeg',
+  'assets/images/Foto4.jpeg',
+  'assets/images/Foto5.jpeg',
+  'assets/images/Foto6.jpeg',
+  'assets/images/Foto7.jpeg',
+  'assets/images/Foto8.jpeg',
+  'assets/images/Foto9.jpeg',
+  'assets/images/Foto10.jpeg',
+  'assets/images/Foto11.jpeg',
+  'assets/images/Foto12.jpeg',
+  'assets/images/Foto13.jpeg',
+  'assets/images/Foto14.jpeg',
+  'assets/images/Foto15.jpeg',
+  'assets/images/Foto16.jpeg',
+  'assets/images/Foto17.jpeg',
+  'assets/images/Foto18.jpeg',
+  'assets/images/Foto19.jpeg',
+  'assets/images/Foto20.jpeg'
+];
+const IMG = n => PHOTOS[n];
+const ABS = n => new URL(IMG(n), document.baseURI).href;
   const CAPTIONS = [];                             // opsional: isi judul tiap foto, mis. CAPTIONS[0] = 'Penanaman mangrove'
   const caption = i => CAPTIONS[i] || `Dokumentasi EcoVera ${i + 1}`;
   const ASPECTS = [[300, 380], [400, 290], [340, 340], [290, 390], [420, 300]];
@@ -23,7 +46,7 @@
   /* ---------- Pemuatan gambar bertahap (hemat bandwidth & cepat) ---------- */
   const setImg = i => {
     loaded.add(i);
-    if (frames[i]) frames[i].style.setProperty('--img', `url("${IMG(i)}")`);
+    if (frames[i]) frames[i].style.setProperty('--img', `url("${ABS(i)}")`);
   };
   function hydrate() {
     const cur = idx >> 1;
@@ -73,7 +96,7 @@
       f.setAttribute('aria-label', `Perbesar foto ${i + 1}: ${caption(i)}`);
       // warna cadangan hijau alami selagi foto dimuat / bila file belum ada
       f.style.setProperty('--fallback', `linear-gradient(${140 + i * 9}deg,hsl(${90 + (i * 7) % 60} 40% ${34 + (i % 4) * 4}%),hsl(${75 + (i * 5) % 50} 55% 72%))`);
-      if (loaded.has(i)) f.style.setProperty('--img', `url("${IMG(i)}")`);
+      if (loaded.has(i)) f.style.setProperty('--img', `url("${ABS(i)}")`);
       const x = side ? W / 2 - 2 : -W / 2 + 2, z = -(pair * SP) - D;
       Object.assign(f.style, {
         width: fw + 'px', height: fh + 'px', marginLeft: -fw / 2 + 'px', marginTop: -fh / 2 - 20 + 'px',
