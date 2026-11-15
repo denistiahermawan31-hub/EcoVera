@@ -164,132 +164,108 @@ nav.top {
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
-  width: min(1140px, calc(100vw - 2.5rem));
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 0.75rem 0.6rem 1.15rem;
+  gap: 2.15rem;
+  padding: 0.75rem 1.75rem;
   border-radius: 999px;
-  /* Latar terang frosted agar tidak tenggelam di atas hero hijau maupun section putih */
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  color: var(--char);
-  border: 1px solid rgba(14, 46, 32, 0.1);
-  box-shadow: 0 12px 32px rgba(14, 46, 32, 0.12),
-              0 2px 6px rgba(14, 46, 32, 0.05);
-  transition: width 0.45s cubic-bezier(0.2, 0.85, 0.25, 1),
-              padding 0.45s cubic-bezier(0.2, 0.85, 0.25, 1),
-              background-color 0.3s ease,
-              box-shadow 0.3s ease;
+  background: rgba(20, 156, 98, 0.92);
+  backdrop-filter: blur(12px);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 32px rgba(20, 156, 98, 0.28);
+  transition: padding 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              gap 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.3s ease;
+  max-width: 92vw;
 }
 
 .logo {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  font: 800 1.22rem var(--h);
+  font: 800 1.3rem var(--h);
   text-decoration: none;
   letter-spacing: -0.03em;
-  color: var(--char);
+  color: var(--white);
   white-space: nowrap;
   cursor: pointer;
-  flex-shrink: 0;
 }
 
-/* Wadah Logo (siap untuk SVG atau <img> logo tim kalian nanti) */
+/* Lingkaran Ikon Putih pada Logo */
 .logo-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: var(--em-grad);
-  color: var(--white);
+  background: var(--white);
+  color: var(--em);
   flex-shrink: 0;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.2, 0.85, 0.25, 1);
+  box-shadow: 0 4px 10px rgba(14, 46, 32, 0.15);
+  transition: transform 0.25s ease;
 }
 
-.logo-icon svg,
-.logo-icon img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  transition: transform 0.45s cubic-bezier(0.2, 0.85, 0.25, 1);
+.logo-icon svg {
+  width: 19px;
+  height: 19px;
 }
 
 .logo:hover .logo-icon {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .logo-text {
   display: inline-block;
-  max-width: 140px;
+  max-width: 120px;
   overflow: hidden;
   opacity: 1;
-  transition: max-width 0.35s cubic-bezier(0.2, 0.85, 0.25, 1),
-              opacity 0.22s ease;
+  transition: max-width 0.3s ease, opacity 0.25s ease;
 }
 
 nav.top ul {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 1.6rem;
   list-style: none;
   padding: 0;
   margin: 0;
+  max-width: 380px;
   overflow: hidden;
   opacity: 1;
-  transition: max-width 0.4s cubic-bezier(0.2, 0.85, 0.25, 1),
-              opacity 0.22s ease;
+  transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
 }
 
 nav.top li a {
-  display: inline-block;
   text-decoration: none;
-  font: 600 0.92rem var(--h);
-  color: var(--olive);
+  font: 600 0.95rem var(--h);
+  color: rgba(255, 255, 255, 0.88);
   white-space: nowrap;
-  padding: 0.48rem 1rem;
-  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 99px;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 nav.top li a:hover {
-  color: var(--char);
-  background: var(--mint);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 nav.top li a[aria-current="page"] {
-  background: var(--em-grad);
-  color: var(--white);
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(20, 156, 98, 0.25);
-}
-
-/* State Collapsed saat Scroll ke Bawah (Hanya 1 Ikon Bulat Presisi) */
-nav.top.collapsed {
-  width: 52px;
-  padding: 6px;
-  justify-content: center;
   background: var(--white);
-  border-color: rgba(20, 156, 98, 0.25);
-  box-shadow: 0 10px 26px rgba(14, 46, 32, 0.18);
+  color: var(--em-dark);
+  font-weight: 700;
 }
 
-nav.top.collapsed:hover {
-  transform: translateX(-50%) scale(1.07);
+nav.top.collapsed {
+  gap: 0;
+  padding: 0.65rem;
+  background: var(--em-grad);
 }
 
 nav.top.collapsed .logo {
   gap: 0;
-}
-
-nav.top.collapsed .logo-icon svg,
-nav.top.collapsed .logo-icon img {
-  transform: rotate(-14deg);
 }
 
 nav.top.collapsed .logo-text,
@@ -299,23 +275,23 @@ nav.top.collapsed ul {
   pointer-events: none;
 }
 
-@media (max-width: 680px) {
-  nav.top {
-    width: calc(100vw - 1.5rem);
-    padding: 0.5rem 0.6rem 0.5rem 0.85rem;
-  }
+.burger {
+  display: none;
+}
 
-  nav.top:not(.collapsed) .logo-text {
-    display: none;
+@media (max-width: 640px) {
+  nav.top {
+    gap: 0.85rem;
+    padding: 0.65rem 1.2rem;
   }
 
   nav.top ul {
-    gap: 0.15rem;
+    gap: 0.5rem;
   }
 
   nav.top li a {
-    font-size: 0.82rem;
-    padding: 0.42rem 0.68rem;
+    font-size: 0.84rem;
+    padding: 0.25rem 0.55rem;
   }
 }
 
@@ -826,6 +802,35 @@ footer .logo {
   transform: none;
 }
 
+@media (max-width: 800px) {
+  .burger {
+    display: block;
+  }
+
+  nav ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--white);
+    color: var(--char);
+    padding: 0 5vw;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s;
+  }
+
+  nav ul.open {
+    max-height: 300px;
+    padding: 1rem 5vw;
+  }
+
+  nav li {
+    padding: 0.5rem 0;
+  }
+
   .stack > section {
     position: relative;
     min-height: auto;
@@ -856,9 +861,7 @@ footer .logo {
   .scroll {
     display: none;
   }
-.scroll {
-    display: none;
-  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * {
