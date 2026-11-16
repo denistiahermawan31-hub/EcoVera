@@ -165,28 +165,38 @@ a {
   stroke-width: 2.2;
 }
 
-/* Dynamic Floating Pill Navbar */
+/* Navbar minimalis: logo kiri, menu kanan, transparan -> solid saat scroll */
 nav.top {
   position: fixed;
-  top: 1.25rem;
+  top: 0;
   left: 0;
   right: 0;
-  margin-inline: auto;
   z-index: 50;
-  width: min(1140px, calc(100% - 3rem));
+  width: 100%;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.75rem 0.6rem 1.15rem;
-  border-radius: 999px;
-  /* Solid clean ivory-white tanpa backdrop-filter agar tidak merusak sticky scroll */
-  background: rgba(255, 255, 255, 0.96);
+  padding: 0 6vw;
+  border: 0;
+  border-radius: 0;
+  background: rgba(14, 46, 32, 0);
+  color: var(--white);
+  box-shadow: none;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.45s ease, color 0.45s ease,
+              box-shadow 0.45s ease, text-shadow 0.45s ease;
+}
+
+nav.top.is-solid {
+  background: var(--char);
+  box-shadow: 0 6px 24px rgba(14, 46, 32, 0.22);
+  text-shadow: none;
+}
+
+nav.top.on-light {
   color: var(--char);
-  border: 1px solid rgba(14, 46, 32, 0.12);
-  box-shadow: 0 10px 28px rgba(14, 46, 32, 0.12);
-  transition: width 0.42s cubic-bezier(0.2, 0.85, 0.25, 1),
-              padding 0.42s cubic-bezier(0.2, 0.85, 0.25, 1),
-              box-shadow 0.3s ease;
+  text-shadow: none;
 }
 
 .logo {
@@ -238,65 +248,75 @@ nav.top {
               opacity 0.2s ease;
 }
 
+nav.top .logo {
+  color: inherit;
+  gap: 0.6rem;
+  font: 700 1.05rem var(--h);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+nav.top .logo-icon {
+  width: auto;
+  height: auto;
+  background: none;
+  color: inherit;
+  border-radius: 0;
+}
+
+nav.top .logo-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+nav.top .logo:hover .logo-icon {
+  transform: none;
+}
+
 nav.top ul {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: clamp(1.1rem, 2.6vw, 2.6rem);
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: hidden;
-  opacity: 1;
-  transition: max-width 0.38s cubic-bezier(0.2, 0.85, 0.25, 1),
-              opacity 0.2s ease;
 }
 
 nav.top li a {
   display: inline-block;
   text-decoration: none;
   font: 600 0.92rem var(--h);
-  color: var(--olive);
+  letter-spacing: -0.005em;
+  color: inherit;
   white-space: nowrap;
-  padding: 0.48rem 1rem;
-  border-radius: 999px;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  padding: 0.5rem 0;
+  background: none;
+  border-radius: 0;
+  position: relative;
 }
 
-nav.top li a:hover {
-  color: var(--char);
-  background: var(--mint);
+nav.top li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.2rem;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.2, 0.85, 0.25, 1);
 }
 
-nav.top li a[aria-current="page"] {
-  background: var(--em-grad);
-  color: var(--white);
-  font-weight: 700;
+nav.top li a:hover::after,
+nav.top li a[aria-current]::after {
+  transform: scaleX(1);
 }
 
-/* State Collapsed saat Scroll ke Bawah (1 Ikon Bulat Presisi) */
-nav.top.collapsed {
-  width: 52px;
-  padding: 6px;
-  justify-content: center;
-  background: var(--white);
-  border-color: rgba(20, 156, 98, 0.28);
-  box-shadow: 0 8px 22px rgba(14, 46, 32, 0.16);
-}
-
-nav.top.collapsed .logo {
-  gap: 0;
-}
-
-nav.top.collapsed .logo-icon svg,
-nav.top.collapsed .logo-icon img {
-  transform: rotate(-14deg);
-}
-
-nav.top.collapsed .logo-text,
-nav.top.collapsed ul {
-  max-width: 0;
-  opacity: 0;
-  pointer-events: none;
+nav.top li a:hover,
+nav.top li a[aria-current] {
+  background: none;
+  color: inherit;
 }
 
 .burger {
@@ -305,21 +325,30 @@ nav.top.collapsed ul {
 
 @media (max-width: 680px) {
   nav.top {
-    width: calc(100% - 1.5rem);
-    padding: 0.5rem 0.6rem 0.5rem 0.85rem;
-  }
-
-  nav.top:not(.collapsed) .logo-text {
-    display: none;
+    height: 64px;
+    padding: 0 1rem;
   }
 
   nav.top ul {
-    gap: 0.15rem;
+    gap: 0.95rem;
   }
 
   nav.top li a {
-    font-size: 0.82rem;
-    padding: 0.42rem 0.68rem;
+    font-size: 0.8rem;
+  }
+
+  nav.top .logo-text {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  nav.top ul {
+    gap: 0.7rem;
+  }
+
+  nav.top li a {
+    font-size: 0.74rem;
   }
 }
 

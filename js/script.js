@@ -21,7 +21,7 @@ document.body.insertAdjacentHTML(
   "afterbegin",
   `<a href="#main" style="position:absolute;left:-999px">Lewati ke konten</a>
   <nav class="top" aria-label="Navigasi utama">
-    <a class="logo" href="index.html" aria-label="EcoVera — Buka atau tutup menu navigasi">
+    <a class="logo" href="index.html" aria-label="EcoVera — Beranda">
       <span class="logo-icon">${ecoIconSvg}</span>
       <span class="logo-text">EcoVera</span>
     </a>
