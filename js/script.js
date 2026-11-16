@@ -29,11 +29,11 @@ document.body.insertAdjacentHTML(
       ${pages
         .map(
           (p) =>
-            `<li><a href="${p[0]}"${p[0] === cur ? ' aria-current="page"' : ""}>${p[1]}</a></li>`
+            `<li><a href="${p[0]}"${p[0] === cur ? ' aria-current="page"' : ""}>${p[1]}</a></li>`,
         )
         .join("")}
     </ul>
-  </nav>`
+  </nav>`,
 );
 
 // Injeksi Footer
@@ -45,7 +45,7 @@ document.body.insertAdjacentHTML(
       <p>Portal edukasi dan galeri dokumentasi lingkungan tentang sampah.</p>
     </div>
     <p>Tim: [isi nama tim] — Anggota: [isi nama anggota]<br>Karya lomba Technoversary Vol. II</p>
-  </footer>`
+  </footer>`,
 );
 
 const nav = document.querySelector("nav.top");
@@ -89,7 +89,7 @@ window.addEventListener(
     }
     lastScrollY = window.scrollY;
   },
-  { passive: true }
+  { passive: true },
 );
 
 // Scroll Reveal
@@ -101,7 +101,7 @@ const io = new IntersectionObserver(
         io.unobserve(x.target);
       }
     }),
-  { threshold: 0.15 }
+  { threshold: 0.15 },
 );
 
 document.querySelectorAll(".rv").forEach((el) => io.observe(el));
@@ -121,7 +121,7 @@ if (intro) {
     setTimeout(() => {
       intro.classList.add("out");
       sessionStorage.setItem("ev", 1);
-      setTimeout(() => intro.remove(), 800);
+      setTimeout(() => intro.remove(), 900);
     }, 1500);
   }
 }
@@ -134,7 +134,7 @@ if (hp && !matchMedia("(prefers-reduced-motion:reduce)").matches) {
     () => {
       hp.style.transform = `translateY(${Math.min(scrollY, 700) * 0.15}px) scale(1.08)`;
     },
-    { passive: true }
+    { passive: true },
   );
 }
 
@@ -173,13 +173,13 @@ if (form) {
     chk(
       "email",
       (v) => !/^\S+@\S+\.\S+$/.test(v),
-      "Isi alamat email yang valid."
+      "Isi alamat email yang valid.",
     );
     chk("pesan", (v) => v.length < 10, "Tulis pesan minimal 10 karakter.");
     if (!ok) return;
     const TO = "isi-email-tim@contoh.com";
     location.href = `mailto:${TO}?subject=${encodeURIComponent(
-      "Pesan dari " + form.nama.value
+      "Pesan dari " + form.nama.value,
     )}&body=${encodeURIComponent(form.pesan.value + "\n\n" + form.email.value)}`;
     document.querySelector(".note").style.display = "block";
   };
