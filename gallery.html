@@ -6,19 +6,23 @@
 <meta name="theme-color" content="#1d3327">
 <meta name="description" content="Galeri foto EcoVera: jelajahi dokumentasi aksi peduli lingkungan lewat lorong galeri 3D.">
 <title>Galeri | EcoVera</title>
-<link rel="preload" as="image" href="assets/images/gallery/01.jpg">
-<link rel="preload" as="image" href="assets/images/gallery/02.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+  rel="stylesheet"
+/>
+<link rel="preload" as="image" href="assets/images/Foto1.jpeg">
+<link rel="preload" as="image" href="assets/images/Foto2.jpeg">
+<link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/gallery.css">
 </head>
-<body>
+<body class="gallery-page">
 <main id="scene" aria-label="Galeri foto EcoVera"><div id="world"></div></main>
 
-<noscript><p class="nojs">Galeri membutuhkan JavaScript. <a href="index.html">Kembali ke beranda</a></p></noscript>
-
-<a class="ui pill home" href="index.html" aria-label="Kembali ke beranda">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7M6 10v10h4v-6h4v6h4V10"/></svg>
-  <span>Beranda</span>
-</a>
+<!-- <noscript>
+  <p class="nojs">Galeri membutuhkan JavaScript. <a href="index.html">Kembali ke beranda</a></p>
+</noscript> -->
 
 <div class="ui pill count" id="count" aria-hidden="true">01 / 20</div>
 
@@ -47,6 +51,7 @@
   <button id="close" class="btn" type="button" aria-label="Tutup pratinjau"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
 </div>
 
+<script src="js/script.js"></script>
 <script src="js/gallery.js"></script>
 </body>
 </html>

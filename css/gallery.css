@@ -109,3 +109,13 @@ svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-lin
 @media (prefers-reduced-motion:reduce){
   #world,#bar,.caption small,.frame{transition:none}
 }
+
+/* Sembunyikan footer default script.js khusus di halaman lorong 3D gallery */
+body.gallery-page footer {
+  display: none;
+}
+
+/* Pastikan navbar utama berada di lapisan paling atas galeri */
+body.gallery-page nav.top {
+  z-index: 10;
+}

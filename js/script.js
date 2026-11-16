@@ -138,6 +138,61 @@ if (hp && !matchMedia("(prefers-reduced-motion:reduce)").matches) {
   );
 }
 
+// Hero: lingkaran reveal foto alternatif mengikuti cursor
+(() => {
+  const hero = document.querySelector(".hero");
+  const media = hero && hero.querySelector(".hero-media");
+  if (!media) return;
+  const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const posK = reduce ? 1 : 0.14; // kelembutan gerak lingkaran
+  const radK = reduce ? 1 : 0.12; // kelembutan muncul / hilang
+  let tx = 0, ty = 0, x = 0, y = 0, r = 0, tr = 0, raf = 0;
+  const baseR = () => Math.max(25, Math.min(innerWidth * 0.10, 70));
+
+  const paint = () => {
+    media.style.setProperty("--hx", x.toFixed(1) + "px");
+    media.style.setProperty("--hy", y.toFixed(1) + "px");
+    media.style.setProperty("--hr", r.toFixed(1) + "px");
+  };
+  const tick = () => {
+    x += (tx - x) * posK;
+    y += (ty - y) * posK;
+    r += (tr - r) * radK;
+    if (tr === 0 && r < 0.5) r = 0;
+    paint();
+    const settled =
+      Math.abs(tx - x) < 0.3 && Math.abs(ty - y) < 0.3 && Math.abs(tr - r) < 0.3;
+    raf = settled ? 0 : requestAnimationFrame(tick);
+  };
+  const run = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  const aim = (e) => {
+    const b = media.getBoundingClientRect();
+    tx = e.clientX - b.left;
+    ty = e.clientY - b.top;
+  };
+  const show = (e) => {
+    aim(e);
+    if (r < 1) { x = tx; y = ty; } // tumbuh tepat dari posisi cursor
+    tr = baseR();
+    run();
+  };
+  const hide = () => { tr = 0; run(); };
+
+  hero.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") show(e); });
+  hero.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch" && tr === 0) return;
+    aim(e);
+    if (tr === 0) tr = baseR();
+    run();
+  });
+  hero.addEventListener("pointerleave", hide);
+  // Layar sentuh: lingkaran muncul saat ditekan/digeser, hilang saat dilepas atau mulai scroll
+  hero.addEventListener("pointerdown", (e) => { if (e.pointerType === "touch") show(e); });
+  hero.addEventListener("pointerup", (e) => { if (e.pointerType === "touch") hide(); });
+  hero.addEventListener("pointercancel", hide);
+})();
+
+
 // Lightbox Galeri
 const dlg = document.querySelector("dialog");
 if (dlg) {

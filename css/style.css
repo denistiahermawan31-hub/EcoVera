@@ -50,6 +50,7 @@ h1 {
   font-size: clamp(2.4rem, 7vw, 5.8rem);
   font-weight: 800;
 }
+
 .hero h1 {
   font-size: clamp(2rem, 4.2vw, 3.2rem);
   line-height: 1.12;
@@ -365,19 +366,53 @@ nav.top.collapsed ul {
 }
 
 
-.hero {
+.stack > section.hero {
   color: var(--white);
-  justify-content: flex-start !important; 
-  padding-top: 8.5rem !important;        
-  padding-bottom: 12rem !important;     
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: 7rem;
+  padding-bottom: 6rem;
+  background: var(--char);
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  --hx: 50%;
+  --hy: 50%;
+  --hr: 0px;
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--hero-pos, 50% 50%);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Foto alternatif hanya terlihat di dalam lingkaran (mask) */
+.hero-alt {
+  -webkit-clip-path: circle(var(--hr) at var(--hx) var(--hy));
+  clip-path: circle(var(--hr) at var(--hx) var(--hy));
+  will-change: clip-path;
+}
+
+/* Overlay agar teks hero & navbar tetap terbaca di atas kedua foto */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(
-      90deg,
-      rgba(14, 46, 32, 0.72) 0%,
-      rgba(14, 46, 32, 0.38) 55%,
-      rgba(14, 46, 32, 0.08) 100%
-    ),
-    url("../assets/images/background.png") center bottom / cover no-repeat !important;
+    linear-gradient(180deg, rgba(14, 46, 32, 0.5) 0%, rgba(14, 46, 32, 0) 24%),
+    linear-gradient(90deg, rgba(14, 46, 32, 0.72) 0%, rgba(14, 46, 32, 0.38) 55%, rgba(14, 46, 32, 0.08) 100%);
 }
 
 .hero .photo,
@@ -391,6 +426,34 @@ nav.top.collapsed ul {
   writing-mode: vertical-rl;
   font: 600 0.8rem var(--h);
   color: var(--white);
+}
+
+.scroll::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 60px;
+  background: var(--white);
+  margin-top: 0.6rem;
+  animation: drop 2s infinite;
+}
+
+@keyframes drop {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
 }
 
 .scroll::after {
