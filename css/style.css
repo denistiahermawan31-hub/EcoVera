@@ -52,11 +52,34 @@ h1 {
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 4.2vw, 3.2rem);
-  line-height: 1.12;
+  font-size: clamp(1.65rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.04;
   color: var(--white);
-  max-width: 16ch;
+  max-width: 24ch;
+  margin-inline: auto;
+  text-align: center;
   text-shadow: 0 4px 20px rgba(14, 46, 32, 0.18);
+}
+
+.hero-static {
+  font-family: 'Poppins', var(--h);
+}
+
+.hero-changing {
+  font-family: 'Tuffy', 'Nunito', 'Poppins', var(--s);
+  font-style: italic;
+  font-weight: 400;
+  transition: opacity 0.25s ease;
+}
+
+.hero-changing.is-changing {
+  opacity: 0;
+}
+
+.hero p {
+  margin: 1.25rem auto 0;
+  text-align: center;
 }
 
 h2 {
@@ -189,7 +212,7 @@ nav.top {
 }
 
 nav.top.is-solid {
-  background: var(--char);
+  background: var(--em-dark);
   box-shadow: 0 6px 24px rgba(14, 46, 32, 0.22);
   text-shadow: none;
 }
@@ -974,5 +997,9 @@ footer .logo {
 
   #intro {
     display: none;
+  }
+
+  .hero-changing {
+    transition: none;
   }
 }

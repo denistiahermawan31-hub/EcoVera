@@ -54,6 +54,8 @@ let manualExpanded = false;
 
 // Saat scroll ke bawah: ciutkan navbar menjadi ikon logo saja
 const handleScrollNav = () => {
+  nav.classList.toggle("is-solid", window.scrollY > 60);
+
   if (window.scrollY > 60) {
     if (!manualExpanded) {
       nav.classList.add("collapsed");
@@ -104,7 +106,39 @@ const io = new IntersectionObserver(
   { threshold: 0.15 }
 );
 
+document
+  .querySelectorAll("main > section, body > section")
+  .forEach((el) => el.classList.add("rv"));
+
 document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+
+// Hero: ganti frasa terakhir tanpa mengubah kalimat pembuka
+const changingHeroText = document.querySelector(".hero-changing");
+if (changingHeroText) {
+  const heroPhrases = [
+    "Berpikir ke Mana Perginya Sampahmu?",
+    "Membayangkan Bumi Tanpa Sampah?",
+    "Tahu Berapa Lama Sampah Terurai?",
+    "Melihat Nilai di Balik Sampah?",
+    "Membayangkan Bumi yang Lebih Bersih?",
+  ];
+  let phraseIndex = 0;
+
+  setInterval(() => {
+    phraseIndex = (phraseIndex + 1) % heroPhrases.length;
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      changingHeroText.textContent = heroPhrases[phraseIndex];
+      return;
+    }
+
+    changingHeroText.classList.add("is-changing");
+    setTimeout(() => {
+      changingHeroText.textContent = heroPhrases[phraseIndex];
+      changingHeroText.classList.remove("is-changing");
+    }, 250);
+  }, 3000);
+}
 
 // Layar Pembuka (#intro)
 const intro = document.getElementById("intro");
