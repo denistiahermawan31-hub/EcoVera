@@ -125,6 +125,97 @@ if (intro) {
     }, 1500);
   }
 }
+// TRANSISI PINDAH HALAMAN (EcoVera.)
+if (!matchMedia("(prefers-reduced-motion:reduce)").matches) {
+  // 1. Inject elemen transisi ke semua halaman secara otomatis
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    `<div id="page-transition" aria-hidden="true">
+      <div class="pt-brand">
+        <span class="pt-word">EcoVera.</span>
+      </div>
+    </div>`,
+  );
+
+  const pt = document.getElementById("page-transition");
+
+  // 2. Cek apakah halaman ini dibuka dari hasil klik pindah halaman sebelumnya
+  if (sessionStorage.getItem("ev_navigating") === "1") {
+    sessionStorage.removeItem("ev_navigating");
+    pt.classList.add("hold"); // Langsung tutup layar saat halaman baru dimuat
+
+    // Beri jeda 350ms agar tulisan EcoVera. terbaca, lalu buka tirai ke atas
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        pt.classList.remove("hold");
+        pt.classList.add("leave");
+
+        // Reset posisi tirai kembali ke bawah setelah animasi selesai
+        setTimeout(() => {
+          pt.style.transition = "none";
+          pt.classList.remove("leave");
+          void pt.offsetWidth; // Force reflow
+          pt.style.transition = "";
+        }, 680);
+      }, 350);
+    });
+  }
+
+  // 3. Tangkap semua klik pada link internal (.html)
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("a");
+    if (!link) return;
+
+    const href = link.getAttribute("href");
+    if (!href) return;
+
+    // Abaikan link eksternal, anchor (#), mailto/tel, target _blank, atau klik tombol logo saat navbar collapsed
+    const isExternal =
+      href.startsWith("http") ||
+      href.startsWith("mailto:") ||
+      href.startsWith("tel:");
+    const isHash = href.startsWith("#");
+    const isNewTab = link.target === "_blank";
+    const isCollapsedLogo =
+      link.classList.contains("logo") && nav.classList.contains("collapsed");
+
+    if (
+      isExternal ||
+      isHash ||
+      isNewTab ||
+      isCollapsedLogo ||
+      e.ctrlKey ||
+      e.metaKey
+    ) {
+      return;
+    }
+
+    // Jika klik halaman yang sedang aktif sekarang, cukup scroll ke atas dengan mulus
+    const targetFile = href.split("/").pop() || "index.html";
+    if (targetFile === cur && !href.includes("#")) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // Jalankan animasi masuk (tirai naik menutup layar), lalu pindah halaman
+    e.preventDefault();
+    sessionStorage.setItem("ev_navigating", "1");
+    pt.classList.remove("leave", "hold");
+    pt.classList.add("enter");
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 680); // Waktu tunggu sesuai durasi animasi CSS (650ms)
+  });
+
+  // Antisipasi tombol Back/Forward browser (bfcache) agar layar tidak nyangkut tertutup
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) {
+      pt.classList.remove("enter", "hold", "leave");
+    }
+  });
+}
 
 // Parallax Halus pada Foto Hero
 const hp = document.querySelector(".hero .photo");
