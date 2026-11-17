@@ -4,60 +4,215 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Kontak — EcoVera</title>
+    <meta
+      name="description"
+      content="Hubungi tim EcoVera untuk pertanyaan, koreksi data artikel, atau mengirim foto dokumentasi lingkungan untuk galeri."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/contact.css" />
   </head>
   <body>
     <main id="main">
-      <div class="page">
-        <div class="split">
-          <div>
-            <h1>Hubungi kami</h1>
-            <p class="lead">
-              Punya pertanyaan, koreksi data, atau foto dokumentasi untuk
-              galeri? Tulis di sini.
-            </p>
-            <p style="margin-top: 1rem">
-              Website ini statis dan tidak punya server. Tombol kirim membuka
-              aplikasi email Anda dengan pesan yang sudah terisi, dan pesan baru
-              terkirim setelah Anda menekan kirim di sana.
-            </p>
-          </div>
-          <form novalidate>
-            <div>
-              <label for="nama">Nama</label
-              ><input id="nama" name="nama" autocomplete="name" /><span
-                class="err"
-              ></span>
+      <div class="page contact">
+
+        <header class="c-head">
+          <h1 data-split>Hubungi kami</h1>
+          <p class="lead">
+            Punya pertanyaan seputar sampah, menemukan data yang perlu
+            dikoreksi, atau ingin foto dokumentasimu tampil di galeri? Tulis
+            di sini, tim EcoVera akan membacanya.
+          </p>
+        </header>
+
+        <div class="c-grid">
+          <aside class="c-info" aria-label="Informasi kontak">
+            <ul class="c-cards">
+              <li class="c-card">
+                <span class="icon-circle">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="m3 7 9 6 9-6" />
+                  </svg>
+                </span>
+                <div class="c-body">
+                  <h3>Email tim</h3>
+                  <p>
+                    Tulis langsung ke
+                    <a data-mail href="mailto:EcoVera@gmail.com"
+                      >EcoVera@gmail.com</a
+                    >.
+                  </p>
+                </div>
+                <button class="c-copy" type="button" data-copy>
+                  <span aria-live="polite">Salin</span>
+                </button>
+              </li>
+              <li class="c-card">
+                <span class="icon-circle">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                  </svg>
+                </span>
+                <div class="c-body">
+                  <h3>
+                    <a class="c-link" href="#form-kontak" data-topic="koreksi"
+                      >Koreksi data</a
+                    >
+                  </h3>
+                  <p>
+                    Ada angka atau sumber yang keliru di artikel? Sebutkan
+                    halaman dan bagian yang dimaksud.
+                  </p>
+                </div>
+                <svg class="c-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </li>
+              <li class="c-card">
+                <span class="icon-circle">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M14.5 4h-5L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3Z"
+                    />
+                    <circle cx="12" cy="13" r="3.5" />
+                  </svg>
+                </span>
+                <div class="c-body">
+                  <h3>
+                    <a class="c-link" href="#form-kontak" data-topic="foto"
+                      >Foto untuk galeri</a
+                    >
+                  </h3>
+                  <p>
+                    Kirim dokumentasi pilah sampah, bank sampah, atau aksi
+                    bersih lingkungan lewat email, lalu lampirkan fotonya.
+                  </p>
+                </div>
+                <svg class="c-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </li>
+            </ul>
+          </aside>
+
+          <form id="form-kontak" class="contact-form" novalidate aria-label="Formulir kontak">
+            <fieldset class="chips-wrap">
+              <legend>Topik pesan</legend>
+              <div class="chips">
+                <span class="chip-item"
+                  ><input
+                    type="radio"
+                    name="topik"
+                    id="t-tanya"
+                    value="tanya"
+                    checked
+                  /><label for="t-tanya">Pertanyaan</label></span
+                >
+                <span class="chip-item"
+                  ><input
+                    type="radio"
+                    name="topik"
+                    id="t-koreksi"
+                    value="koreksi"
+                  /><label for="t-koreksi">Koreksi data</label></span
+                >
+                <span class="chip-item"
+                  ><input
+                    type="radio"
+                    name="topik"
+                    id="t-foto"
+                    value="foto"
+                  /><label for="t-foto">Foto galeri</label></span
+                >
+                <span class="chip-item"
+                  ><input
+                    type="radio"
+                    name="topik"
+                    id="t-lain"
+                    value="lain"
+                  /><label for="t-lain">Lainnya</label></span
+                >
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="nama">Nama</label>
+              <input
+                id="nama"
+                name="nama"
+                autocomplete="name"
+                aria-describedby="err-nama"
+              />
+              <span class="err" id="err-nama"></span>
             </div>
-            <div>
-              <label for="email">Email</label
-              ><input
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input
                 id="email"
                 name="email"
                 type="email"
                 autocomplete="email"
-              /><span class="err"></span>
+                aria-describedby="err-email"
+              />
+              <span class="err" id="err-email"></span>
             </div>
-            <div>
-              <label for="pesan">Pesan</label
-              ><textarea id="pesan" name="pesan" rows="5"></textarea
-              ><span class="err"></span>
+
+            <div class="field">
+              <label for="pesan">Pesan</label>
+              <textarea
+                id="pesan"
+                name="pesan"
+                rows="5"
+                maxlength="600"
+                aria-describedby="err-pesan hint-pesan"
+              ></textarea>
+              <div class="meta">
+                <span class="err" id="err-pesan"></span>
+                <span class="count" id="count" aria-hidden="true">0/600</span>
+              </div>
+              <p class="hint" id="hint-pesan"></p>
             </div>
+
+            <div class="photo-box" hidden>
+              <div>
+                <strong>Kirim foto galeri</strong>
+                <p data-photo-text></p>
+              </div>
+              <a class="btn" data-photo href="#" target="_blank" rel="noopener"
+                >Unggah foto</a
+              >
+            </div>
+
             <button class="btn" type="submit">Kirim lewat email</button>
+
             <p class="note" role="status">
-              Aplikasi email Anda seharusnya terbuka. Jika tidak, periksa
-              pengaturan email default perangkat.
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path class="tick" pathLength="1" d="m7.5 12.5 3 3 6-7" />
+              </svg>
+              <span
+                >Aplikasi email Anda seharusnya terbuka. Jika tidak, periksa
+                pengaturan email default perangkat.</span
+              >
             </p>
           </form>
         </div>
       </div>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/contact.js"></script>
   </body>
 </html>

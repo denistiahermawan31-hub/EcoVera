@@ -1,0 +1,416 @@
+/* Halaman Kontak EcoVera — memakai variabel warna dari style.css */
+
+/* Font halaman ini: Nunito untuk judul/tombol/label, DM Sans untuk teks isi */
+:root {
+  --h: 'Nunito', system-ui, sans-serif;
+  --b: 'DM Sans', system-ui, sans-serif;
+}
+
+/* Footer disembunyikan di halaman kontak */
+footer {
+  display: none;
+}
+
+/* Navbar di atas latar putih: teks gelap, putih saat solid */
+nav.top.on-light {
+  color: var(--char);
+  text-shadow: none;
+}
+
+nav.top.on-light.is-solid {
+  color: var(--white);
+}
+
+/* Latar putih polos */
+.contact {
+  background: var(--white);
+  min-height: 100vh;
+}
+
+/* ---------- Header ---------- */
+.c-head {
+  max-width: 760px;
+}
+
+.contact h1 {
+  line-height: 1.12;
+}
+
+/* Pemecah kata untuk animasi judul */
+.sw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+}
+
+.sw-in {
+  display: inline-block;
+}
+
+.c-head .lead {
+  max-width: 54ch;
+}
+
+/* ---------- Grid utama ---------- */
+.c-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 5vw;
+  align-items: start;
+  margin-top: 3.5rem;
+}
+
+/* Daftar info: baris interaktif */
+.c-cards {
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid var(--sg);
+}
+
+.c-card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 1.2rem;
+  align-items: center;
+  padding: 1.7rem 0;
+  border-bottom: 1px solid var(--sg);
+}
+
+/* Latar lembut yang muncul saat baris disorot */
+.c-card::before {
+  content: "";
+  position: absolute;
+  inset: 0.45rem -1.1rem;
+  border-radius: 1rem;
+  background: var(--surface-light);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.c-card:hover::before,
+.c-card:focus-within::before {
+  opacity: 1;
+}
+
+.c-card .icon-circle {
+  margin: 0;
+  width: 52px;
+  height: 52px;
+  background: var(--mint);
+  color: var(--em-dark);
+  box-shadow: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.c-card:hover .icon-circle,
+.c-card:focus-within .icon-circle {
+  background: var(--em);
+  color: var(--white);
+}
+
+.c-body h3 {
+  font-size: 1.2rem;
+}
+
+.c-body p {
+  margin-top: 0.2rem;
+  font-size: 0.97rem;
+}
+
+.c-body a[data-mail] {
+  color: var(--em-dark);
+  font-weight: 700;
+  word-break: break-all;
+}
+
+/* Tautan yang membentang menutupi seluruh baris */
+.c-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.c-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.c-link:focus-visible {
+  outline: 0;
+}
+
+.c-link:focus-visible::after {
+  outline: 3px solid var(--em-light);
+  outline-offset: 2px;
+  border-radius: 0.75rem;
+}
+
+.c-arrow {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--em-dark);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (hover: hover) {
+  .c-arrow {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+/* Garis hijau yang menyapu di bawah baris */
+.c-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--em);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+.c-copy {
+  position: relative;
+  z-index: 2;
+  border: 1.5px solid var(--sg);
+  background: var(--white);
+  color: var(--em-dark);
+  border-radius: 99px;
+  padding: 0.4rem 1rem;
+  font: 600 0.85rem var(--h);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.c-copy:hover {
+  background: var(--em);
+  color: var(--white);
+  border-color: var(--em);
+}
+
+.contact-form {
+  scroll-margin-top: 110px;
+}
+
+/* ---------- Formulir ---------- */
+.contact-form {
+  max-width: none;
+  gap: 1.4rem;
+  border-radius: 1rem;
+  box-shadow: none;
+  border: 1px solid var(--sg);
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: var(--white);
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+legend {
+  font: 700 0.95rem var(--h);
+  color: var(--char);
+  margin-bottom: 0.6rem;
+  padding: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip-item {
+  position: relative;
+}
+
+.chips input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.chips label {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--sg);
+  background: var(--white);
+  font: 600 0.9rem var(--h);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.chips label:hover {
+  border-color: var(--em);
+}
+
+.chips input:checked + label {
+  background: var(--em);
+  color: var(--white);
+  border-color: var(--em);
+}
+
+.chips input:focus-visible + label {
+  outline: 3px solid var(--em-light);
+  outline-offset: 3px;
+}
+
+.field label {
+  display: inline-block;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: #c93b2b;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.count {
+  font: 600 0.8rem var(--h);
+  color: var(--olive);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.hint {
+  font-size: 0.88rem;
+  color: var(--olive);
+  margin-top: 0.15rem;
+}
+
+.contact-form .btn {
+  justify-self: start;
+  box-shadow: none;
+}
+
+.contact-form .btn:hover {
+  box-shadow: none;
+}
+
+/* Catatan sukses */
+.contact-form .note {
+  display: none;
+  grid-template-columns: auto 1fr;
+  gap: 0.8rem;
+  align-items: start;
+  margin-top: 0;
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+
+.contact-form .note svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: var(--em-dark);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-form .note .tick {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.contact-form .note.show .tick {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width: 860px) {
+  .c-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact-form {
+    padding: 1.4rem;
+  }
+
+  .contact-form .btn {
+    justify-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form .note .tick {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- Panel kirim foto ---------- */
+.photo-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.3rem;
+  border: 1.5px dashed var(--sg);
+  border-radius: 1rem;
+  background: var(--surface-light);
+  overflow: hidden;
+}
+
+.photo-box[hidden] {
+  display: none;
+}
+
+.photo-box strong {
+  font: 700 1rem var(--h);
+}
+
+.photo-box p {
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  color: var(--olive);
+  max-width: 38ch;
+}
+
+.contact-form .photo-box .btn {
+  background: var(--white);
+  color: var(--em-dark);
+  border: 1.5px solid var(--em);
+}
+
+.contact-form .photo-box .btn:hover {
+  background: var(--em);
+  color: var(--white);
+}

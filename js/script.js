@@ -246,30 +246,4 @@ if (dlg) {
   });
 }
 
-// Validasi Form Kontak
-const form = document.querySelector("form");
-if (form) {
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    let ok = true;
-    const chk = (id, bad, msg) => {
-      const i = form[id];
-      i.nextElementSibling.textContent = bad(i.value.trim())
-        ? ((ok = false), msg)
-        : "";
-    };
-    chk("nama", (v) => v.length < 2, "Isi nama Anda.");
-    chk(
-      "email",
-      (v) => !/^\S+@\S+\.\S+$/.test(v),
-      "Isi alamat email yang valid."
-    );
-    chk("pesan", (v) => v.length < 10, "Tulis pesan minimal 10 karakter.");
-    if (!ok) return;
-    const TO = "isi-email-tim@contoh.com";
-    location.href = `mailto:${TO}?subject=${encodeURIComponent(
-      "Pesan dari " + form.nama.value
-    )}&body=${encodeURIComponent(form.pesan.value + "\n\n" + form.email.value)}`;
-    document.querySelector(".note").style.display = "block";
-  };
-}
+// Catatan: validasi & pengiriman form kontak sekarang ada di js/contact.js
