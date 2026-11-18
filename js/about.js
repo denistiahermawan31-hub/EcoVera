@@ -72,13 +72,12 @@
      ----------------------------------------------------------------------- */
   const heroIntro = gsap.timeline({ defaults: { ease: "power3.out" } });
   heroIntro
-    .from(".ab-hero-eyebrow", { y: 14, opacity: 0, duration: 0.8 })
     .from(
       ".ab-hero-line > span",
       { yPercent: 112, duration: 1.1, stagger: 0.1 },
-      0.08
+      0
     )
-    .from(".ab-hero-lead", { y: 18, opacity: 0, duration: 0.8 }, 0.42)
+    .from(".ab-hero-lead", { y: 18, opacity: 0, duration: 0.8 }, 0.34)
     .from(
       ".ab-hero-notes, .ab-hero-foot",
       { y: 16, opacity: 0, duration: 0.8, stagger: 0.1 },
@@ -411,70 +410,6 @@
       if (line) gsap.set(line, { clearProps: "transform" });
     };
   });
-
-  /* -----------------------------------------------------------------------
-     Closing
-     ----------------------------------------------------------------------- */
-  const band = $(".ab-close-band");
-  const bandImage = band && band.querySelector("img");
-  if (bandImage) {
-    gsap.fromTo(
-      bandImage,
-      { yPercent: -5 },
-      {
-        yPercent: 5,
-        ease: "none",
-        scrollTrigger: {
-          trigger: band,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.6,
-        },
-      }
-    );
-  }
-
-  const closeTitle = $("#ab-close-title");
-  if (closeTitle) {
-    gsap.fromTo(
-      closeTitle,
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: closeTitle, start: "top 86%", once: true },
-      }
-    );
-  }
-
-  const closeBottom = $(".ab-close-bottom");
-  if (closeBottom) {
-    gsap.from(closeBottom.children, {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power3.out",
-      scrollTrigger: { trigger: closeBottom, start: "top 90%", once: true },
-    });
-  }
-
-  const wordmark = $(".ab-close-wordmark");
-  if (wordmark) {
-    gsap.fromTo(
-      wordmark,
-      { yPercent: 18, opacity: 0 },
-      {
-        yPercent: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: { trigger: wordmark, start: "top 96%", once: true },
-      }
-    );
-  }
 
   /* -----------------------------------------------------------------------
      Layout refresh after fonts / images settle

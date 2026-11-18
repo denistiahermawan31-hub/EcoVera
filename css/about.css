@@ -68,14 +68,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.ab-kicker-light {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.ab-kicker-light span {
-  color: var(--ab-accent-soft);
-}
-
 .about h2 {
   font-size: clamp(1.9rem, 3.2vw, 2.9rem);
   font-weight: 800;
@@ -150,10 +142,6 @@
 .ab-link-arrow:hover svg,
 .ab-link-arrow:focus-visible svg {
   transform: translateX(5px);
-}
-
-.ab-link-arrow-light {
-  color: var(--white);
 }
 
 /* ---------- Injected nav and buttons: About-only type treatment ---------- */
@@ -268,40 +256,16 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  padding: 8rem var(--ab-gutter) clamp(1.75rem, 3.5vh, 2.75rem);
-}
-
-.ab-hero-eyebrow {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  margin: 0;
-  font: 700 0.7rem/1.4 var(--h);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.ab-hero-eyebrow .ab-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ab-accent);
-  box-shadow: 0 0 0 4px rgba(22, 196, 127, 0.22);
-}
-
-.ab-hero-eyebrow .ab-sep {
-  opacity: 0.4;
+  padding: 8rem var(--ab-gutter) clamp(2.25rem, 5vh, 4rem);
 }
 
 .ab-hero-title {
-  margin: clamp(1.25rem, 3vh, 2.25rem) 0 0;
+  margin: 0;
   max-width: 20ch;
-  font-size: clamp(2.25rem, 4vw, 3.6rem);
+  font-size: clamp(2.1rem, 4.2vw, 3.05rem);
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.025em;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   color: var(--white);
 }
 
@@ -320,11 +284,11 @@
 }
 
 .ab-hero-lead {
-  max-width: 48ch;
+  max-width: 46ch;
   margin-top: clamp(1rem, 1.8vw, 1.5rem);
   font-size: clamp(0.96rem, 1.1vw, 1.05rem);
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .ab-hero-notes {
@@ -371,21 +335,12 @@
 .ab-hero-foot {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1.5rem;
   width: 100%;
   margin-top: auto;
   padding-top: clamp(1.75rem, 5vh, 3rem);
   border-top: 1px solid rgba(255, 255, 255, 0.22);
-}
-
-.ab-hero-caption {
-  max-width: none;
-  margin: 0;
-  font: 500 0.72rem/1.5 var(--h);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
 }
 
 .ab-hero-actions {
@@ -1144,127 +1099,6 @@
   }
 }
 
-/* ==========================================================================
-   07 — Closing
-   ========================================================================== */
-
-.ab-close {
-  background: var(--char);
-  color: var(--white);
-}
-
-.ab-close-band {
-  position: relative;
-  margin: 0;
-  height: clamp(14rem, 40vw, 30rem);
-  overflow: hidden;
-  background: #163326;
-}
-
-.ab-close-band .ab-frame {
-  position: absolute;
-  inset: 0;
-}
-
-.ab-close-band::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(6, 24, 15, 0.1) 0%,
-    rgba(6, 24, 15, 0) 45%,
-    rgba(6, 24, 15, 0.78) 100%
-  );
-  pointer-events: none;
-}
-
-.ab-close-band figcaption {
-  position: absolute;
-  left: var(--ab-gutter);
-  right: var(--ab-gutter);
-  bottom: clamp(1.25rem, 3vw, 2.25rem);
-  z-index: 2;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin: 0;
-  font: 600 clamp(0.82rem, 1.3vw, 1rem) / 1.5 var(--h);
-  letter-spacing: 0.01em;
-  color: var(--white);
-}
-
-.ab-close-band figcaption span {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ab-accent-soft);
-  padding-top: 0.15rem;
-}
-
-.ab-close-field {
-  position: relative;
-  padding: var(--ab-pad) var(--ab-gutter) clamp(0.75rem, 1.5vw, 1.25rem);
-  overflow: hidden;
-  background: var(--char);
-}
-
-.ab-close-field h2 {
-  max-width: 21ch;
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
-  font-size: clamp(1.95rem, 3.2vw, 2.9rem);
-  color: var(--white);
-}
-
-.ab-close-field h2 em {
-  color: #b9ffdc;
-}
-
-.ab-close-bottom {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: end;
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-}
-
-.ab-close-bottom p {
-  max-width: 54ch;
-  font-size: 0.98rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.ab-close-bottom p a {
-  color: var(--white);
-  text-decoration-color: rgba(255, 255, 255, 0.45);
-  text-underline-offset: 3px;
-}
-
-.ab-close-bottom p a:hover {
-  text-decoration-color: var(--ab-accent);
-}
-
-.ab-close-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.ab-close-wordmark {
-  display: block;
-  margin-top: clamp(2.5rem, 5vw, 4.25rem);
-  margin-bottom: 0;
-  font: 800 clamp(2.6rem, 9vw, 6.5rem) / 0.85 var(--h);
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.17);
-  user-select: none;
-  pointer-events: none;
-}
-
 /* ---------- Injected footer: compact, About-only treatment ---------- */
 
 .about-page footer {
@@ -1378,7 +1212,7 @@
 
   .ab-hero-inner {
     padding-top: 7.5rem;
-    padding-bottom: 1.75rem;
+    padding-bottom: 2.25rem;
   }
 
   .ab-hero-title {
@@ -1423,10 +1257,6 @@
   .ab-hero-progress,
   .ab-hero-seam {
     display: none !important;
-  }
-
-  .ab-hero-caption {
-    color: rgba(255, 255, 255, 0.55);
   }
 
   .ab-reveal-btn:hover {
@@ -1593,20 +1423,6 @@
     padding: 0 0 0 1.25rem;
   }
 
-  .ab-close-field {
-    padding-bottom: 0.75rem;
-  }
-
-  .ab-close-bottom {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  .ab-close-actions {
-    gap: 1.25rem;
-  }
-
   .about-page footer {
     grid-template-columns: 1fr;
     gap: 1.1rem;
@@ -1617,10 +1433,6 @@
     justify-self: start;
     text-align: left;
     max-width: 42ch;
-  }
-
-  .ab-close-wordmark {
-    font-size: clamp(2.4rem, 12vw, 4rem);
   }
 }
 
@@ -1635,11 +1447,6 @@
 
   .ab-story-inset {
     width: 74%;
-  }
-
-  .ab-close-actions {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }
 
