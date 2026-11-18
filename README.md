@@ -1,16 +1,126 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+# 🌿 EcoVera
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### EXPLORE. UNDERSTAND. PRESERVE.
 
-## React Compiler
+**A Digital Platform for Environmental Education**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*Small Actions, Greener Future.*
 
-## Expanding the ESLint configuration
+<br>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+
+</div>
+
+---
+
+## 🌱 Daftar Isi
+
+- [Deskripsi Website](#-deskripsi-website)
+- [Instalasi dan Menjalankan Project](#-instalasi-dan-menjalankan-project)
+- [Tim Pengembang](#-tim-pengembang)
+
+---
+
+## 🌿 Deskripsi Website
+
+**EcoVera** merupakan website edukasi lingkungan yang bertujuan untuk meningkatkan kesadaran dan kepedulian masyarakat terhadap kelestarian lingkungan.
+
+Website ini menyajikan informasi dan konten edukatif mengenai permasalahan lingkungan, pengelolaan sampah, serta berbagai cara sederhana untuk menerapkan kebiasaan ramah lingkungan dalam kehidupan sehari-hari.
+
+Melalui penyajian informasi yang informatif dan interaktif, EcoVera diharapkan dapat menjadi media edukasi digital yang menarik dan mudah diakses oleh masyarakat.
+
+---
+
+## 🍃 Instalasi dan Menjalankan Project
+
+Berikut merupakan panduan untuk mengunduh, menginstal, dan menjalankan project EcoVera secara lokal.
+
+### 1. Persyaratan
+
+Pastikan perangkat telah memiliki:
+
+- Node.js
+- npm
+- Git
+
+### 2. Clone Repository
+
+Unduh repository project menggunakan perintah:
+
+```bash
+git clone https://github.com/USERNAME/REPOSITORY.git
+```
+
+### 3. Masuk ke Direktori Project
+
+```bash
+cd EcoVera-react
+```
+
+### 4. Install Dependencies
+
+```bash
+npm install
+```
+
+### 5. Menjalankan Project
+
+Jalankan development server dengan perintah:
+
+```bash
+npm run dev
+```
+
+Setelah server berjalan, buka alamat berikut melalui browser:
+
+```text
+http://localhost:5173
+```
+
+### 6. Build Project
+
+Untuk membuat versi production:
+
+```bash
+npm run build
+```
+
+---
+
+## 🌳 Tim Pengembang
+
+<div align="center">
+
+### STRAWBERRY FLAVOUR
+
+*One Team, One Vision, One Creation.*
+
+</div>
+
+| No. | Nama Anggota | Jabatan |
+|:---:|:---|:---:|
+| 01 | Denistia Hermawan | Ketua |
+| 02 | Hikmah Nur Saadah | Anggota |
+| 03 | Raivanka Al Muzaqi | Anggota |
+
+---
+
+<div align="center">
+
+### 🌱 EcoVera
+
+**Explore. Understand. Preserve.**
+
+*Growing Awareness, Creating a Greener Future.*
+
+© 2026 Strawberry Flavour
+
+</div>
