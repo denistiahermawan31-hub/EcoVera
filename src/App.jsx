@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import heroImage from '../assets/images/hero.png'
 import backgroundImage from '../assets/images/background.png'
+import ButterflyCursor from './ButterflyCursor.jsx'
 import '../css/style.css'
 
 const pages = [
@@ -22,7 +23,10 @@ const heroPhrases = [
 function App() {
   const [heroPhraseIndex, setHeroPhraseIndex] = useState(0)
   const [isHeroChanging, setIsHeroChanging] = useState(false)
-  const [heroReveal, setHeroReveal] = useState({ x: '50%', y: '50%', radius: 0 })
+  const heroMediaRef = useRef(null)
+  const heroTargetRef = useRef({ x: 0, y: 0, radius: 0 })
+  const heroPositionRef = useRef({ x: 0, y: 0, radius: 0 })
+  const heroFrameRef = useRef(null)
   const [isIntroVisible, setIsIntroVisible] = useState(
     () =>
       !sessionStorage.getItem('ev') &&
@@ -60,6 +64,44 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const media = heroMediaRef.current
+    if (!media) return undefined
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const positionEase = reduceMotion ? 1 : 0.14
+    const radiusEase = reduceMotion ? 1 : 0.12
+    let frameId = 0
+
+    const tick = () => {
+      const target = heroTargetRef.current
+      const position = heroPositionRef.current
+      position.x += (target.x - position.x) * positionEase
+      position.y += (target.y - position.y) * positionEase
+      position.radius += (target.radius - position.radius) * radiusEase
+      if (target.radius === 0 && position.radius < 0.5) position.radius = 0
+
+      media.style.setProperty('--hx', `${position.x.toFixed(1)}px`)
+      media.style.setProperty('--hy', `${position.y.toFixed(1)}px`)
+      media.style.setProperty('--hr', `${position.radius.toFixed(1)}px`)
+
+      const settled =
+        Math.abs(target.x - position.x) < 0.3 &&
+        Math.abs(target.y - position.y) < 0.3 &&
+        Math.abs(target.radius - position.radius) < 0.3
+      frameId = settled ? 0 : window.requestAnimationFrame(tick)
+    }
+
+    heroFrameRef.current = () => {
+      if (!frameId) frameId = window.requestAnimationFrame(tick)
+    }
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      heroFrameRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
     let changeTimer
     const intervalId = window.setInterval(() => {
       setIsHeroChanging(true)
@@ -88,17 +130,39 @@ function App() {
     }
   }, [isIntroVisible])
 
-  const updateHeroReveal = (event, radius = heroReveal.radius) => {
-    const bounds = event.currentTarget.getBoundingClientRect()
-    setHeroReveal({
-      x: `${event.clientX - bounds.left}px`,
-      y: `${event.clientY - bounds.top}px`,
-      radius: radius || Math.max(25, Math.min(window.innerWidth * 0.1, 70)),
-    })
+  const aimHeroReveal = (event) => {
+    const bounds = heroMediaRef.current?.getBoundingClientRect()
+    if (!bounds) return
+
+    const target = heroTargetRef.current
+    target.x = event.clientX - bounds.left
+    target.y = event.clientY - bounds.top
+  }
+
+  const showHeroReveal = (event) => {
+    aimHeroReveal(event)
+    const target = heroTargetRef.current
+    const position = heroPositionRef.current
+    if (position.radius < 1) {
+      position.x = target.x
+      position.y = target.y
+    }
+    target.radius = Math.max(40, Math.min(window.innerWidth * 0.12, 120))
+    heroFrameRef.current?.()
+  }
+
+  const moveHeroReveal = (event) => {
+    if (event.pointerType === 'touch' && heroTargetRef.current.radius === 0) return
+    aimHeroReveal(event)
+    if (heroTargetRef.current.radius === 0) {
+      heroTargetRef.current.radius = Math.max(40, Math.min(window.innerWidth * 0.12, 120))
+    }
+    heroFrameRef.current?.()
   }
 
   const hideHeroReveal = () => {
-    setHeroReveal((reveal) => ({ ...reveal, radius: 0 }))
+    heroTargetRef.current.radius = 0
+    heroFrameRef.current?.()
   }
 
   const currentPage = window.location.pathname.split('/').pop() || 'index.html'
@@ -152,26 +216,25 @@ function App() {
       )}
 
       <main id="main" className="stack">
-        <section className="hero">
+        <section
+          className="hero"
+          onPointerEnter={(event) => {
+            if (event.pointerType !== 'touch') showHeroReveal(event)
+          }}
+          onPointerMove={moveHeroReveal}
+          onPointerDown={(event) => {
+            if (event.pointerType === 'touch') showHeroReveal(event)
+          }}
+          onPointerUp={(event) => {
+            if (event.pointerType === 'touch') hideHeroReveal()
+          }}
+          onPointerCancel={hideHeroReveal}
+          onPointerLeave={hideHeroReveal}
+        >
           <div
+            ref={heroMediaRef}
             className="hero-media"
             aria-hidden="true"
-            style={{ '--hx': heroReveal.x, '--hy': heroReveal.y, '--hr': `${heroReveal.radius}px` }}
-            onPointerEnter={(event) => {
-              if (event.pointerType !== 'touch') updateHeroReveal(event)
-            }}
-            onPointerMove={(event) => {
-              if (event.pointerType === 'touch' && heroReveal.radius === 0) return
-              updateHeroReveal(event)
-            }}
-            onPointerDown={(event) => {
-              if (event.pointerType === 'touch') updateHeroReveal(event)
-            }}
-            onPointerUp={(event) => {
-              if (event.pointerType === 'touch') hideHeroReveal()
-            }}
-            onPointerCancel={hideHeroReveal}
-            onPointerLeave={hideHeroReveal}
           >
             <img className="hero-img hero-main" src={heroImage} alt="" decoding="async" fetchPriority="high" />
             <img className="hero-img hero-alt" src={backgroundImage} alt="" decoding="async" />
@@ -180,7 +243,7 @@ function App() {
             className="photo"
             style={{ position: 'absolute', inset: 0, '--img': 'url("/assets/images/hero.jpg")' }}
           ></div>
-          <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="hero-content">
             <h1>
               <span className="hero-static">Pernahkah kamu</span>{' '}
               <span
@@ -379,6 +442,7 @@ function App() {
         </div>
         <p>Tim: [isi nama tim] — Anggota: [isi nama anggota]<br />Karya lomba Technoversary Vol. II</p>
       </footer>
+      <ButterflyCursor />
     </>
   )
 }
