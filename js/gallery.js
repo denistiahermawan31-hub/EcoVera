@@ -1,276 +1,492 @@
 (() => {
   'use strict';
-  const TOTAL = 20, SP = 560, D = 560;            // jumlah foto, jarak antar pasangan bingkai, jarak kamera ke bingkai pertama
+
   const PHOTOS = [
-  'assets/images/Foto1.jpeg',
-  'assets/images/Foto2.jpeg',
-  'assets/images/Foto3.jpeg',
-  'assets/images/Foto4.jpeg',
-  'assets/images/Foto5.jpeg',
-  'assets/images/Foto6.jpeg',
-  'assets/images/Foto7.jpeg',
-  'assets/images/Foto8.jpeg',
-  'assets/images/Foto9.jpeg',
-  'assets/images/Foto10.jpeg',
-  'assets/images/Foto11.jpeg',
-  'assets/images/Foto12.jpeg',
-  'assets/images/Foto13.jpeg',
-  'assets/images/Foto14.jpeg',
-  'assets/images/Foto15.jpeg',
-  'assets/images/Foto16.jpeg',
-  'assets/images/Foto17.jpeg',
-  'assets/images/Foto18.jpeg',
-  'assets/images/Foto19.jpeg',
-  'assets/images/Foto20.jpeg'
-];
-const IMG = n => PHOTOS[n];
-const ABS = n => new URL(IMG(n), document.baseURI).href;
-  const CAPTIONS = [];                             // opsional: isi judul tiap foto, mis. CAPTIONS[0] = 'Penanaman mangrove'
-  const caption = i => CAPTIONS[i] || `Dokumentasi EcoVera ${i + 1}`;
-  const ASPECTS = [[300, 380], [400, 290], [340, 340], [290, 390], [420, 300]];
-  const AHEAD = 3, BEHIND = 1;                     // jumlah pasangan bingkai yang dimuat lebih dulu di sekitar kamera
+    'assets/images/Foto1.png',
+    'assets/images/Foto2.png',
+    'assets/images/Foto3.png',
+    'assets/images/Foto4.png',
+    'assets/images/Foto6.png',
+    'assets/images/Foto7.png',
+    'assets/images/foto8.png',
+    'assets/images/Foto9.png',
+    'assets/images/Foto10.png',
+    'assets/images/Foto11.png',
+    'assets/images/foto12.jpg',
+    'assets/images/foto13.jpg',
+    'assets/images/foto15.png',
+    'assets/images/foto16.png',
+    'assets/images/foto17.jpg',
+    'assets/images/foto18.jpg',
+    'assets/images/foto19.jpg',
+    'assets/images/foto20.jpg',
+    'assets/images/foto21.jpg',
+    'assets/images/foto22.jpg',
+    'assets/images/foto23.jpg',
+    'assets/images/foto24.jpg',
+  ];
+  const TOTAL = PHOTOS.length;
+  const IMG = (n) => PHOTOS[n];
+  const ABS = (n) => new URL(IMG(n), document.baseURI).href;
 
-  const $ = id => document.getElementById(id);
-  const scene = $('scene'), world = $('world'), lb = $('lightbox'), lbImg = $('lbImg');
-  const countEl = $('count'), capTitle = $('capTitle'), bar = $('bar'), live = $('live');
-  const lbCount = $('lbCount'), lbCap = $('lbCap');
-  const motion = matchMedia('(prefers-reduced-motion:reduce)');
-  const ms = n => (motion.matches ? 1 : n);
-  const pad = n => String(n).padStart(2, '0');
-  const loaded = new Set();
-  let idx = 0, frames = [], W = 1000, H = 560, portrait = false;
-  let open = null, closing = false, pending = false;
+  // Keterangan foto yang tampil di bawah kartu aktif (dan di lightbox).
+  // Ubah teks di sini sesuai foto masing-masing.
+  const CAPTIONS = [
+    { title: 'Botol yang dikumpulkan', place: 'Aksi pemungutan' },
+    { title: 'Sisa yang menjadi tanah', place: 'Pengomposan' },
+    { title: 'Pilah dari sumbernya', place: 'Pemilahan' },
+    { title: 'Sisa sayuran siap dikomposkan', place: 'Pengomposan' },
+    { title: 'Plastik yang dikumpulkan', place: 'Aksi pemungutan' },
+    { title: 'Tumpukan di ujung jalan', place: 'Permukiman' },
+    { title: 'Sungai yang menanggung sisanya', place: 'Hilir' },
+    { title: 'Sampah menunggu dipilah', place: 'Tempat pembuangan' },
+    { title: 'Botol yang masih berguna', place: 'Bank sampah' },
+    { title: 'Bak yang meluap', place: 'Tempat pembuangan' },
+    { title: 'Kertas yang diselamatkan', place: 'Daur ulang' },
+    { title: 'Logam untuk didaur ulang', place: 'Daur ulang' },
+    { title: 'Kompos siap dipakai', place: 'Pengomposan' },
+    { title: 'Plastik di dalam air', place: 'Perairan' },
+    { title: 'Aksi bersama warga', place: 'Komunitas' },
+    { title: 'Kantong kain pengganti plastik', place: 'Penggunaan ulang' },
+    { title: 'Sampah organik terpisah', place: 'Pemilahan' },
+    { title: 'Daur ulang di tangan warga', place: 'Bank sampah' },
+    { title: 'Laut yang dijaga', place: 'Pesisir' },
+    { title: 'Pantai yang bersih kembali', place: 'Pesisir' },
+    { title: 'Edukasi pilah sampah', place: 'Edukasi' },
+    { title: 'Langkah kecil, dampak besar', place: 'EcoVera' },
+  ];
+  const caption = (i) => (CAPTIONS[i] && CAPTIONS[i].title) || 'Dokumentasi EcoVera';
+  const place = (i) => (CAPTIONS[i] && CAPTIONS[i].place) || '';
 
-  const persp = () => { scene.style.perspective = Math.max(innerWidth * (innerWidth < innerHeight ? 1.5 : .9), 800) + 'px'; };
+  const SIDE = 3; // jumlah kartu yang terlihat di tiap sisi
+  const AUTO_MS = 5200;
+  const MANUAL_MS = 7200;
 
-  /* ---------- Pemuatan gambar bertahap (hemat bandwidth & cepat) ---------- */
-  const setImg = i => {
+  const $ = (id) => document.getElementById(id);
+  const scene = $('scene');
+  const world = $('world');
+  const lb = $('lightbox');
+  const lbImg = $('lbImg');
+  const live = $('live');
+  const lbCap = $('lbCap');
+
+  const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = matchMedia('(pointer: fine)');
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  let idx = 0;
+  let cards = [];
+  let loaded = new Set();
+  let open = null;
+  let closing = false;
+  let hover = false;
+  let autoTimer = 0;
+  let drag = null;
+  let resizeTimer = 0;
+
+  /* ---------- Pemuatan gambar bertahap ---------- */
+  function setImg(i) {
     loaded.add(i);
-    if (frames[i]) frames[i].style.setProperty('--img', `url("${ABS(i)}")`);
-  };
+    const img = cards[i] && cards[i].querySelector('img');
+    if (img && !img.src) img.src = ABS(i);
+  }
+
   function hydrate() {
-    const cur = idx >> 1;
-    for (let i = 0; i < TOTAL; i++) {
-      const p = i >> 1;
-      if (!loaded.has(i) && p >= cur - BEHIND && p <= cur + AHEAD) setImg(i);
+    for (let d = -SIDE - 2; d <= SIDE + 2; d++) {
+      const i = (idx + d + TOTAL) % TOTAL;
+      if (!loaded.has(i)) setImg(i);
     }
   }
-  function warm() { // sisanya dimuat pelan-pelan setelah halaman selesai, kecuali mode hemat data
+
+  function warm() {
     if (navigator.connection && navigator.connection.saveData) return;
     let i = 0;
     const step = () => {
       while (i < TOTAL && loaded.has(i)) i++;
       if (i >= TOTAL) return;
-      setImg(i); setTimeout(step, 400);
+      setImg(i);
+      setTimeout(step, 350);
     };
-    setTimeout(step, 1200);
+    setTimeout(step, 1400);
   }
 
-  /* ---------- Membangun lorong ---------- */
+  /* ---------- Membangun tumpukan kartu ---------- */
   function build() {
-    portrait = innerWidth < innerHeight;
-    W = portrait ? 720 : 1000; H = portrait ? 640 : 560;
-    persp();
-    const L = (TOTAL / 2) * SP + D + 600, zc = -L / 2 + 500;
     const frag = document.createDocumentFragment();
-    const plane = (cls, w, h, t, html) => {
-      const p = document.createElement('div');
-      p.className = `plane ${cls}`;
-      Object.assign(p.style, { width: w + 'px', height: h + 'px', marginLeft: -w / 2 + 'px', marginTop: -h / 2 + 'px', transform: t });
-      if (html) p.innerHTML = html;
-      frag.appendChild(p);
-    };
-    plane('wall', L, H, `translate3d(${-W / 2}px,0,${zc}px) rotateY(90deg)`);
-    plane('wall', L, H, `translate3d(${W / 2}px,0,${zc}px) rotateY(-90deg)`);
-    plane('floor', W, L, `translate3d(0,${H / 2}px,${zc}px) rotateX(90deg)`);
-    plane('ceil', W, L, `translate3d(0,${-H / 2}px,${zc}px) rotateX(-90deg)`);
-    plane('end', W, H, `translate3d(0,0,${zc - L / 2}px)`,
-      '<div class="end-msg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19c2-5 5-8 9-10"/></svg><b>EcoVera</b><span>Jaga bumi, mulai dari langkah kecil.</span></div>');
-
     const list = [];
+
     for (let i = 0; i < TOTAL; i++) {
-      const side = i % 2, pair = i >> 1, [fw, fh] = ASPECTS[i % ASPECTS.length];
-      const f = document.createElement('div');
-      f.className = 'frame';
-      f.tabIndex = -1; f.setAttribute('role', 'button');
-      f.setAttribute('aria-label', `Perbesar foto ${i + 1}: ${caption(i)}`);
-      // warna cadangan hijau alami selagi foto dimuat / bila file belum ada
-      f.style.setProperty('--fallback', `linear-gradient(${140 + i * 9}deg,hsl(${90 + (i * 7) % 60} 40% ${34 + (i % 4) * 4}%),hsl(${75 + (i * 5) % 50} 55% 72%))`);
-      if (loaded.has(i)) f.style.setProperty('--img', `url("${ABS(i)}")`);
-      const x = side ? W / 2 - 2 : -W / 2 + 2, z = -(pair * SP) - D;
-      Object.assign(f.style, {
-        width: fw + 'px', height: fh + 'px', marginLeft: -fw / 2 + 'px', marginTop: -fh / 2 - 20 + 'px',
-        transform: `translate3d(${x}px,0,${z}px) rotateY(${side ? -90 : 90}deg)`
-      });
-      f.dataset.i = i;
-      frag.appendChild(f); list.push(f);
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'stack-card';
+      card.dataset.i = String(i);
+      card.setAttribute('aria-label', `Perbesar foto ${i + 1}: ${caption(i)}`);
+
+      const media = document.createElement('span');
+      media.className = 'card-media';
+      const img = document.createElement('img');
+      img.alt = caption(i);
+      img.decoding = 'async';
+      img.loading = 'lazy';
+      img.draggable = false;
+      media.append(img);
+
+      const shade = document.createElement('span');
+      shade.className = 'card-shade';
+      shade.setAttribute('aria-hidden', 'true');
+
+      const meta = document.createElement('span');
+      meta.className = 'card-meta';
+      meta.setAttribute('aria-hidden', 'true');
+      const title = document.createElement('span');
+      title.className = 'card-title';
+      title.textContent = caption(i);
+      const sub = document.createElement('span');
+      sub.className = 'card-place';
+      sub.textContent = place(i);
+      meta.append(title, sub);
+
+      card.append(media, shade, meta);
+      frag.append(card);
+      list.push(card);
     }
+
     world.textContent = '';
-    world.appendChild(frag);
-    frames = list;
-    go(idx, true);
+    world.append(frag);
+    cards = list;
+    render();
   }
 
-  /* ---------- Kamera ---------- */
-  function sync() {
-    frames.forEach((f, i) => {
-      f.classList.toggle('active', i === idx);
-      f.tabIndex = (i >> 1) === (idx >> 1) ? 0 : -1;   // hanya 2 bingkai terdekat yang bisa difokus keyboard
-      if (i === idx) f.setAttribute('aria-current', 'true'); else f.removeAttribute('aria-current');
+  /* ---------- Tata letak + status ---------- */
+  function render() {
+    const w = innerWidth;
+    const cardW = (cards[0] && cards[0].offsetWidth) || 360;
+    const small = w < 700;
+    const step = cardW * (small ? 0.36 : 0.42);
+    const depth = small ? 80 : 140;
+
+    cards.forEach((card, i) => {
+      let d = i - idx;
+      if (d > TOTAL / 2) d -= TOTAL;
+      if (d < -TOTAL / 2) d += TOTAL;
+      const abs = Math.abs(d);
+      const show = abs <= SIDE;
+      const active = d === 0;
+
+      card.classList.toggle('is-visible', show);
+      card.classList.toggle('is-hidden', !show);
+      card.classList.toggle('is-active', active);
+      card.tabIndex = active ? 0 : -1;
+
+      if (active) card.setAttribute('aria-current', 'true');
+      else card.removeAttribute('aria-current');
+
+      if (!show) return;
+
+      card.style.setProperty('--x', `${(d * step).toFixed(1)}px`);
+      card.style.setProperty('--y', `${(abs * (small ? 6 : 10)).toFixed(1)}px`);
+      card.style.setProperty('--z', `${(-abs * depth).toFixed(1)}px`);
+      card.style.setProperty('--ry', `${(-d * 9).toFixed(1)}deg`);
+      card.style.setProperty('--s', (1 - abs * 0.075).toFixed(3));
+      card.style.setProperty('--o', active ? '1' : Math.max(0, 1 - abs * 0.24).toFixed(3));
+      card.style.setProperty('--b', `${(abs <= 1 ? 0 : (abs - 1) * 1.5).toFixed(2)}px`);
+      card.style.setProperty('--br', (1 - abs * 0.05).toFixed(3));
+      card.style.zIndex = String(30 - abs);
     });
-    countEl.textContent = `${pad(idx + 1)} / ${TOTAL}`;
-    bar.style.transform = `scaleX(${(idx + 1) / TOTAL})`;
-    capTitle.textContent = caption(idx);
+
     live.textContent = `Foto ${idx + 1} dari ${TOTAL}: ${caption(idx)}`;
+
+    hydrate();
   }
 
-  // Kamera maju ke pasangan bingkai berikutnya dan sedikit menoleh ke bingkai yang dituju.
-  function go(n, instant) {
-    const prevPair = idx >> 1;
+  function go(n, manual) {
     idx = (n + TOTAL) % TOTAL;
-    const pair = idx >> 1, z = pair * SP, rot = idx % 2 ? 9 : -9;
-    const dur = instant || motion.matches ? 0 : Math.min(1.8, .8 + Math.abs(pair - prevPair) * .15);
-    world.style.transitionDuration = dur + 's';
-    world.style.transform = `rotateY(${rot}deg) translate3d(0,0,${z}px)`;
-    if (!instant) document.body.classList.add('used');
-    hydrate(); sync();
+    render();
+    if (manual) scheduleAuto(MANUAL_MS);
   }
 
-  /* ---------- Pratinjau foto (lightbox) ---------- */
+  /* ---------- Autoplay ---------- */
+  function scheduleAuto(delay = AUTO_MS) {
+    clearTimeout(autoTimer);
+    if (motion.matches || open || hover || document.visibilityState !== 'visible') return;
+    autoTimer = setTimeout(() => {
+      if (!open && !hover) go(idx + 1);
+      scheduleAuto();
+    }, delay);
+  }
+
+  /* ---------- Pratinjau foto ---------- */
   const pose = (a, b, side) =>
     `translate(${a.left + a.width / 2 - (b.left + b.width / 2)}px,${a.top + a.height / 2 - (b.top + b.height / 2)}px) ` +
-    `scale(${a.width / b.width},${a.height / b.height}) rotateY(${side ? -80 : 80}deg)`;
-  const lockUI = on => document.querySelectorAll('#scene,.ui').forEach(el => { el.inert = on; });
-  const decode = async () => { try { await lbImg.decode(); } catch (_) { /* gambar gagal dimuat */ } };
+    `scale(${a.width / b.width},${a.height / b.height}) rotateY(${side ? -10 : 10}deg)`;
+
+  const lockUI = (on) => {
+    document.querySelectorAll('#scene,.ui,nav.top').forEach((el) => {
+      el.inert = on;
+    });
+  };
+
+  const decode = async () => {
+    try {
+      await lbImg.decode();
+    } catch {
+      /* gambar gagal dimuat, biarkan bingkai kosong */
+    }
+  };
 
   function setLb(i) {
     lbImg.classList.remove('broken');
     lbImg.alt = caption(i);
     lbImg.src = IMG(i);
-    lbCount.textContent = `${pad(i + 1)} / ${TOTAL}`;
-    lbCap.textContent = caption(i);
+    lbCap.textContent = place(i) ? `${caption(i)} · ${place(i)}` : caption(i);
   }
+
   lbImg.addEventListener('error', () => lbImg.classList.add('broken'));
 
-  async function openFrame(f) {
+  async function openFrame(card) {
     if (open || closing) return;
-    const i = +f.dataset.i;
-    open = { f, i };
+    const i = Number(card.dataset.i);
+    open = { card, i };
+    clearTimeout(autoTimer);
     lockUI(true);
     setLb(i);
-    lb.classList.add('on'); lb.setAttribute('aria-hidden', 'false');
+    lb.classList.add('on');
+    lb.setAttribute('aria-hidden', 'false');
     $('close').focus({ preventScroll: true });
     lbImg.style.opacity = '0';
     await decode();
     if (!open || open.i !== i) return;
-    const from = f.getBoundingClientRect(), to = lbImg.getBoundingClientRect();
-    f.classList.add('hidden');
+    const from = card.getBoundingClientRect();
+    const to = lbImg.getBoundingClientRect();
+    card.classList.add('hidden');
     lbImg.style.opacity = '';
     lbImg.animate(
-      [{ transform: pose(from, to, i % 2), opacity: .5 }, { transform: 'none', opacity: 1 }],
-      { duration: ms(750), easing: 'cubic-bezier(.2,.9,.25,1)', fill: 'both' });
+      [
+        { transform: pose(from, to, i % 2), opacity: 0.55 },
+        { transform: 'none', opacity: 1 },
+      ],
+      { duration: motion.matches ? 1 : 750, easing: 'cubic-bezier(.2,.9,.25,1)', fill: 'both' },
+    );
   }
 
   async function lbGo(d) {
     if (!open) return;
     const n = (open.i + d + TOTAL) % TOTAL;
-    open.f.classList.remove('hidden');
-    go(n, true);                                  // kamera pindah seketika agar animasi tutup tetap akurat
-    open.f = frames[n]; open.i = n;
-    frames[n].classList.add('hidden');
+    open.card.classList.remove('hidden');
+    go(n, true);
+    open.card = cards[n];
+    open.i = n;
+    cards[n].classList.add('hidden');
     lbImg.style.opacity = '0';
     setLb(n);
     await decode();
     if (!open || open.i !== n) return;
     lbImg.style.opacity = '';
-    lbImg.animate([{ opacity: 0, transform: `translateX(${d * 40}px)` }, { opacity: 1, transform: 'none' }],
-      { duration: ms(260), easing: 'ease-out', fill: 'both' });
-    new Image().src = IMG((n + 1) % TOTAL);       // siapkan foto berikutnya
+    lbImg.animate(
+      [
+        { opacity: 0, transform: `translateX(${d * 40}px)` },
+        { opacity: 1, transform: 'none' },
+      ],
+      { duration: motion.matches ? 1 : 280, easing: 'ease-out', fill: 'both' },
+    );
+    new Image().src = IMG((n + 1) % TOTAL);
   }
 
   function closeFrame() {
     if (!open) return;
-    const { f, i } = open; open = null; closing = true;
+    const { card, i } = open;
+    open = null;
+    closing = true;
     lockUI(false);
-    lb.classList.remove('on'); lb.setAttribute('aria-hidden', 'true');
-    const from = lbImg.getBoundingClientRect(), to = f.getBoundingClientRect();
-    const a = lbImg.animate(
-      [{ transform: 'none', opacity: 1 }, { transform: pose(to, from, i % 2), opacity: .5 }],
-      { duration: ms(560), easing: 'cubic-bezier(.6,0,.3,1)', fill: 'both' });
-    a.onfinish = () => {
-      f.classList.remove('hidden'); closing = false;
-      f.focus({ preventScroll: true });
-      if (pending) { pending = false; build(); }
+    lb.classList.remove('on');
+    lb.setAttribute('aria-hidden', 'true');
+    const from = lbImg.getBoundingClientRect();
+    const to = card.getBoundingClientRect();
+    const anim = lbImg.animate(
+      [
+        { transform: 'none', opacity: 1 },
+        { transform: pose(to, from, i % 2), opacity: 0.55 },
+      ],
+      { duration: motion.matches ? 1 : 560, easing: 'cubic-bezier(.6,0,.3,1)', fill: 'both' },
+    );
+    anim.onfinish = () => {
+      card.classList.remove('hidden');
+      closing = false;
+      card.focus({ preventScroll: true });
+      scheduleAuto(2600);
     };
   }
 
-  /* ---------- Gestur: geser / scroll / tombol / keyboard ---------- */
-  function onSwipe(el, cb, vertical) {
-    let x0 = 0, y0 = 0, on = false;
-    el.addEventListener('pointerdown', e => { x0 = e.clientX; y0 = e.clientY; on = true; });
-    el.addEventListener('pointercancel', () => { on = false; });
-    el.addEventListener('pointerup', e => {
-      if (!on) return; on = false;
-      const dx = e.clientX - x0, dy = e.clientY - y0;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2) { el._swiped = true; cb(dx < 0 ? 1 : -1); }
-      else if (vertical && Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx) * 1.2) { el._swiped = true; cb(dy < 0 ? 1 : -1); }
+  /* ---------- Gestur: geser, scroll, klik, keyboard ---------- */
+  const onSwipe = (el, cb) => {
+    let x0 = 0;
+    let y0 = 0;
+    let on = false;
+    el.addEventListener('pointerdown', (e) => {
+      x0 = e.clientX;
+      y0 = e.clientY;
+      on = true;
     });
-  }
-  const eatSwipe = el => { const s = el._swiped; el._swiped = false; return s; };
+    el.addEventListener('pointercancel', () => {
+      on = false;
+    });
+    el.addEventListener('pointerup', (e) => {
+      if (!on) return;
+      on = false;
+      const dx = e.clientX - x0;
+      const dy = e.clientY - y0;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        el._swiped = true;
+        cb(dx < 0 ? 1 : -1);
+      }
+    });
+  };
 
-  onSwipe(scene, d => go(idx + d), true);
-  onSwipe(lb, d => lbGo(d), false);
+  const eatSwipe = (el) => {
+    const s = el._swiped;
+    el._swiped = false;
+    return s;
+  };
 
-  scene.addEventListener('click', e => {
+  /* Tarik untuk memiringkan, lepas untuk pindah kartu */
+  scene.addEventListener('pointerdown', (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    drag = { x: e.clientX, y: e.clientY, moved: false };
+    clearTimeout(autoTimer);
+    world.classList.add('is-dragging');
+  });
+
+  const endDrag = (e) => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    const dy = e.clientY - drag.y;
+    const moved = Math.abs(dx) > 8 || Math.abs(dy) > 8;
+    drag = null;
+    world.classList.remove('is-dragging');
+    world.style.transform = '';
+    if (moved) {
+      scene._swiped = true;
+      if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) go(idx + (dx < 0 ? 1 : -1), true);
+      else if (Math.abs(dy) > 70) go(idx + (dy < 0 ? 1 : -1), true);
+    }
+    scheduleAuto(MANUAL_MS);
+  };
+
+  addEventListener('pointermove', (e) => {
+    if (drag) {
+      const dx = e.clientX - drag.x;
+      const dy = e.clientY - drag.y;
+      if (!drag.moved && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) drag.moved = true;
+      if (!motion.matches) {
+        world.style.transform = `rotateY(${clamp(dx / 26, -10, 10).toFixed(2)}deg) rotateX(${clamp(-dy / 70, -5, 5).toFixed(2)}deg)`;
+      }
+      return;
+    }
+    if (!hover || !fine.matches || motion.matches) return;
+    const rx = ((e.clientY / innerHeight) - 0.5) * -4;
+    const ry = ((e.clientX / innerWidth) - 0.5) * 7;
+    world.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+  });
+
+  addEventListener('pointerup', endDrag);
+  addEventListener('pointercancel', endDrag);
+
+  scene.addEventListener('pointerenter', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    hover = true;
+    clearTimeout(autoTimer);
+  });
+
+  scene.addEventListener('pointerleave', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    hover = false;
+    if (!drag) world.style.transform = '';
+    scheduleAuto(1800);
+  });
+
+  scene.addEventListener('click', (e) => {
     if (eatSwipe(scene)) return;
-    const f = e.target.closest('.frame');
-    if (f) openFrame(f);
+    const card = e.target.closest('.stack-card');
+    if (!card) return;
+    const i = Number(card.dataset.i);
+    if (i !== idx) {
+      go(i, true);
+      return;
+    }
+    openFrame(card);
   });
-  lb.addEventListener('click', e => {
-    if (eatSwipe(lb)) return;
-    if (e.target === lb) closeFrame();
+
+  world.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('stack-card')) {
+      e.preventDefault();
+      if (Number(e.target.dataset.i) === idx) openFrame(e.target);
+    }
   });
-  world.addEventListener('keydown', e => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('frame')) { e.preventDefault(); openFrame(e.target); }
-  });
-  world.addEventListener('focusin', e => {         // fokus keyboard ke sebuah bingkai ikut menggerakkan kamera
+
+  world.addEventListener('focusin', (e) => {
     const i = e.target.dataset && e.target.dataset.i;
-    if (i !== undefined && +i !== idx && !open) go(+i);
+    if (i !== undefined && Number(i) !== idx && !open) go(Number(i), true);
   });
 
   let wheelAt = 0;
-  scene.addEventListener('wheel', e => {
-    const d = e.deltaY || e.deltaX, t = performance.now();
-    if (Math.abs(d) < 20 || t - wheelAt < 650) return;
-    wheelAt = t; go(idx + (d > 0 ? 1 : -1));
-  }, { passive: true });
+  scene.addEventListener(
+    'wheel',
+    (e) => {
+      const raw = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      const now = performance.now();
+      if (Math.abs(raw) < 16 || now - wheelAt < 520) return;
+      wheelAt = now;
+      go(idx + (raw > 0 ? 1 : -1), true);
+    },
+    { passive: true },
+  );
 
-  $('next').onclick = () => go(idx + 1);
-  $('prev').onclick = () => go(idx - 1);
+  $('next').onclick = () => go(idx + 1, true);
+  $('prev').onclick = () => go(idx - 1, true);
   $('lbNext').onclick = () => lbGo(1);
   $('lbPrev').onclick = () => lbGo(-1);
   $('close').onclick = closeFrame;
 
-  addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeFrame(); return; }
+  onSwipe(lb, (d) => lbGo(d));
+
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeFrame();
+      return;
+    }
     const next = e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'PageDown';
     const prev = e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'PageUp';
-    if (next || prev) { e.preventDefault(); open ? lbGo(next ? 1 : -1) : go(idx + (next ? 1 : -1)); }
-    else if (!open && e.key === 'Home') { e.preventDefault(); go(0); }
-    else if (!open && e.key === 'End') { e.preventDefault(); go(TOTAL - 1); }
+    if (next || prev) {
+      e.preventDefault();
+      if (open) lbGo(next ? 1 : -1);
+      else go(idx + (next ? 1 : -1), true);
+    } else if (!open && e.key === 'Home') {
+      e.preventDefault();
+      go(0, true);
+    } else if (!open && e.key === 'End') {
+      e.preventDefault();
+      go(TOTAL - 1, true);
+    }
   });
 
-  /* ---------- Resize: bangun ulang hanya saat orientasi berubah ---------- */
-  let rt;
+  /* ---------- Resize & visibilitas ---------- */
   addEventListener('resize', () => {
-    persp();
-    clearTimeout(rt);
-    rt = setTimeout(() => {
-      if ((innerWidth < innerHeight) === portrait) return;
-      if (open || closing) pending = true; else build();
-    }, 200);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 140);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') scheduleAuto(2200);
+    else clearTimeout(autoTimer);
+  });
+
+  motion.addEventListener?.('change', () => {
+    world.style.transform = '';
+    if (motion.matches) clearTimeout(autoTimer);
+    else scheduleAuto();
   });
 
   build();
+  scheduleAuto(4200);
   addEventListener('load', warm);
 })();

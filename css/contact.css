@@ -6,11 +6,6 @@
   --b: 'DM Sans', system-ui, sans-serif;
 }
 
-/* Footer disembunyikan di halaman kontak */
-footer {
-  display: none;
-}
-
 /* Navbar di atas latar putih: teks gelap, putih saat solid */
 nav.top.on-light {
   color: var(--char);

@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1d3327">
-<meta name="description" content="Galeri foto EcoVera: jelajahi dokumentasi aksi peduli lingkungan lewat lorong galeri 3D.">
+<meta name="theme-color" content="#071e14">
+<meta name="description" content="Galeri foto EcoVera: jelajahi dokumentasi aksi peduli lingkungan lewat tumpukan foto 3D.">
 <title>Galeri | EcoVera</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
   rel="stylesheet"
 />
-<link rel="preload" as="image" href="assets/images/Foto1.jpeg">
-<link rel="preload" as="image" href="assets/images/Foto2.jpeg">
+<link rel="preload" as="image" href="assets/images/Foto1.png">
+<link rel="preload" as="image" href="assets/images/Foto2.png">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/gallery.css">
 </head>
@@ -24,28 +24,14 @@
   <p class="nojs">Galeri membutuhkan JavaScript. <a href="index.html">Kembali ke beranda</a></p>
 </noscript> -->
 
-<div class="ui pill count" id="count" aria-hidden="true">01 / 20</div>
-
-<div class="ui dock">
-  <div class="caption">
-    <strong id="capTitle"></strong>
-    <small id="hint">
-      <span class="h-fine">Gunakan panah keyboard atau tombol untuk berjalan &middot; klik foto untuk memperbesar</span>
-      <span class="h-touch">Geser untuk berjalan &middot; ketuk foto untuk memperbesar</span>
-    </small>
-  </div>
-  <div class="nav">
-    <button id="prev" class="btn" type="button" aria-label="Foto sebelumnya" title="Foto sebelumnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <div class="track" aria-hidden="true"><i id="bar"></i></div>
-    <button id="next" class="btn" type="button" aria-label="Foto berikutnya" title="Foto berikutnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-  </div>
-</div>
-
 <p id="live" class="sr" role="status" aria-live="polite"></p>
+
+<button id="prev" class="ui btn edge edge-prev" type="button" aria-label="Foto sebelumnya" title="Foto sebelumnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+<button id="next" class="ui btn edge edge-next" type="button" aria-label="Foto berikutnya" title="Foto berikutnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
 
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto" aria-hidden="true">
   <img id="lbImg" alt="" decoding="async">
-  <div class="lbbar" aria-live="polite"><span id="lbCount"></span><span id="lbCap"></span></div>
+  <div class="lbbar" aria-live="polite"><span id="lbCap"></span></div>
   <button id="lbPrev" class="btn lbnav lbprev" type="button" aria-label="Foto sebelumnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   <button id="lbNext" class="btn lbnav lbnext" type="button" aria-label="Foto berikutnya"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <button id="close" class="btn" type="button" aria-label="Tutup pratinjau"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>

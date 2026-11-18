@@ -8,9 +8,6 @@
   const hasST = hasGsap && typeof window.ScrollTrigger !== "undefined";
   const animate = hasGsap && !reduce;
 
-  const nav = document.querySelector("nav.top");
-  if (nav) nav.classList.add("on-light");
-
   const form = document.querySelector(".contact-form");
   if (!form) return;
 

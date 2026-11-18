@@ -36,15 +36,24 @@ document.body.insertAdjacentHTML(
   </nav>`
 );
 
-// Injeksi Footer
+// Injeksi Footer — sama seperti footer homepage
 document.body.insertAdjacentHTML(
   "beforeend",
-  `<footer>
-    <div>
-      <a class="logo" href="index.html">EcoVera</a>
-      <p>Portal edukasi dan galeri dokumentasi lingkungan tentang sampah.</p>
+  `<footer class="home-footer">
+    <div class="footer-top">
+      <div>
+        <a class="footer-logo" href="index.html">EcoVera</a>
+        <p>Portal edukasi dan galeri dokumentasi lingkungan tentang sampah.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Navigasi footer">
+        ${pages.map((p) => `<a href="${p[0]}">${p[1]}</a>`).join("")}
+      </nav>
+      <a class="footer-contact" href="contact.html">Hubungi kami <span aria-hidden="true">↗</span></a>
     </div>
-    <p>Tim: [isi nama tim] — Anggota: [isi nama anggota]<br>Karya lomba Technoversary Vol. II</p>
+    <div class="footer-bottom">
+      <p>Tim: Strawberry Flavour</p>
+      <p>Karya lomba Technoversary Vol. II</p>
+    </div>
   </footer>`
 );
 

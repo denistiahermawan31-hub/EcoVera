@@ -1,121 +1,487 @@
-:root{
-  --forest:#1d3327;--leaf:#287C59;--lime:#D7EB83;--cream:#fffff6;--ink:#29332B;
-  --bark:#6b4f36;--bark-d:#4a3523;--frame:#4a3523;--glass:rgba(29,51,39,.86);
-  --ease:cubic-bezier(.65,0,.25,1);
-  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+:root {
+  --forest: #071e14;
+  --forest-2: #0c2a1d;
+  --forest-3: #123b29;
+  --bone: #f1efe4;
+  --sage: #9fb5a7;
+  --acid: #d0f56f;
+  --line: rgba(241, 239, 228, 0.16);
+  --glass: rgba(7, 30, 20, 0.72);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
-*{box-sizing:border-box;margin:0}
-html,body{height:100%;overflow:hidden;background:var(--forest);overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
-svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ---------- Lorong 3D: rumah kaca / taman ---------- */
-#scene{position:fixed;inset:0;overflow:hidden;touch-action:none;user-select:none;
-  background:radial-gradient(ellipse at 50% 42%,#f7f6dc,#bcd6a8 55%,#7fae8a)}
-#scene::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse at 50% 50%,transparent 50%,rgba(18,38,28,.38))}
-#world{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;
-  transition:transform 1.2s var(--ease);will-change:transform}
-.plane{position:absolute;backface-visibility:hidden}
-.wall{background:
-  linear-gradient(to top,var(--bark) 0 12%,var(--bark-d) 12% 13%,transparent 13%),
-  linear-gradient(#e6f0d6,#cadcb6)}
-.floor{background:
-  repeating-linear-gradient(90deg,transparent 0 119px,rgba(74,53,35,.18) 119px 120px),
-  repeating-linear-gradient(0deg,transparent 0 599px,rgba(74,53,35,.14) 599px 600px),
-  linear-gradient(#e8d9b5,#d7c398)}
-.ceil{background:
-  repeating-linear-gradient(90deg,var(--forest) 0 6px,transparent 6px 250px),
-  repeating-linear-gradient(0deg,var(--forest) 0 6px,transparent 6px 560px),
-  linear-gradient(#f4ffe6,#cfe9d6)}
-.end{background:radial-gradient(circle at 50% 60%,#fff7c9,#bfe0a4 45%,#4f9a6c);
-  display:grid;place-items:center;color:var(--forest);text-align:center}
-.end-msg{display:flex;flex-direction:column;align-items:center;gap:14px}
-.end-msg svg{width:110px;height:110px;stroke-width:1.4}
-.end-msg b{font-size:72px;line-height:1}
-.end-msg span{font-size:30px}
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
 
-.frame{position:absolute;border:clamp(5px,.9vw,10px) solid var(--frame);
-  background:var(--img,none) center/cover no-repeat,var(--fallback);
-  box-shadow:inset 0 0 0 clamp(3px,.5vw,6px) #f6f1de,0 10px 18px rgba(30,45,25,.35);
-  cursor:zoom-in;transition:border-color .3s}
-.frame:hover{border-color:var(--leaf)}
-.frame.active{border-color:var(--lime)}
-.frame.hidden{visibility:hidden}
-.frame:focus-visible{outline:3px solid #fff;outline-offset:4px}
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--forest);
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.gallery-page {
+  color: var(--bone);
+}
+
+svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Panggung 3D ---------- */
+#scene {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  background:
+    radial-gradient(52% 46% at 50% 42%, rgba(208, 245, 111, 0.08) 0%, transparent 70%),
+    radial-gradient(70% 65% at 92% 0%, rgba(23, 58, 40, 0.9) 0%, transparent 62%),
+    radial-gradient(80% 70% at 8% 100%, rgba(12, 42, 29, 0.9) 0%, transparent 68%),
+    var(--forest);
+}
+
+#scene::before,
+#scene::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(208, 245, 111, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#scene::before {
+  width: min(78vw, 900px);
+  aspect-ratio: 1;
+  top: -32%;
+  right: -18%;
+}
+
+#scene::after {
+  width: min(48vw, 560px);
+  aspect-ratio: 1;
+  bottom: -24%;
+  left: -12%;
+  border-color: rgba(208, 245, 111, 0.07);
+}
+
+#world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+#world.is-dragging {
+  transition: none;
+}
+
+/* ---------- Kartu bertumpuk ---------- */
+.stack-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(clamp(240px, 32vw, 430px), 52vh);
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  opacity: var(--o, 0);
+  filter: blur(var(--b, 0px)) brightness(var(--br, 1));
+  transform:
+    translate(-50%, -50%)
+    translate3d(var(--x, 0px), var(--y, 0px), var(--z, 0px))
+    rotateY(var(--ry, 0deg))
+    scale(var(--s, 1));
+  transform-style: preserve-3d;
+  transition:
+    transform 1s var(--ease),
+    opacity 0.8s ease,
+    filter 0.8s ease;
+  will-change: transform, opacity, filter;
+  z-index: 1;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.stack-card.is-visible {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.stack-card.is-active {
+  cursor: zoom-in;
+  z-index: 30;
+}
+
+.stack-card:not(.is-active) {
+  cursor: pointer;
+}
+
+.stack-card.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.stack-card:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 8px;
+}
+
+.card-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 1.4rem;
+  background: var(--forest-3);
+  box-shadow:
+    inset 0 0 0 1px rgba(241, 239, 228, 0.12),
+    0 34px 70px -28px rgba(0, 0, 0, 0.85);
+  transition: box-shadow 0.5s ease;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.86) contrast(1.04);
+  transform: scale(1.045);
+  transition: transform 1.1s var(--ease), filter 0.6s ease;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.stack-card.is-active .card-media {
+  box-shadow:
+    inset 0 0 0 1px rgba(208, 245, 111, 0.55),
+    0 0 0 1px rgba(208, 245, 111, 0.18),
+    0 44px 90px -34px rgba(0, 0, 0, 0.9);
+}
+
+.stack-card.is-active:hover .card-media img {
+  transform: scale(1);
+  filter: saturate(1) contrast(1.02);
+}
+
+/* Cahaya lembut di belakang kartu aktif */
+.stack-card::before {
+  content: "";
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(208, 245, 111, 0.16), transparent 70%);
+  opacity: 0;
+  transform: translateZ(-40px);
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.stack-card.is-active::before {
+  opacity: 1;
+}
+
+.card-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.4rem;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 52%, rgba(7, 30, 20, 0.78));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.stack-card.is-active .card-shade {
+  opacity: 1;
+}
+
+.card-meta {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 1.4rem 1.3rem;
+  border-radius: 0 0 1.4rem 1.4rem;
+  color: var(--bone);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s var(--ease);
+  pointer-events: none;
+}
+
+.stack-card.is-active .card-meta {
+  opacity: 1;
+  transform: none;
+}
+
+.card-title {
+  font: 700 clamp(0.86rem, 1vw, 1rem) / 1.3 var(--h);
+  letter-spacing: -0.01em;
+}
+
+.card-place {
+  font: 600 0.72rem / 1.3 var(--b);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acid);
+}
 
 /* ---------- Antarmuka ---------- */
-.ui{position:fixed;z-index:5}
-.pill{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 18px;border-radius:999px;
-  background:rgba(255,255,246,.9);color:var(--ink);font-size:14px;font-weight:600;text-decoration:none;
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .25s,transform .25s}
-.pill svg{width:20px;height:20px}
-.home{top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));padding-left:14px}
-.home:hover{background:var(--lime);transform:scale(1.04)}
-.count{top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));font-variant-numeric:tabular-nums}
+.ui {
+  position: fixed;
+  z-index: 5;
+}
 
-.btn{width:48px;height:48px;flex:none;border-radius:50%;display:grid;place-items:center;border:0;
-  background:var(--cream);color:var(--ink);cursor:pointer;transition:background .25s,transform .2s}
-.btn svg{width:22px;height:22px}
-.btn:hover{background:var(--lime);transform:scale(1.08)}
-.btn:active{transform:scale(.94)}
-:focus-visible{outline:3px solid #fff;box-shadow:0 0 0 6px var(--leaf)}
-.frame:focus-visible{box-shadow:none}
+.btn {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  aspect-ratio: 1;
+  padding: 0;
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bone);
+  color: var(--forest);
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.25s, transform 0.2s;
+}
 
-.dock{left:50%;transform:translateX(-50%);bottom:max(18px,env(safe-area-inset-bottom));
-  width:min(92vw,420px);display:flex;flex-direction:column;gap:10px}
-.caption{background:var(--glass);color:var(--cream);border-radius:16px;padding:10px 16px;text-align:center;
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.caption strong{display:block;font-size:15px;font-weight:600}
-.caption small{display:block;margin-top:2px;font-size:12px;opacity:.85;transition:opacity .6s}
-.used #hint{opacity:0}
-.h-touch{display:none}
-@media (pointer:coarse){.h-fine{display:none}.h-touch{display:inline}}
-.nav{display:flex;align-items:center;gap:12px;padding:6px;border-radius:999px;background:var(--glass)}
-.track{flex:1;height:6px;border-radius:6px;background:rgba(255,255,246,.28);overflow:hidden}
-#bar{display:block;height:100%;width:100%;border-radius:6px;transform-origin:left;transform:scaleX(.05);
-  background:linear-gradient(90deg,var(--lime),#7fcf9a);transition:transform .6s var(--ease)}
+.btn svg {
+  width: 22px;
+  height: 22px;
+}
 
-.nojs{position:fixed;inset:0;z-index:30;display:grid;place-content:center;gap:8px;text-align:center;
-  background:var(--forest);color:var(--cream);padding:24px}
-.nojs a{color:var(--lime)}
+.btn:hover {
+  background: var(--acid);
+  transform: scale(1.06);
+}
+
+.btn:active {
+  transform: scale(0.94);
+}
+
+:focus-visible {
+  outline: 3px solid var(--acid);
+  outline-offset: 3px;
+}
+
+/* Kontrol panah di tepi kiri & kanan */
+.edge {
+  top: 50%;
+  margin-top: -23px;
+}
+
+.edge-prev {
+  left: max(18px, env(safe-area-inset-left));
+}
+
+.edge-next {
+  right: max(18px, env(safe-area-inset-right));
+}
+
+.btn.edge {
+  border: 1px solid rgba(241, 239, 228, 0.16);
+  background: rgba(241, 239, 228, 0.07);
+  color: var(--bone);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  box-shadow: 0 14px 34px -14px rgba(0, 0, 0, 0.7);
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s,
+    transform 0.2s;
+}
+
+.btn.edge:hover,
+.btn.edge:focus-visible {
+  border-color: rgba(208, 245, 111, 0.45);
+  background: rgba(208, 245, 111, 0.16);
+  color: var(--acid);
+}
 
 /* ---------- Pratinjau foto ---------- */
-#lightbox{position:fixed;inset:0;z-index:20;display:grid;place-items:center;perspective:1400px;
-  background:rgba(14,28,20,0);visibility:hidden;transition:background .45s,visibility 0s .6s;touch-action:pan-y}
-#lightbox.on{visibility:visible;background:rgba(14,28,20,.92);transition:background .45s,visibility 0s}
-#lbImg{max-width:min(92vw,1200px);max-height:calc(100vh - 180px);max-height:calc(100dvh - 180px);
-  width:auto;height:auto;object-fit:contain;background:#e9efdc;border:clamp(5px,.9vw,10px) solid var(--frame);
-  border-radius:4px;box-shadow:0 24px 60px rgba(0,0,0,.55);transform-origin:center;user-select:none;-webkit-user-drag:none}
-#lbImg.broken{width:min(80vw,640px);height:50vh;background:linear-gradient(135deg,#3f7d5a,#cfe0a0)}
-.lbbar{position:fixed;left:50%;transform:translateX(-50%);bottom:max(18px,env(safe-area-inset-bottom));
-  display:flex;gap:10px;align-items:center;max-width:calc(100vw - 150px);padding:12px 18px;border-radius:16px;
-  background:var(--glass);color:var(--cream);font-size:14px}
-#lbCount{color:var(--lime);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-#lbCap{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#close{position:fixed;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));z-index:25}
-.lbnav{position:fixed;top:50%;margin-top:-24px;z-index:25}
-.lbprev{left:max(14px,env(safe-area-inset-left))}
-.lbnext{right:max(14px,env(safe-area-inset-right))}
-
-@media (max-width:600px){
-  .lbnav{top:auto;margin-top:0;bottom:max(18px,env(safe-area-inset-bottom))}
-  .end-msg b{font-size:60px}
-}
-@media (max-width:480px){
-  .home{width:48px;padding:0;justify-content:center}
-  .home span{display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  #world,#bar,.caption small,.frame{transition:none}
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  perspective: 1600px;
+  background: rgba(5, 22, 15, 0);
+  visibility: hidden;
+  transition: background 0.45s, visibility 0s 0.6s;
+  touch-action: pan-y;
 }
 
-/* Sembunyikan footer default script.js khusus di halaman lorong 3D gallery */
+#lightbox.on {
+  visibility: visible;
+  background: rgba(5, 22, 15, 0.94);
+  transition: background 0.45s, visibility 0s;
+}
+
+#lbImg {
+  max-width: min(92vw, 1200px);
+  max-height: calc(100vh - 180px);
+  max-height: calc(100dvh - 180px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid rgba(208, 245, 111, 0.35);
+  border-radius: 0.6rem;
+  background: var(--forest-3);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#lbImg.broken {
+  width: min(80vw, 640px);
+  height: 50vh;
+  background: linear-gradient(135deg, var(--forest-3), var(--forest-2));
+}
+
+.lbbar {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 150px);
+  padding: 11px 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--glass);
+  color: var(--bone);
+  font-size: 0.82rem;
+  transform: translateX(-50%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+#lbCap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#close {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top));
+  right: max(18px, env(safe-area-inset-right));
+  z-index: 25;
+}
+
+.lbnav {
+  position: fixed;
+  top: 50%;
+  z-index: 25;
+  margin-top: -23px;
+}
+
+.lbprev {
+  left: max(16px, env(safe-area-inset-left));
+}
+
+.lbnext {
+  right: max(16px, env(safe-area-inset-right));
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width: 700px) {
+  .stack-card {
+    width: min(72vw, 44vh, 320px);
+  }
+
+  .edge {
+    width: 42px;
+    height: 42px;
+    margin-top: -21px;
+  }
+
+  .edge-prev {
+    left: max(8px, env(safe-area-inset-left));
+  }
+
+  .edge-next {
+    right: max(8px, env(safe-area-inset-right));
+  }
+
+  .lbnav {
+    top: auto;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .card-meta {
+    padding: 1.1rem 1rem;
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .stack-card {
+    width: min(30vw, 54vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #world,
+  .stack-card,
+  .card-media,
+  .card-media img,
+  .card-meta,
+  .card-shade,
+  .btn {
+    transition: none;
+  }
+
+  .stack-card::before {
+    display: none;
+  }
+}
+
+/* Navigasi & footer dari script.js */
 body.gallery-page footer {
   display: none;
 }
 
-/* Pastikan navbar utama berada di lapisan paling atas galeri */
 body.gallery-page nav.top {
   z-index: 10;
 }
