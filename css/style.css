@@ -339,6 +339,12 @@ nav.top .logo-icon svg {
   height: 22px;
 }
 
+nav.top .logo-icon img {
+  width: 54px;
+  height: 38px;
+  object-fit: contain;
+}
+
 nav.top .logo:hover .logo-icon {
   transform: none;
 }
@@ -409,6 +415,11 @@ nav.top li a[aria-current] {
 
   nav.top .logo-text {
     display: none;
+  }
+
+  nav.top .logo-icon img {
+    width: 46px;
+    height: 34px;
   }
 }
 
