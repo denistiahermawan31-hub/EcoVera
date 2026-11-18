@@ -1,19 +1,16 @@
-# EcoVera — Edukasi Lingkungan dan Kesadaran Sampah
-Portal edukasi dan galeri dokumentasi lingkungan tentang sampah. Website statis (HTML, CSS, JavaScript murni), tanpa framework berbayar, template, atau komponen premium.
+# React + Vite
 
-**Tim:** [isi nama tim] — **Anggota:** [isi nama anggota] — **Lomba:** Technoversary Vol. II
-Ganti nama folder ini menjadi `webdesign_namaTim_technoversary_vol.II` dengan nama tim Anda.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Menjalankan
-1. Unduh atau clone repository.
-2. Buka `index.html` di browser. Tidak perlu instalasi.
-3. Opsional: `python -m http.server 8000` lalu buka `http://localhost:8000`.
-4. Opsional: aktifkan GitHub Pages dari Settings > Pages.
+Currently, two official plugins are available:
 
-## Yang perlu Anda isi
-- Foto: simpan di `assets/images/` dengan nama `hero.jpg, intro.jpg, impact.jpg, about.jpg, memahami.jpg, jenis.jpg, dampak.jpg, kelola.jpg, 3r.jpg, sadar.jpg`. Tanpa foto, kotak tampil sebagai gradien hijau. Gunakan foto milik sendiri atau berlisensi bebas, dan cantumkan kreditnya.
-- Email tujuan formulir dan nama tim di footer: ubah di `js/script.js`.
-- Data: artikel sengaja tidak memuat angka statistik. Bila menambahkan angka, tulis tahun, konteks, dan tautan sumber (SIPSN, UNEP, World Bank, FAO).
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Teknologi
-Font Google gratis: Manrope, DM Sans, Instrument Serif. Efek section bertumpuk memakai CSS `position: sticky`; dinonaktifkan di layar kecil.
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

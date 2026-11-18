@@ -110,6 +110,21 @@ a {
   outline-offset: 3px;
 }
 
+.skip-link {
+  position: absolute;
+  top: 1rem;
+  left: -9999px;
+  z-index: 101;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--white);
+  color: var(--char);
+}
+
+.skip-link:focus {
+  left: 1rem;
+}
+
 /* Tombol Modern dengan Gradasi Emerald & Putih */
 .btn {
   display: inline-flex;
