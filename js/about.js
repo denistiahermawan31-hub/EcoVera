@@ -323,50 +323,6 @@
   );
 
   /* -----------------------------------------------------------------------
-     Showcase: pinned horizontal sequence on desktop.
-     Without this class the section stays a vertical photo essay, and on
-     touch screens CSS turns it into a native swipe carousel.
-     ----------------------------------------------------------------------- */
-  mm.add("(min-width: 900px)", () => {
-    const section = $(".ab-showcase");
-    if (!section) return;
-
-    const viewport = $(".ab-showcase-viewport", section);
-    const track = $(".ab-showcase-track", section);
-    const progress = $(".ab-showcase-progress i", section);
-    if (!viewport || !track) return;
-
-    section.classList.add("is-horizontal");
-
-    const distance = () =>
-      Math.max(0, track.scrollWidth - viewport.clientWidth);
-
-    const tween = gsap.to(track, { x: () => -distance(), ease: "none" });
-
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: () => "+=" + (distance() + window.innerHeight * 0.25),
-      pin: true,
-      scrub: 0.9,
-      anticipatePin: 1,
-      animation: tween,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        if (progress) gsap.set(progress, { scaleX: self.progress });
-      },
-    });
-
-    return () => {
-      section.classList.remove("is-horizontal");
-      trigger.kill();
-      tween.kill();
-      gsap.set(track, { clearProps: "transform" });
-      if (progress) gsap.set(progress, { clearProps: "transform" });
-    };
-  });
-
-  /* -----------------------------------------------------------------------
      Values: sticky index synced to the active principle
      ----------------------------------------------------------------------- */
   mm.add("(min-width: 900px)", () => {
