@@ -1,24 +1,49 @@
-/* Halaman Kontak EcoVera — memakai variabel warna dari style.css */
+/* Halaman Kontak EcoVera — Diselaraskan dengan skema warna gallery.css */
 
-/* Font halaman ini: Nunito untuk judul/tombol/label, DM Sans untuk teks isi */
+/* Variabel warna identik dengan gallery.css + font asli halaman Contact */
 :root {
+  --forest: #071e14;
+  --forest-2: #0c2a1d;
+  --forest-3: #123b29;
+  --bone: #f1efe4;
+  --sage: #9fb5a7;
+  --acid: #d0f56f;
+  --line: rgba(241, 239, 228, 0.16);
+  --glass: rgba(7, 30, 20, 0.72);
+
   --h: 'Nunito', system-ui, sans-serif;
   --b: 'DM Sans', system-ui, sans-serif;
 }
 
-/* Navbar di atas latar putih: teks gelap, putih saat solid */
+/* Navbar di atas latar gelap: teks terang & kaca gelap saat solid */
+nav.top,
 nav.top.on-light {
-  color: var(--char);
+  color: var(--bone);
   text-shadow: none;
 }
 
+nav.top.is-solid,
 nav.top.on-light.is-solid {
-  color: var(--white);
+  background: var(--glass);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  border-bottom: 1px solid var(--line);
+  color: var(--bone);
 }
 
-/* Latar putih polos */
+/* Latar belakang halaman Contact mengikuti skema warna Gallery */
+body {
+  background: var(--forest);
+  color: var(--bone);
+}
+
 .contact {
-  background: var(--white);
+  background:
+    radial-gradient(52% 46% at 50% 42%, rgba(208, 245, 111, 0.08) 0%, transparent 70%),
+    radial-gradient(70% 65% at 92% 0%, rgba(23, 58, 40, 0.9) 0%, transparent 62%),
+    radial-gradient(80% 70% at 8% 100%, rgba(12, 42, 29, 0.9) 0%, transparent 68%),
+    var(--forest);
+  color: var(--bone);
   min-height: 100vh;
 }
 
@@ -29,6 +54,7 @@ nav.top.on-light.is-solid {
 
 .contact h1 {
   line-height: 1.12;
+  color: var(--bone);
 }
 
 /* Pemecah kata untuk animasi judul */
@@ -45,6 +71,7 @@ nav.top.on-light.is-solid {
 
 .c-head .lead {
   max-width: 54ch;
+  color: var(--sage);
 }
 
 /* ---------- Grid utama ---------- */
@@ -60,7 +87,7 @@ nav.top.on-light.is-solid {
 .c-cards {
   list-style: none;
   padding: 0;
-  border-top: 1px solid var(--sg);
+  border-top: 1px solid var(--line);
 }
 
 .c-card {
@@ -71,7 +98,7 @@ nav.top.on-light.is-solid {
   column-gap: 1.2rem;
   align-items: center;
   padding: 1.7rem 0;
-  border-bottom: 1px solid var(--sg);
+  border-bottom: 1px solid var(--line);
 }
 
 /* Latar lembut yang muncul saat baris disorot */
@@ -80,7 +107,7 @@ nav.top.on-light.is-solid {
   position: absolute;
   inset: 0.45rem -1.1rem;
   border-radius: 1rem;
-  background: var(--surface-light);
+  background: rgba(241, 239, 228, 0.06);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
@@ -95,31 +122,39 @@ nav.top.on-light.is-solid {
   margin: 0;
   width: 52px;
   height: 52px;
-  background: var(--mint);
-  color: var(--em-dark);
+  background: var(--forest-3);
+  color: var(--acid);
+  border: 1px solid rgba(208, 245, 111, 0.22);
   box-shadow: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .c-card:hover .icon-circle,
 .c-card:focus-within .icon-circle {
-  background: var(--em);
-  color: var(--white);
+  background: var(--acid);
+  color: var(--forest);
+  border-color: var(--acid);
 }
 
 .c-body h3 {
   font-size: 1.2rem;
+  color: var(--bone);
 }
 
 .c-body p {
   margin-top: 0.2rem;
   font-size: 0.97rem;
+  color: var(--sage);
 }
 
 .c-body a[data-mail] {
-  color: var(--em-dark);
+  color: var(--acid);
   font-weight: 700;
   word-break: break-all;
+}
+
+.c-body a[data-mail]:hover {
+  text-decoration: underline;
 }
 
 /* Tautan yang membentang menutupi seluruh baris */
@@ -140,7 +175,7 @@ nav.top.on-light.is-solid {
 }
 
 .c-link:focus-visible::after {
-  outline: 3px solid var(--em-light);
+  outline: 3px solid var(--acid);
   outline-offset: 2px;
   border-radius: 0.75rem;
 }
@@ -149,7 +184,7 @@ nav.top.on-light.is-solid {
   width: 24px;
   height: 24px;
   fill: none;
-  stroke: var(--em-dark);
+  stroke: var(--acid);
   stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -162,14 +197,14 @@ nav.top.on-light.is-solid {
   }
 }
 
-/* Garis hijau yang menyapu di bawah baris */
+/* Garis aksen yang menyapu di bawah baris */
 .c-line {
   position: absolute;
   left: 0;
   right: 0;
   bottom: -1px;
   height: 2px;
-  background: var(--em);
+  background: var(--acid);
   transform: scaleX(0);
   transform-origin: left;
   pointer-events: none;
@@ -178,9 +213,9 @@ nav.top.on-light.is-solid {
 .c-copy {
   position: relative;
   z-index: 2;
-  border: 1.5px solid var(--sg);
-  background: var(--white);
-  color: var(--em-dark);
+  border: 1.5px solid var(--line);
+  background: rgba(241, 239, 228, 0.07);
+  color: var(--bone);
   border-radius: 99px;
   padding: 0.4rem 1rem;
   font: 600 0.85rem var(--h);
@@ -189,10 +224,11 @@ nav.top.on-light.is-solid {
   transition: background-color 0.25s, color 0.25s, border-color 0.25s;
 }
 
-.c-copy:hover {
-  background: var(--em);
-  color: var(--white);
-  border-color: var(--em);
+.c-copy:hover,
+.c-copy:focus-visible {
+  background: var(--acid);
+  color: var(--forest);
+  border-color: var(--acid);
 }
 
 .contact-form {
@@ -204,13 +240,33 @@ nav.top.on-light.is-solid {
   max-width: none;
   gap: 1.4rem;
   border-radius: 1rem;
-  box-shadow: none;
-  border: 1px solid var(--sg);
+  box-shadow: 0 34px 70px -28px rgba(0, 0, 0, 0.75);
+  background: var(--forest-2);
+  border: 1px solid var(--line);
 }
 
 .contact-form input,
 .contact-form textarea {
-  background: var(--white);
+  background: var(--forest);
+  color: var(--bone);
+  border-color: var(--line);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--sage);
+  opacity: 0.7;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  background: var(--forest-3);
+  border-color: var(--acid);
+  outline: 0;
+}
+
+.contact-form label {
+  color: var(--bone);
 }
 
 fieldset {
@@ -222,7 +278,7 @@ fieldset {
 
 legend {
   font: 700 0.95rem var(--h);
-  color: var(--char);
+  color: var(--bone);
   margin-bottom: 0.6rem;
   padding: 0;
 }
@@ -251,8 +307,9 @@ legend {
   display: inline-block;
   padding: 0.45rem 1rem;
   border-radius: 99px;
-  border: 1.5px solid var(--sg);
-  background: var(--white);
+  border: 1.5px solid var(--line);
+  background: rgba(241, 239, 228, 0.07);
+  color: var(--bone);
   font: 600 0.9rem var(--h);
   cursor: pointer;
   user-select: none;
@@ -260,17 +317,19 @@ legend {
 }
 
 .chips label:hover {
-  border-color: var(--em);
+  border-color: rgba(208, 245, 111, 0.45);
+  background: rgba(208, 245, 111, 0.16);
+  color: var(--acid);
 }
 
 .chips input:checked + label {
-  background: var(--em);
-  color: var(--white);
-  border-color: var(--em);
+  background: var(--acid);
+  color: var(--forest);
+  border-color: var(--acid);
 }
 
 .chips input:focus-visible + label {
-  outline: 3px solid var(--em-light);
+  outline: 3px solid var(--acid);
   outline-offset: 3px;
 }
 
@@ -285,7 +344,11 @@ textarea {
 
 input[aria-invalid="true"],
 textarea[aria-invalid="true"] {
-  border-color: #c93b2b;
+  border-color: #ff7b6b;
+}
+
+.err {
+  color: #ff9487;
 }
 
 .meta {
@@ -297,24 +360,36 @@ textarea[aria-invalid="true"] {
 
 .count {
   font: 600 0.8rem var(--h);
-  color: var(--olive);
+  color: var(--sage);
   margin-left: auto;
   white-space: nowrap;
 }
 
 .hint {
   font-size: 0.88rem;
-  color: var(--olive);
+  color: var(--sage);
   margin-top: 0.15rem;
 }
 
+/* Tombol utama menyesuaikan tombol Gallery (--bone -> hover --acid) */
 .contact-form .btn {
   justify-self: start;
+  background: var(--bone);
+  color: var(--forest);
+  border-color: transparent;
   box-shadow: none;
 }
 
-.contact-form .btn:hover {
+.contact-form .btn:hover,
+.contact-form .btn:focus-visible {
+  background: var(--acid);
+  color: var(--forest);
   box-shadow: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--acid);
+  outline-offset: 3px;
 }
 
 /* Catatan sukses */
@@ -326,13 +401,16 @@ textarea[aria-invalid="true"] {
   margin-top: 0;
   overflow: hidden;
   font-size: 0.95rem;
+  background: var(--forest-3);
+  color: var(--bone);
+  border: 1px solid rgba(208, 245, 111, 0.35);
 }
 
 .contact-form .note svg {
   width: 26px;
   height: 26px;
   fill: none;
-  stroke: var(--em-dark);
+  stroke: var(--acid);
   stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -378,9 +456,9 @@ textarea[aria-invalid="true"] {
   justify-content: space-between;
   gap: 1rem;
   padding: 1.1rem 1.3rem;
-  border: 1.5px dashed var(--sg);
+  border: 1.5px dashed rgba(208, 245, 111, 0.35);
   border-radius: 1rem;
-  background: var(--surface-light);
+  background: var(--forest-3);
   overflow: hidden;
 }
 
@@ -390,22 +468,25 @@ textarea[aria-invalid="true"] {
 
 .photo-box strong {
   font: 700 1rem var(--h);
+  color: var(--bone);
 }
 
 .photo-box p {
   margin-top: 0.2rem;
   font-size: 0.9rem;
-  color: var(--olive);
+  color: var(--sage);
   max-width: 38ch;
 }
 
 .contact-form .photo-box .btn {
-  background: var(--white);
-  color: var(--em-dark);
-  border: 1.5px solid var(--em);
+  background: rgba(241, 239, 228, 0.07);
+  color: var(--acid);
+  border: 1.5px solid rgba(208, 245, 111, 0.45);
 }
 
-.contact-form .photo-box .btn:hover {
-  background: var(--em);
-  color: var(--white);
+.contact-form .photo-box .btn:hover,
+.contact-form .photo-box .btn:focus-visible {
+  background: var(--acid);
+  color: var(--forest);
+  border-color: var(--acid);
 }
