@@ -2,82 +2,657 @@
 <html lang="id">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Tentang EcoVera</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#0e2e20" />
+    <meta
+      name="description"
+      content="Tentang EcoVera: portal edukasi dan galeri dokumentasi lingkungan dengan fokus pada sampah — jenisnya, dampaknya, dan cara mengelolanya."
+    />
+    <title>Tentang EcoVera — Explore. Understand. Preserve.</title>
+    <link rel="icon" href="data:," />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
-  <body>
+  <body class="about-page">
     <main id="main">
-      <div class="page">
-        <h1>Tentang EcoVera</h1>
-        <p class="lead">
-          Portal edukasi tentang sampah, dibuat supaya pembahasan yang rumit
-          bisa dipahami siapa saja.
-        </p>
-      </div>
-      <section class="free">
-        <div class="split">
-          <div>
-            <h2>Apa itu EcoVera?</h2>
-            <p>
+      <div class="about">
+        <!-- 01 — Hero: the same place, two possible futures -->
+        <section class="ab-hero" aria-labelledby="ab-hero-title">
+          <div class="ab-hero-media" aria-hidden="true">
+            <img
+              class="ab-hero-img ab-hero-clean"
+              src="assets/images/hero.png"
+              alt=""
+              width="1920"
+              height="1080"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <img
+              class="ab-hero-img ab-hero-litter"
+              src="assets/images/background.png"
+              alt=""
+              width="1920"
+              height="1080"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="ab-hero-seam"></span>
+          </div>
+          <div class="ab-hero-scrim" aria-hidden="true"></div>
+
+          <div class="ab-wrap ab-hero-inner">
+            <p class="ab-hero-eyebrow">
+              <span class="ab-dot" aria-hidden="true"></span>
+              Tentang EcoVera
+              <span class="ab-sep" aria-hidden="true">/</span>
+              Explore. Understand. Preserve.
+            </p>
+
+            <h1 id="ab-hero-title" class="ab-hero-title">
+              <span class="ab-hero-line"><span>Lihat lebih dekat</span></span>
+              <span class="ab-hero-line"><span>pada apa yang</span></span>
+              <span class="ab-hero-line"><span><em>kita buang.</em></span></span>
+            </h1>
+
+            <p class="ab-hero-lead">
               EcoVera adalah portal edukasi dan galeri dokumentasi lingkungan
               dengan fokus pada sampah: jenisnya, dampaknya, dan cara
               mengelolanya.
             </p>
-            <h2 style="margin-top: 2.5rem">Mengapa EcoVera ada</h2>
-            <p>
-              Sampah terlihat sebagai urusan petugas kebersihan, padahal
-              sebagian besar keputusannya terjadi di rumah: apa yang dibeli,
-              dipakai, dan dibuang. Informasi yang jelas membantu orang
-              mengambil keputusan itu dengan sadar.
-            </p>
+
+            <div class="ab-hero-notes">
+              <p class="ab-hero-note ab-hero-note-clean">
+                <span>01</span> Sebuah taman, sebelum jejak kita.
+              </p>
+              <p class="ab-hero-note ab-hero-note-litter">
+                <span>02</span> Tempat yang sama. Dua kemungkinan.
+              </p>
+            </div>
+
+            <div class="ab-hero-foot">
+              <p class="ab-hero-caption">
+                Catatan lapangan — dokumentasi lingkungan EcoVera
+              </p>
+              <div class="ab-hero-actions">
+                <button class="ab-reveal-btn" type="button" aria-pressed="false">
+                  <span class="ab-reveal-dot" aria-hidden="true"></span>
+                  <span class="ab-reveal-label">Lihat jejak sampah</span>
+                </button>
+                <p class="ab-hero-cue" aria-hidden="true">Gulir</p>
+              </div>
+            </div>
           </div>
-          <div
-            class="photo"
-            style="--img: url(&quot;assets/images/about.jpg&quot;)"
-          ></div>
-        </div>
-      </section>
-      <section class="free green">
-        <p
-          class="mission"
-          style="max-width: 24ch; font-size: clamp(2rem, 5vw, 3.8rem)"
-        >
-          Building awareness today for a more responsible tomorrow.
-        </p>
-      </section>
-      <section class="free cream">
-        <div class="cols">
-          <div>
-            <h3>Misi</h3>
-            <p>
-              Menyajikan informasi sampah yang akurat, bersumber, dan mudah
-              dipahami.
-            </p>
+
+          <div class="ab-hero-progress" aria-hidden="true"><i></i></div>
+        </section>
+
+        <!-- 02 — Manifesto -->
+        <section class="ab-manifesto" aria-labelledby="ab-manifesto-title">
+          <div class="ab-wrap ab-manifesto-grid">
+            <div class="ab-manifesto-side">
+              <p class="ab-kicker"><span>02</span> Mengapa EcoVera ada</p>
+              <p class="ab-side-note">
+                Catatan tentang alasan portal ini dibuat.
+              </p>
+            </div>
+            <div class="ab-manifesto-main">
+              <h2
+                id="ab-manifesto-title"
+                class="ab-statement"
+                data-split-words
+              >
+                Sampah tidak hilang. <em>Ia hanya berpindah tempat.</em>
+              </h2>
+              <div class="ab-manifesto-copy" data-reveal>
+                <p class="ab-lede">
+                  Sampah terlihat sebagai urusan petugas kebersihan, padahal
+                  sebagian besar keputusannya terjadi di rumah: apa yang dibeli,
+                  dipakai, dan dibuang.
+                </p>
+                <p>
+                  Informasi yang jelas membantu orang mengambil keputusan itu
+                  dengan sadar. Karena itu EcoVera menyusun penjelasan yang
+                  runtut, dengan sumber yang bisa diperiksa.
+                </p>
+              </div>
+
+              <figure class="ab-manifesto-band">
+                <div class="ab-frame" data-reveal-frame>
+                  <img
+                    class="ab-parallax"
+                    src="assets/images/Foto6.jpeg"
+                    alt="Beragam kemasan plastik, gelas, dan sisa makanan bercampur dalam satu tumpukan."
+                    width="735"
+                    height="490"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <figcaption>
+                  <span>Catatan</span> Ketika sampah bercampur, bahan yang
+                  masih bisa diolah ikut tertimbun.
+                </figcaption>
+              </figure>
+            </div>
           </div>
-          <div>
-            <h3>Visi</h3>
-            <p>
-              Masyarakat yang memahami tanggung jawabnya terhadap sampah yang ia
-              hasilkan.
-            </p>
+        </section>
+
+        <!-- 03 — Story -->
+        <section class="ab-story" aria-labelledby="ab-story-title">
+          <div class="ab-wrap">
+            <header class="ab-story-head">
+              <p class="ab-kicker"><span>03</span> Apa itu EcoVera</p>
+              <h2 id="ab-story-title">
+                Portal edukasi dan
+                <em>galeri dokumentasi lingkungan.</em>
+              </h2>
+            </header>
+
+            <div class="ab-story-grid">
+              <figure class="ab-story-main">
+                <div class="ab-frame" data-reveal-frame>
+                  <img
+                    class="ab-parallax"
+                    src="assets/images/Foto1.jpeg"
+                    alt="Tangan ber-sarung tangan memungut botol plastik ke dalam kantong sampah."
+                    width="736"
+                    height="490"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <figcaption>
+                  <span>01</span> Memungut yang tertinggal, satu botol pada satu
+                  waktu.
+                </figcaption>
+              </figure>
+
+              <div class="ab-story-text">
+                <p class="ab-lede">
+                  Fokusnya satu: sampah — jenisnya, dampaknya, dan cara
+                  mengelolanya. Dari apa yang kita buang di dapur, sampai ke
+                  mana ia berakhir.
+                </p>
+                <h3>Mengapa EcoVera ada</h3>
+                <p>
+                  Sampah terlihat sebagai urusan petugas kebersihan, padahal
+                  sebagian besar keputusannya terjadi di rumah: apa yang dibeli,
+                  dipakai, dan dibuang.
+                </p>
+                <p>
+                  Informasi yang jelas membantu orang mengambil keputusan itu
+                  dengan sadar.
+                </p>
+                <blockquote class="ab-pull">
+                  “Menyajikan informasi sampah yang akurat, bersumber, dan mudah
+                  dipahami.”
+                  <cite>Misi EcoVera</cite>
+                </blockquote>
+              </div>
+
+              <figure class="ab-story-inset">
+                <div class="ab-frame" data-reveal-frame>
+                  <img
+                    class="ab-parallax"
+                    src="assets/images/Foto2.jpeg"
+                    alt="Tangan menggenggam kompos dari sisa sayur dan daun."
+                    width="735"
+                    height="635"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <figcaption>
+                  <span>02</span> Sisa organik yang kembali menjadi tanah.
+                </figcaption>
+              </figure>
+            </div>
           </div>
-          <div>
-            <h3>Fokus</h3>
-            <p>
-              Pengertian dan jenis sampah, dampak lingkungan, pemilahan,
-              pengelolaan, dan prinsip 3R.
-            </p>
+        </section>
+
+        <!-- 04 — Focus index -->
+        <section class="ab-focus" aria-labelledby="ab-focus-title">
+          <div class="ab-wrap">
+            <header class="ab-focus-head">
+              <div>
+                <p class="ab-kicker"><span>04</span> Yang kami amati</p>
+                <h2 id="ab-focus-title">
+                  Enam pembahasan, satu pertanyaan yang sama.
+                </h2>
+              </div>
+              <p data-reveal>
+                Apa yang terjadi setelah kita membuangnya? Setiap topik di
+                EcoVera bermuara pada pertanyaan itu.
+              </p>
+            </header>
+
+            <ul class="ab-index">
+              <li>
+                <a class="ab-index-row" href="content.html#memahami">
+                  <span class="ab-index-num">01</span>
+                  <span class="ab-index-title">Memahami sampah</span>
+                  <span class="ab-index-desc"
+                    >Apa itu sampah dan dari mana ia muncul.</span
+                  >
+                  <span class="ab-index-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                  <img
+                    class="ab-index-thumb"
+                    src="assets/images/Foto7.jpeg"
+                    alt=""
+                    width="736"
+                    height="736"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+              <li>
+                <a class="ab-index-row" href="content.html#jenis">
+                  <span class="ab-index-num">02</span>
+                  <span class="ab-index-title">Jenis sampah</span>
+                  <span class="ab-index-desc"
+                    >Organik, anorganik, B3 rumah tangga, dan residu.</span
+                  >
+                  <span class="ab-index-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                  <img
+                    class="ab-index-thumb"
+                    src="assets/images/Foto6.jpeg"
+                    alt=""
+                    width="735"
+                    height="490"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+              <li>
+                <a class="ab-index-row" href="content.html#dampak">
+                  <span class="ab-index-num">03</span>
+                  <span class="ab-index-title">Dampak</span>
+                  <span class="ab-index-desc"
+                    >Dari saluran air ke sungai, laut, dan mikroplastik.</span
+                  >
+                  <span class="ab-index-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                  <img
+                    class="ab-index-thumb"
+                    src="assets/images/Foto13.jpeg"
+                    alt=""
+                    width="736"
+                    height="490"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+              <li>
+                <a class="ab-index-row" href="content.html#kelola">
+                  <span class="ab-index-num">04</span>
+                  <span class="ab-index-title">Pemilahan &amp; pengelolaan</span>
+                  <span class="ab-index-desc"
+                    >Dari rumah, bank sampah, hingga TPS3R.</span
+                  >
+                  <span class="ab-index-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                  <img
+                    class="ab-index-thumb"
+                    src="assets/images/Foto11.jpeg"
+                    alt=""
+                    width="735"
+                    height="413"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+              <li>
+                <a class="ab-index-row" href="content.html#3r">
+                  <span class="ab-index-num">05</span>
+                  <span class="ab-index-title">Prinsip 3R</span>
+                  <span class="ab-index-desc"
+                    >Kurangi, gunakan ulang, daur ulang — dalam urutan itu.</span
+                  >
+                  <span class="ab-index-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                  <img
+                    class="ab-index-thumb"
+                    src="assets/images/Foto4.jpeg"
+                    alt=""
+                    width="735"
+                    height="484"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+              <li>
+                <a class="ab-index-row" href="content.html#sadar">
+                  <span class="ab-index-num">06</span>
+                  <span class="ab-index-title">Kesadaran</span>
+                  <span class="ab-index-desc"
+                    >Pengetahuan yang berubah menjadi kebiasaan.</span
+                  >
+                  <span class="ab-index-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                  <img
+                    class="ab-index-thumb"
+                    src="assets/images/Foto9.jpeg"
+                    alt=""
+                    width="736"
+                    height="736"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+            </ul>
           </div>
-        </div>
-      </section>
+          <div class="ab-focus-preview" aria-hidden="true"></div>
+        </section>
+
+        <!-- 05 — Visual showcase: horizontal on desktop, swipe on mobile -->
+        <section class="ab-showcase" aria-labelledby="ab-showcase-title">
+          <div class="ab-showcase-pin">
+            <header class="ab-showcase-head">
+              <p class="ab-kicker"><span>05</span> Dari buang ke berakhir</p>
+              <h2 id="ab-showcase-title">
+                Perjalanan yang <em>jarang kita lihat.</em>
+              </h2>
+              <div class="ab-showcase-side">
+                <p class="ab-showcase-note">
+                  Lima potret tentang apa yang terjadi setelah sesuatu tidak lagi
+                  kita butuhkan.
+                </p>
+                <a class="ab-link-arrow" href="content.html">
+                  Telusuri pembahasannya
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
+              <div class="ab-showcase-progress" aria-hidden="true"><i></i></div>
+            </header>
+
+            <div class="ab-showcase-viewport">
+              <div class="ab-showcase-track">
+                <figure
+                  class="ab-shot"
+                  style="--w: 30vw; --ar: 3 / 4; --offset: 1.5rem"
+                >
+                  <div class="ab-frame">
+                    <img
+                      src="assets/images/Foto3.jpeg"
+                      alt="Sisa sayur dan buah dituangkan ke dalam wadah kompos."
+                      width="736"
+                      height="920"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>
+                    <span>01</span> Sisa dapur yang masih bisa kembali menjadi
+                    tanah.
+                  </figcaption>
+                </figure>
+
+                <figure
+                  class="ab-shot"
+                  style="--w: 34vw; --ar: 4 / 3; --offset: -1rem"
+                >
+                  <div class="ab-frame">
+                    <img
+                      src="assets/images/Foto10.jpeg"
+                      alt="Botol plastik dimasukkan ke kantong sampah di taman."
+                      width="736"
+                      height="1104"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>
+                    <span>02</span> Memilah botol sebelum semuanya bercampur.
+                  </figcaption>
+                </figure>
+
+                <figure
+                  class="ab-shot"
+                  style="--w: 30vw; --ar: 5 / 4; --offset: 2.5rem"
+                >
+                  <div class="ab-frame">
+                    <img
+                      src="assets/images/Foto12.jpeg"
+                      alt="Kontainer sampah hijau yang penuh dan dikelilingi kantong sampah."
+                      width="735"
+                      height="413"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>
+                    <span>03</span> Kontainer yang menerima lebih dari
+                    kapasitasnya.
+                  </figcaption>
+                </figure>
+
+                <figure
+                  class="ab-shot"
+                  style="--w: 40vw; --ar: 16 / 10; --offset: 0rem"
+                >
+                  <div class="ab-frame">
+                    <img
+                      src="assets/images/Foto8.jpeg"
+                      alt="Sampah yang menumpuk di sepanjang saluran air di bawah jembatan."
+                      width="736"
+                      height="490"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>
+                    <span>04</span> Sampah yang bocor ke saluran air.
+                  </figcaption>
+                </figure>
+
+                <figure
+                  class="ab-shot"
+                  style="--w: 30vw; --ar: 4 / 3; --offset: 2rem"
+                >
+                  <div class="ab-frame">
+                    <img
+                      src="assets/images/Foto5.jpeg"
+                      alt="Kantong plastik dan serpihan sampah melayang di dalam air."
+                      width="736"
+                      height="490"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>
+                    <span>05</span> Plastik yang terpecah di perairan.
+                  </figcaption>
+                </figure>
+
+                <div class="ab-showcase-end">
+                  <p class="ab-kicker">Penutup</p>
+                  <p class="ab-showcase-end-text">
+                    Apa yang kita buang hari ini menentukan apa yang tersisa
+                    besok.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 06 — Values -->
+        <section class="ab-values" aria-labelledby="ab-values-title">
+          <div class="ab-wrap ab-values-grid">
+            <div class="ab-values-sticky">
+              <p class="ab-kicker"><span>06</span> Yang kami pegang</p>
+              <h2 id="ab-values-title">
+                Prinsip di balik <em>setiap tulisan.</em>
+              </h2>
+              <div class="ab-values-meter" aria-hidden="true">
+                <span class="ab-values-current">01</span>
+                <span class="ab-values-total">/ 04</span>
+                <span class="ab-values-line"><b></b></span>
+              </div>
+
+              <figure class="ab-values-note">
+                <div class="ab-frame" data-reveal-frame>
+                  <img
+                    class="ab-parallax"
+                    src="assets/images/Foto4.jpeg"
+                    alt="Sisa sayur dan buah di dalam wadah kompos hijau."
+                    width="735"
+                    height="484"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <figcaption>
+                  <span>Praktik</span> Prinsip yang diuji di rumah, bukan hanya
+                  di teks.
+                </figcaption>
+              </figure>
+            </div>
+
+            <ol class="ab-values-list">
+              <li class="ab-value is-active">
+                <span class="ab-value-num">01</span>
+                <div>
+                  <h3>Akurat dan bersumber</h3>
+                  <p>
+                    Menyajikan informasi sampah yang akurat, bersumber, dan
+                    mudah dipahami. Untuk angka terbaru, EcoVera mengarahkan
+                    pembaca ke sumber resmi seperti SIPSN Kementerian Lingkungan
+                    Hidup.
+                  </p>
+                </div>
+              </li>
+              <li class="ab-value">
+                <span class="ab-value-num">02</span>
+                <div>
+                  <h3>Mudah dipahami</h3>
+                  <p>
+                    Pembahasan yang rumit disusun supaya bisa dipahami siapa
+                    saja, tanpa menghilangkan konteks dan sumbernya.
+                  </p>
+                </div>
+              </li>
+              <li class="ab-value">
+                <span class="ab-value-num">03</span>
+                <div>
+                  <h3>Berpihak pada tindakan</h3>
+                  <p>
+                    Pengetahuan baru berguna bila berubah menjadi kebiasaan —
+                    mulai dari satu langkah konkret di rumah.
+                  </p>
+                </div>
+              </li>
+              <li class="ab-value">
+                <span class="ab-value-num">04</span>
+                <div>
+                  <h3>Terbuka pada koreksi</h3>
+                  <p>
+                    Data bisa berubah dan bisa keliru. EcoVera membuka ruang
+                    untuk koreksi dan menyebutkan sumber rujukan di setiap
+                    pembahasan.
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- 07 — Closing -->
+        <section class="ab-close" aria-labelledby="ab-close-title">
+          <figure class="ab-close-band">
+            <div class="ab-frame">
+              <img
+                src="assets/images/background.png"
+                alt="Taman yang dipenuhi sampah plastik dan kemasan berserakan di rumput."
+                width="1920"
+                height="1080"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption>
+              <span>Penutup</span> Taman yang sama. Pilihan yang berbeda.
+            </figcaption>
+          </figure>
+
+          <div class="ab-close-field">
+            <div class="ab-wrap">
+              <p class="ab-kicker ab-kicker-light">
+                <span>07</span> Ajakan
+              </p>
+              <h2 id="ab-close-title">
+                Building awareness today for a
+                <em>more responsible tomorrow.</em>
+              </h2>
+
+              <div class="ab-close-bottom">
+                <p>
+                  Pilih satu hal yang bisa Anda ubah minggu ini, lalu bagikan ke
+                  orang di sekitar Anda. Punya pertanyaan, koreksi data, atau
+                  dokumentasi untuk galeri?
+                  <a href="contact.html">Hubungi kami</a>.
+                </p>
+                <div class="ab-close-actions">
+                  <a class="btn white" href="content.html"
+                    >Mulai dari artikel</a
+                  >
+                  <a class="ab-link-arrow ab-link-arrow-light" href="gallery.html">
+                    Buka galeri
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <span class="ab-close-wordmark" aria-hidden="true">EcoVera</span>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/about.js"></script>
   </body>
 </html>
