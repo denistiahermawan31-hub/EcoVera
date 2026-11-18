@@ -629,7 +629,7 @@
 }
 
 .ab-story-text {
-  padding-top: clamp(0.5rem, 4vw, 3rem);
+  padding-top: clamp(0.25rem, 1.25vw, 1rem);
 }
 
 .ab-story-text > p {
