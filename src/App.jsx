@@ -264,16 +264,10 @@ function App() {
         <section className="cream">
           <div className="split">
             <div>
-              <h2>Sampah tidak hilang. Ia hanya berpindah tempat.</h2>
+              <h2>Pernahkah Kamu Berpikir ke Mana Perginya Sampahmu?</h2>
               <p>
-                EcoVera adalah portal edukasi dan galeri dokumentasi lingkungan
-                yang membahas satu hal: sampah. Dari apa yang kita buang di dapur,
-                sampai ke mana ia berakhir.
-              </p>
-              <p>
-                Kami menyusun penjelasan yang runtut, bersumber dari lembaga
-                resmi, supaya setiap orang bisa memahami masalahnya sebelum
-                memutuskan apa yang ingin diubah.
+                Setelah dibuang, sampah tidak serta-merta menghilang. Sampah akan dikumpulkan dan dibawa ke tempat pengolahan untuk dipilah.
+                Sebagian dapat didaur ulang, sampah organik bisa diolah menjadi kompos, sedangkan sisanya dapat berakhir di tempat pemrosesan akhir. Sayangnya, tidak semua sampah berhasil dikelola dengan baik.
               </p>
             </div>
             <div
@@ -285,109 +279,46 @@ function App() {
         </section>
 
         <section className="olive">
-          <h2>Masalahnya ada di cara kita memperlakukan barang</h2>
+          <h2>Pernahkah Kamu Membayangkan Bumi Tanpa Sampah?</h2>
           <div className="cols">
             <div className="rv">
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m-9 4v8m5-8v8m5-8v8M5 6l1 14h12l1-14" /></svg>
-              </span>
-              <h3>Dibuang tanpa dipilah</h3>
               <p>
-                Sampah organik, plastik, dan limbah berbahaya rumah tangga
-                bercampur. Akibatnya bahan yang masih bisa diolah ikut tertimbun.
-              </p>
-            </div>
-            <div className="rv">
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
-              </span>
-              <h3>Dipakai sekali</h3>
-              <p>
-                Kemasan sekali pakai menghabiskan bahan baku untuk fungsi yang
-                singkat, lalu menjadi beban pengelolaan yang panjang.
-              </p>
-            </div>
-            <div className="rv">
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
-              </span>
-              <h3>Tidak terlihat</h3>
-              <p>
-                Setelah truk pengangkut pergi, banyak orang tidak tahu ke mana
-                sampahnya berakhir. Karena itu masalahnya terasa jauh.
+                Bayangkan sungai yang jernih, laut yang bebas dari tumpukan sampah, dan udara yang lebih bersih. Bumi seperti itu tentu menjadi harapan banyak orang.
+                Sayangnya, sampah yang terus dihasilkan dan tidak dikelola dengan baik dapat merusak keindahan alam serta mengancam kehidupan makhluk hidup. Bumi yang lebih bersih membutuhkan perubahan cara kita memperlakukan lingkungan.
               </p>
             </div>
           </div>
         </section>
 
         <section className="lime">
-          <h2>Fakta dasar tentang sampah</h2>
+          <h2>Pernahkah Kamu Tahu Berapa Lama Sampah Terurai?</h2>
           <div className="cols">
             <div>
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></svg>
-              </span>
-              <h3>Organik yang tertimbun</h3>
               <p>
-                Sampah makanan yang membusuk tanpa oksigen di tempat pembuangan
-                menghasilkan metana, gas rumah kaca. Dikomposkan, bahan yang sama
-                menjadi pupuk.
-              </p>
-            </div>
-            <div>
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5" /><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12" /><path d="m14 16-3 3 3 3" /><path d="M8.293 13.596 7.196 9.5 3.1 10.598" /><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843" /><path d="m13.378 9.633 4.096 1.098 1.097-4.096" /></svg>
-              </span>
-              <h3>Plastik bertahan lama</h3>
-              <p>
-                Plastik tidak membusuk seperti daun. Ia terpecah menjadi serpihan
-                kecil (mikroplastik) yang tetap berada di tanah dan air.
-              </p>
-            </div>
-            <div>
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
-              </span>
-              <h3>Data resmi tersedia</h3>
-              <p>
-                Angka timbulan sampah nasional per tahun dipublikasikan di SIPSN,
-                Kementerian Lingkungan Hidup. Rujuk langsung ke sana untuk angka
-                terbaru.
+                Tidak semua sampah dapat terurai dengan mudah. Sisa makanan dan daun dapat membusuk secara alami, sedangkan plastik, kaca, dan logam membutuhkan waktu jauh lebih lama. Bahkan, plastik dapat pecah menjadi bagian-bagian kecil yang disebut mikroplastik dan tetap mencemari lingkungan. Artinya, sampah yang kita buang hari ini bisa menjadi masalah bagi lingkungan dalam jangka panjang.
               </p>
             </div>
           </div>
         </section>
 
         <section className="mintbg">
-          <h2>Memahami jenis sampah</h2>
+          <h2>Pernahkah Kamu Melihat Nilai di Balik Sampah?</h2>
           <div className="cols">
-            <div><h3>Organik</h3><p>Sisa makanan, daun, ranting. Bisa dikomposkan.</p></div>
-            <div><h3>Anorganik</h3><p>Plastik, kaca, logam, kertas. Sebagian besar dapat didaur ulang bila bersih dan terpisah.</p></div>
-            <div><h3>B3 rumah tangga</h3><p>Baterai, lampu, obat kedaluwarsa, pestisida. Perlu penanganan khusus.</p></div>
-            <div><h3>Residu</h3><p>Sisa yang tidak bisa diolah lagi, misalnya popok dan puntung rokok.</p></div>
+            <div>
+              <p>
+                Sesuatu yang dianggap tidak berguna ternyata masih bisa memiliki manfaat. Botol plastik dapat diolah menjadi bahan baru, kertas bekas bisa didaur ulang, dan sisa makanan dapat dimanfaatkan menjadi kompos. Melalui pemilahan dan pengolahan yang tepat,
+                sampah tidak hanya berakhir sebagai limbah, tetapi juga dapat menjadi sumber daya yang memiliki nilai guna.
+              </p>
+            </div>
           </div>
-          <p style={{ marginTop: '2rem' }}>
-            <a className="btn" href="content.html#jenis">Baca selengkapnya</a>
-          </p>
         </section>
 
         <section className="green">
           <div className="split">
-            <div
-              className="photo"
-              style={{ '--img': 'url("/assets/images/impact.jpg")' }}
-              aria-hidden="true"
-            ></div>
             <div>
-              <h2>Dampaknya sampai ke ekosistem</h2>
+              <h2>Pernahkah Kamu Membayangkan Bumi yang Lebih Bersih?</h2>
               <p>
-                Sampah yang bocor dari pengelolaan mengalir lewat selokan dan
-                sungai ke laut. Hewan dapat menelan atau terjerat sampah,
-                sementara air dan tanah menerima zat yang dilepaskannya.
-              </p>
-              <p>
-                Di sisi lain, sampah yang menumpuk di permukiman memicu banjir
-                akibat saluran tersumbat dan memengaruhi kesehatan warga sekitar.
+               Bumi yang lebih bersih bukan hanya tentang pemandangan yang indah, tetapi juga lingkungan yang sehat bagi seluruh makhluk hidup. Kita dapat memulainya dengan mengurangi plastik sekali pakai, memilah sampah, menggunakan kembali barang yang masih layak, dan menjaga kebersihan sekitar. Perubahan tidak harus dimulai dari hal besar, karena kebiasaan sederhana yang dilakukan bersama dapat membawa dampak positif bagi bumi.
               </p>
             </div>
           </div>

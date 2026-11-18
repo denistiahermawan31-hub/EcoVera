@@ -227,6 +227,64 @@ if (hp && !matchMedia("(prefers-reduced-motion:reduce)").matches) {
 })();
 
 
+// Butterfly cursor for the legacy HTML pages using this shared script.
+if (
+  window.matchMedia("(pointer: fine)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+  const wingPath =
+    "M0 0 C-4-13 -17-16 -18-6 C-19 2 -8 5 0 0 Z M0 1 C-4 11 -14 14 -15 6 C-16 0 -7-2 0 1 Z";
+  const cursor = document.createElement("div");
+  cursor.className = "fly";
+  cursor.setAttribute("aria-hidden", "true");
+  cursor.innerHTML = `
+    <svg viewBox="0 0 40 40">
+      <g transform="translate(20 20)">
+        <g class="wing wing-left"><path d="${wingPath}" fill="#FFFFFF"/></g>
+        <g class="wing wing-right"><path d="${wingPath}" fill="#FFFFFF"/></g>
+        <rect x="-.9" y="-8" width="1.8" height="17" rx=".9" fill="#FFFFFF"/>
+      </g>
+    </svg>
+  `;
+  document.body.append(cursor);
+  document.body.classList.add("butterfly-cursor-enabled");
+
+  const leftWing = cursor.querySelector(".wing-left");
+  const rightWing = cursor.querySelector(".wing-right");
+  const ease = 0.07;
+  const flap = 9;
+  const wander = 14;
+  let mouseX = 0;
+  let mouseY = 0;
+  let x = 0;
+  let y = 0;
+  let rotation = 0;
+
+  const handlePointerMove = (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+  };
+
+  const animate = (time) => {
+    const wanderX = Math.sin(time / 900) * wander;
+    const wanderY = Math.cos(time / 1150) * wander * 0.7;
+    const deltaX = mouseX + wanderX - x;
+    const deltaY = mouseY + wanderY - y;
+    x += deltaX * ease;
+    y += deltaY * ease;
+    rotation += (Math.max(-34, Math.min(deltaX * 1.4, 34)) - rotation) * 0.1;
+
+    const open = Math.abs(Math.sin((time / 1000) * flap));
+    leftWing.setAttribute("transform", `scale(${-0.25 - open * 0.75} 1)`);
+    rightWing.setAttribute("transform", `scale(${0.25 + open * 0.75} 1)`);
+    cursor.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`;
+    window.requestAnimationFrame(animate);
+  };
+
+  window.addEventListener("pointermove", handlePointerMove, { passive: true });
+  window.requestAnimationFrame(animate);
+}
+
 // Lightbox Galeri
 const dlg = document.querySelector("dialog");
 if (dlg) {
