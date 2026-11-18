@@ -1,0 +1,1478 @@
+/* ==========================================================================
+   EcoVera — About page
+   Editorial "field notes" layout. Colours and type come from css/style.css.
+   Everything is scoped to .about-page / .about so no other page is affected.
+   ========================================================================== */
+
+.about-page {
+  --ab-accent: #16c47f;
+  --ab-accent-soft: #8ef3c6;
+  --ab-muted: #4a6154;
+  --ab-line: rgba(14, 46, 32, 0.14);
+  --ab-line-light: rgba(255, 255, 255, 0.2);
+  --ab-cream: #f5f8f4;
+  --ab-gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --ab-pad: clamp(3.5rem, 6vw, 5.75rem);
+  --ab-max: 1320px;
+  background: var(--white);
+
+  /* The About page uses Nunito for every text element, including the nav and
+     footer injected by js/script.js. Overriding the shared tokens here keeps
+     the rest of the site untouched. */
+  --h: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --b: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --s: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.about ::selection {
+  background: var(--ab-accent);
+  color: var(--white);
+}
+
+.about {
+  background: var(--white);
+}
+
+.ab-wrap {
+  width: 100%;
+  max-width: var(--ab-max);
+  margin-inline: auto;
+}
+
+/* ---------- Shared editorial pieces ---------- */
+
+.ab-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0;
+  font: 700 0.7rem/1.4 var(--h);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+
+.ab-kicker::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.ab-kicker span {
+  color: var(--em-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.about h2 {
+  font-size: clamp(1.9rem, 3.2vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--char);
+  max-width: 22ch;
+}
+
+.about h3 {
+  font-size: clamp(1.08rem, 1.5vw, 1.26rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.about em {
+  font-family: var(--s);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.about p {
+  max-width: 62ch;
+}
+
+.ab-lede {
+  font-size: clamp(1.03rem, 1.25vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.68;
+  color: var(--char);
+}
+
+.ab-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--mint);
+  isolation: isolate;
+}
+
+.ab-frame img {
+  position: absolute;
+  top: -8%;
+  left: 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  display: block;
+}
+
+.ab-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font: 700 0.88rem var(--h);
+  color: var(--em-dark);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ab-link-arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+.ab-link-arrow:hover svg,
+.ab-link-arrow:focus-visible svg {
+  transform: translateX(5px);
+}
+
+/* ---------- Injected nav and buttons: About-only type treatment ---------- */
+
+.about-page nav.top .logo {
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.about-page nav.top li a {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.about-page .btn {
+  padding: 0.8rem 1.55rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.005em;
+}
+
+/* ==========================================================================
+   01 — Hero
+   ========================================================================== */
+
+.ab-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--white);
+  background: var(--char);
+}
+
+.ab-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform;
+}
+
+.ab-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+}
+
+.ab-hero-litter {
+  clip-path: inset(0 calc(100% - var(--reveal, 0%)) 0 0);
+  transition: clip-path 1.15s cubic-bezier(0.65, 0, 0.25, 1);
+}
+
+/* Bookmark state for the mobile / reduced-motion button. The scrubbed
+   desktop version is driven by GSAP through --reveal, so it is excluded. */
+.ab-hero.is-revealed:not(.is-scrubbed) .ab-hero-litter {
+  clip-path: inset(0 0 0 0);
+}
+
+/* During the scrubbed desktop wipe GSAP drives the clip every frame, so the
+   CSS transition must step aside; on mobile the transition is what we want. */
+.ab-hero.is-scrubbed .ab-hero-litter,
+.ab-hero.is-scrubbed .ab-hero-note {
+  transition: none;
+}
+
+.ab-hero-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--reveal, 0%);
+  z-index: 2;
+  display: none;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 26px rgba(5, 20, 13, 0.5);
+  pointer-events: none;
+}
+
+.ab-hero.is-scrubbed .ab-hero-seam {
+  display: block;
+}
+
+.ab-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6, 24, 15, 0.62) 0%,
+      rgba(6, 24, 15, 0.06) 30%,
+      rgba(6, 24, 15, 0) 56%,
+      rgba(6, 24, 15, 0.74) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(6, 24, 15, 0.5) 0%,
+      rgba(6, 24, 15, 0.1) 64%,
+      rgba(6, 24, 15, 0) 100%
+    );
+}
+
+.ab-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8rem var(--ab-gutter) clamp(2.25rem, 5vh, 4rem);
+}
+
+.ab-hero-title {
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(2.1rem, 4.2vw, 3.05rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.ab-hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.ab-hero-line > span {
+  display: block;
+}
+
+.ab-hero-title em {
+  color: #dcfff0;
+}
+
+.ab-hero-lead {
+  max-width: 46ch;
+  margin-top: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: clamp(0.96rem, 1.1vw, 1.05rem);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.ab-hero-notes {
+  position: relative;
+  width: 100%;
+  min-height: 1.9rem;
+  margin-top: clamp(1rem, 1.8vw, 1.5rem);
+}
+
+.ab-hero-note {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: 0;
+  font: 600 0.85rem/1.4 var(--h);
+  color: rgba(255, 255, 255, 0.92);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.ab-hero-note span {
+  font: 700 0.66rem/1 var(--h);
+  letter-spacing: 0.08em;
+  color: var(--ab-accent-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.ab-hero-note-litter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.ab-hero.is-revealed .ab-hero-note-clean {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.ab-hero.is-revealed .ab-hero-note-litter {
+  opacity: 1;
+  transform: none;
+}
+
+.ab-hero-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: auto;
+  padding-top: clamp(1.75rem, 5vh, 3rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.ab-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ab-hero-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font: 600 0.68rem/1 var(--h);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ab-hero-cue::after {
+  content: "";
+  width: 1px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.7);
+  animation: ab-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  transform-origin: top;
+}
+
+@keyframes ab-cue {
+  0% {
+    transform: scaleY(0);
+  }
+  45% {
+    transform: scaleY(1);
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+.ab-hero-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+}
+
+.ab-hero-progress i {
+  display: block;
+  height: 100%;
+  background: var(--ab-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* The tap-to-reveal control is only used on small screens (and desktop
+   visitors who prefer reduced motion). */
+.ab-reveal-btn {
+  display: none;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.62rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 99px;
+  background: rgba(9, 30, 19, 0.28);
+  color: var(--white);
+  font: 600 0.78rem/1 var(--h);
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.ab-reveal-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.ab-reveal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ab-accent);
+  box-shadow: 0 0 0 3px rgba(22, 196, 127, 0.24);
+}
+
+/* ==========================================================================
+   02 — Manifesto
+   ========================================================================== */
+
+.ab-manifesto {
+  background: var(--white);
+  padding: var(--ab-pad) var(--ab-gutter);
+}
+
+.ab-manifesto-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(0, 2fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: start;
+}
+
+.ab-manifesto-side {
+  position: sticky;
+  top: 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ab-side-note {
+  max-width: 22ch;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--ab-muted);
+}
+
+.ab-statement {
+  max-width: 22ch;
+  font-size: clamp(1.85rem, 3.2vw, 2.9rem) !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.ab-statement em {
+  display: inline;
+  color: var(--olive);
+}
+
+.ab-w {
+  display: inline-block;
+}
+
+.ab-manifesto-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-top: clamp(1.75rem, 3vw, 2.5rem);
+  border-top: 1px solid var(--ab-line);
+}
+
+.ab-manifesto-copy p:not(.ab-lede) {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--ab-muted);
+}
+
+/* A single wide field image keeps the typographic section from feeling empty
+   and introduces the photographic story that follows. */
+.ab-manifesto-band {
+  width: 100%;
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+}
+
+.ab-manifesto-band .ab-frame {
+  aspect-ratio: 21 / 9;
+}
+
+.ab-manifesto-band figcaption,
+.ab-values-note figcaption {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ab-muted);
+}
+
+.ab-manifesto-band figcaption span,
+.ab-values-note figcaption span {
+  font-weight: 700;
+  color: var(--em-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   03 — Story
+   ========================================================================== */
+
+.ab-story {
+  background: var(--ab-cream);
+  padding: var(--ab-pad) var(--ab-gutter) calc(var(--ab-pad) * 0.85);
+}
+
+.ab-story-head {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(0, 2fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: start;
+  margin-bottom: clamp(2.25rem, 4vw, 3.5rem);
+}
+
+.ab-story-head h2 {
+  max-width: 20ch;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.ab-story-head h2 em {
+  color: var(--olive);
+}
+
+.ab-story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.ab-story-main {
+  margin: 0;
+}
+
+.ab-story-main .ab-frame {
+  aspect-ratio: 4 / 3;
+}
+
+.ab-story-main figcaption,
+.ab-story-inset figcaption {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ab-muted);
+}
+
+.ab-story-main figcaption span,
+.ab-story-inset figcaption span {
+  font-weight: 700;
+  color: var(--em-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.ab-story-text * {
+  padding-top: clamp(0.25rem, 1.25vw, 1rem);
+}
+
+.ab-story-text > p {
+  margin-top: 1rem;
+  font-size: 0.98rem;
+  line-height: 1.78;
+  color: var(--ab-muted);
+}
+
+.ab-story-text h3 {
+  margin-top: clamp(2rem, 3.5vw, 2.75rem);
+  color: var(--char);
+}
+
+.ab-pull {
+  max-width: 30ch;
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  padding-left: clamp(1rem, 2vw, 1.5rem);
+  border-left: 2px solid var(--ab-accent);
+  font: italic clamp(1.15rem, 1.6vw, 1.4rem) / 1.45 var(--s);
+  color: var(--char);
+}
+
+.ab-pull cite {
+  display: block;
+  margin-top: 1rem;
+  font: 600 0.7rem/1 var(--h);
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ab-muted);
+}
+
+.ab-story-inset {
+  grid-column: 2;
+  justify-self: end;
+  width: min(320px, 84%);
+  margin: clamp(-8rem, -6vw, -3rem) 0 0;
+  padding: 0.65rem 0.65rem 0;
+  background: var(--white);
+}
+
+.ab-story-inset .ab-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.ab-story-inset figcaption {
+  padding: 0 0.15rem 0.35rem;
+}
+
+/* ==========================================================================
+   04 — Focus index
+   ========================================================================== */
+
+.ab-focus {
+  position: relative;
+  background: var(--white);
+  padding: var(--ab-pad) var(--ab-gutter);
+}
+
+.ab-focus-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  border-bottom: 1px solid var(--ab-line);
+}
+
+/* The head already supplies the top rule, so the first row doesn't repeat it. */
+.ab-focus-head + .ab-index li:first-child {
+  border-top: 0;
+}
+
+.ab-focus-head h2 {
+  max-width: 18ch;
+  margin-top: 1.25rem;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.ab-focus-head > p {
+  justify-self: end;
+  max-width: 42ch;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--ab-muted);
+}
+
+.ab-index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ab-index li {
+  border-top: 1px solid var(--ab-line);
+}
+
+.ab-index li:last-child {
+  border-bottom: 1px solid var(--ab-line);
+}
+
+.ab-index-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1.15fr) minmax(0, 1fr) 1.5rem;
+  gap: clamp(1rem, 2.2vw, 2.5rem);
+  align-items: center;
+  padding: clamp(1.35rem, 2.4vw, 1.9rem) 0;
+  color: var(--char);
+  text-decoration: none;
+  transition: padding 0.45s cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+.ab-index-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--ab-accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+.ab-index-row:hover::before,
+.ab-index-row:focus-visible::before {
+  transform: scaleY(1);
+  transform-origin: top;
+}
+
+.ab-index-row:hover,
+.ab-index-row:focus-visible {
+  padding-left: 1rem;
+}
+
+.ab-index-num {
+  font: 700 0.72rem/1 var(--h);
+  letter-spacing: 0.1em;
+  color: var(--em-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.ab-index-title {
+  font: 700 clamp(1.15rem, 1.55vw, 1.4rem) / 1.25 var(--h);
+  letter-spacing: -0.015em;
+  transition: color 0.3s ease;
+}
+
+.ab-index-row:hover .ab-index-title,
+.ab-index-row:focus-visible .ab-index-title {
+  color: var(--em-dark);
+}
+
+.ab-index-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ab-muted);
+}
+
+.ab-index-arrow {
+  display: inline-flex;
+  justify-content: flex-end;
+  color: var(--olive);
+}
+
+.ab-index-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.55;
+  transition: transform 0.35s cubic-bezier(0.2, 0.85, 0.25, 1), opacity 0.3s;
+}
+
+.ab-index-row:hover .ab-index-arrow svg,
+.ab-index-row:focus-visible .ab-index-arrow svg {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+.ab-index-thumb {
+  display: none;
+}
+
+/* Cursor-following preview (desktop, fine pointer only). */
+.ab-focus-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: none;
+  width: clamp(15rem, 20vw, 20rem);
+  aspect-ratio: 4 / 3;
+  background: var(--mint) center / cover no-repeat;
+  box-shadow: 0 26px 60px rgba(14, 46, 32, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   05 — Showcase
+   Default = vertical image essay (works without JS and with reduced motion).
+   Desktop JS adds .is-horizontal for the pinned horizontal sequence.
+   ========================================================================== */
+
+.ab-showcase {
+  background: var(--ab-cream);
+  position: relative;
+}
+
+.ab-showcase-pin {
+  padding: var(--ab-pad) var(--ab-gutter);
+}
+
+.ab-showcase-head {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.1fr) minmax(0, 0.75fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.ab-showcase-head h2 {
+  max-width: 18ch;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.ab-showcase-head h2 em {
+  color: var(--olive);
+}
+
+.ab-showcase-note {
+  max-width: 34ch;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--ab-muted);
+}
+
+.ab-showcase-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  justify-self: end;
+}
+
+.ab-showcase-progress {
+  grid-column: 1 / -1;
+  height: 1px;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--ab-line);
+  overflow: hidden;
+}
+
+.ab-showcase-progress i {
+  display: block;
+  height: 100%;
+  background: var(--ab-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.ab-showcase-viewport {
+  position: relative;
+}
+
+.ab-showcase-track {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* Desktop default (no JS, or reduced motion): a staggered two-column essay
+   instead of one enormous full-width image after another. */
+@media (min-width: 900px) {
+  .ab-showcase-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+
+  .ab-showcase-track .ab-showcase-end {
+    grid-column: 1 / -1;
+  }
+}
+
+.ab-shot {
+  margin: 0;
+}
+
+.ab-shot .ab-frame {
+  aspect-ratio: var(--ar, 4 / 3);
+}
+
+.ab-shot figcaption {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ab-muted);
+}
+
+.ab-shot figcaption span {
+  font-weight: 700;
+  color: var(--em-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.ab-showcase-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  border-top: 1px solid var(--ab-line);
+}
+
+.ab-showcase-end-text {
+  max-width: 26ch;
+  font: italic clamp(1.2rem, 1.7vw, 1.55rem) / 1.45 var(--s);
+  color: var(--char);
+}
+
+/* Horizontal mode */
+@media (min-width: 900px) {
+  .ab-showcase.is-horizontal .ab-showcase-pin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+    padding: clamp(6rem, 9vh, 8rem) 0 clamp(3rem, 6vh, 5rem);
+    overflow: hidden;
+  }
+
+  .ab-showcase.is-horizontal .ab-showcase-head {
+    padding: 0 var(--ab-gutter);
+    margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  .ab-showcase.is-horizontal .ab-showcase-viewport {
+    overflow: clip;
+  }
+
+  .ab-showcase.is-horizontal .ab-showcase-track {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    width: max-content;
+    padding: 0 var(--ab-gutter);
+    will-change: transform;
+  }
+
+  .ab-showcase.is-horizontal .ab-shot {
+    flex: 0 0 auto;
+    width: var(--w, 32vw);
+    transform: translateY(var(--offset, 0));
+  }
+
+  .ab-showcase.is-horizontal .ab-shot .ab-frame {
+    width: 100%;
+    height: auto;
+  }
+
+  .ab-showcase.is-horizontal .ab-showcase-end {
+    flex: 0 0 auto;
+    width: 30vw;
+    align-self: stretch;
+    margin-left: 3vw;
+    padding-left: 3vw;
+    border-top: 0;
+    border-left: 1px solid var(--ab-line);
+  }
+}
+
+/* ==========================================================================
+   06 — Values
+   ========================================================================== */
+
+.ab-values {
+  background: var(--white);
+  padding: var(--ab-pad) var(--ab-gutter);
+}
+
+.ab-values-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2.5rem, 5.5vw, 6rem);
+  align-items: start;
+}
+
+.ab-values-sticky {
+  position: sticky;
+  top: 7rem;
+}
+
+.ab-values-sticky h2 {
+  max-width: 16ch;
+  margin-top: 1.25rem;
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+}
+
+.ab-values-sticky h2 em {
+  color: var(--olive);
+}
+
+.ab-values-meter {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.ab-values-current {
+  font: 800 clamp(1.9rem, 3vw, 2.5rem) / 0.95 var(--h);
+  letter-spacing: -0.03em;
+  color: var(--ab-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.ab-values-total {
+  font: 600 0.78rem/1 var(--h);
+  color: var(--ab-muted);
+  padding-bottom: 0.25rem;
+}
+
+.ab-values-line {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  margin: 0 0 0.5rem 1rem;
+  background: var(--ab-line);
+  overflow: hidden;
+}
+
+.ab-values-line b {
+  position: absolute;
+  inset: 0;
+  background: var(--ab-accent);
+  transform: scaleX(0.25);
+  transform-origin: left;
+}
+
+/* Small print-like photo in the sticky column: a visual grounding for the
+   principles without turning the section into cards. */
+.ab-values-note {
+  max-width: 20rem;
+  margin: clamp(2rem, 4vw, 2.75rem) 0 0;
+}
+
+.ab-values-note .ab-frame {
+  aspect-ratio: 16 / 10;
+}
+
+.ab-values-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ab-value {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: clamp(2.25rem, 3.5vw, 3rem) 0;
+  border-top: 1px solid var(--ab-line);
+  opacity: 0.5;
+  transition: opacity 0.45s ease;
+}
+
+.ab-value:last-child {
+  border-bottom: 1px solid var(--ab-line);
+}
+
+.ab-value.is-active,
+.ab-value:hover {
+  opacity: 1;
+}
+
+.ab-value-num {
+  padding-top: 0.4rem;
+  font: 700 0.72rem/1 var(--h);
+  letter-spacing: 0.1em;
+  color: var(--em-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.ab-value h3 {
+  color: var(--char);
+}
+
+.ab-value p {
+  max-width: 46ch;
+  margin-top: 0.85rem;
+  font-size: 0.96rem;
+  line-height: 1.78;
+  color: var(--ab-muted);
+}
+
+@media (min-width: 900px) {
+  .ab-value {
+    align-content: center;
+    min-height: 32vh;
+  }
+}
+
+/* ---------- Injected footer: compact, About-only treatment ---------- */
+
+.about-page footer {
+  padding: clamp(1.75rem, 3vw, 2.5rem) var(--ab-gutter);
+  background: #0a2318;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.about-page footer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  align-items: flex-start;
+}
+
+.about-page footer .logo {
+  color: var(--white);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+}
+
+.about-page footer p {
+  margin: 0;
+  max-width: 40ch;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.about-page footer > p {
+  justify-self: end;
+  text-align: right;
+  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.54);
+}
+
+/* ==========================================================================
+   Responsive: laptop / tablet
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .ab-manifesto-grid,
+  .ab-story-head {
+    grid-template-columns: minmax(150px, 0.5fr) minmax(0, 1.8fr);
+    gap: clamp(1.5rem, 3.5vw, 3rem);
+  }
+
+  .ab-manifesto-copy {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .ab-story-inset {
+    width: min(300px, 92%);
+    margin-top: 1.5rem;
+  }
+
+  .ab-showcase-head {
+    grid-template-columns: minmax(160px, 0.5fr) minmax(0, 1.1fr);
+  }
+
+  .ab-showcase-side {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .ab-focus-preview {
+    display: none !important;
+  }
+
+  .ab-values-sticky {
+    position: static;
+  }
+
+  .ab-values-meter {
+    display: none;
+  }
+
+  .ab-values-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .ab-value {
+    opacity: 1;
+    min-height: 0;
+    padding: 2.5rem 0;
+  }
+
+  .ab-value h3 {
+    font-size: 1.18rem;
+  }
+}
+
+/* ==========================================================================
+   Responsive: mobile
+   ========================================================================== */
+
+@media (max-width: 899px) {
+  .ab-hero {
+    min-height: 100svh;
+  }
+
+  .ab-hero-inner {
+    padding-top: 7.5rem;
+    padding-bottom: 2.25rem;
+  }
+
+  .ab-hero-title {
+    max-width: 16ch;
+    font-size: clamp(2.05rem, 7.8vw, 2.8rem);
+  }
+
+  .ab-hero-lead {
+    max-width: 46ch;
+    font-size: 0.96rem;
+  }
+
+  .ab-hero-foot {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    align-items: start;
+  }
+
+  .ab-hero-actions {
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  html.js .ab-reveal-btn {
+    display: inline-flex;
+  }
+
+  .ab-hero-notes {
+    min-height: 3rem;
+  }
+
+  .ab-hero-cue {
+    font-size: 0.62rem;
+  }
+
+  .ab-hero-cue::after {
+    height: 30px;
+  }
+
+  .ab-hero-progress,
+  .ab-hero-seam {
+    display: none !important;
+  }
+
+  .ab-reveal-btn:hover {
+    background: rgba(9, 30, 19, 0.28);
+  }
+
+  .ab-manifesto,
+  .ab-story,
+  .ab-focus,
+  .ab-showcase-pin,
+  .ab-values {
+    padding-left: var(--ab-gutter);
+    padding-right: var(--ab-gutter);
+  }
+
+  .ab-manifesto-grid,
+  .ab-story-head {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .ab-manifesto-side {
+    position: static;
+    gap: 0.9rem;
+  }
+
+  .ab-side-note {
+    display: none;
+  }
+
+  .ab-statement {
+    font-size: clamp(1.9rem, 7.4vw, 2.6rem) !important;
+    max-width: 20ch;
+  }
+
+  .ab-manifesto-copy {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .ab-manifesto-band .ab-frame {
+    aspect-ratio: 16 / 10;
+  }
+
+  .ab-values-note {
+    max-width: 22rem;
+    margin-top: 1.75rem;
+  }
+
+  .ab-story-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .ab-story-text {
+    padding-top: 0;
+  }
+
+  .ab-story-inset {
+    grid-column: 1;
+    justify-self: start;
+    width: min(260px, 68%);
+    margin: 0.5rem 0 0 auto;
+  }
+
+  .ab-focus-head {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .ab-focus-head > p {
+    justify-self: start;
+  }
+
+  .ab-focus-head h2 {
+    max-width: 15ch;
+  }
+
+  .ab-index-row {
+    grid-template-columns: 2.25rem minmax(0, 1fr) 1.25rem;
+    gap: 0.9rem;
+    padding: 1.35rem 0;
+  }
+
+  .ab-index-row:hover,
+  .ab-index-row:focus-visible {
+    padding-left: 0;
+  }
+
+  .ab-index-desc {
+    display: none;
+  }
+
+  .ab-index-title {
+    font-size: 1.18rem;
+  }
+
+  .ab-index-thumb {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    height: auto;
+    max-height: 10.5rem;
+    margin-top: 0.35rem;
+    object-fit: cover;
+    background: var(--mint);
+  }
+
+  .ab-showcase-head {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .ab-showcase-side {
+    grid-column: 1;
+  }
+
+  .ab-showcase-progress {
+    margin-top: 0.5rem;
+  }
+
+  /* Native swipe carousel on touch screens */
+  .ab-showcase-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 calc(var(--ab-gutter) * -1);
+    padding: 0 var(--ab-gutter) 0.75rem;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--ab-gutter);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ab-showcase-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ab-showcase-track {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    width: max-content;
+  }
+
+  .ab-shot {
+    flex: 0 0 auto;
+    width: min(78vw, 30rem);
+    scroll-snap-align: center;
+  }
+
+  .ab-shot .ab-frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .ab-showcase-end {
+    flex: 0 0 auto;
+    width: min(78vw, 30rem);
+    align-self: stretch;
+    justify-content: center;
+    border-top: 0;
+    border-left: 1px solid var(--ab-line);
+    padding: 0 0 0 1.25rem;
+  }
+
+  .about-page footer {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    padding: 1.75rem var(--ab-gutter) 2rem;
+  }
+
+  .about-page footer > p {
+    justify-self: start;
+    text-align: left;
+    max-width: 42ch;
+  }
+}
+
+@media (max-width: 480px) {
+  .ab-hero-title {
+    font-size: clamp(1.95rem, 8.4vw, 2.45rem);
+  }
+
+  .ab-hero-note {
+    font-size: 0.8rem;
+  }
+
+  .ab-story-inset {
+    width: 74%;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .ab-reveal-btn {
+    display: inline-flex;
+  }
+
+  .ab-hero-litter {
+    transition: none;
+  }
+
+  .ab-hero-note {
+    transition: none;
+  }
+
+  .ab-hero-cue::after {
+    animation: none;
+    transform: none;
+  }
+
+  .ab-value {
+    opacity: 1;
+  }
+}
