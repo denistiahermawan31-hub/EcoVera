@@ -628,7 +628,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.ab-story-text {
+.ab-story-text * {
   padding-top: clamp(0.25rem, 1.25vw, 1rem);
 }
 
