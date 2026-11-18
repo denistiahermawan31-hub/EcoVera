@@ -1,10 +1,10 @@
 /* ==========================================================================
    EcoVera — About page
    Editorial "field notes" layout. Colours and type come from css/style.css.
-   Everything is scoped to .about-page / .about so no other page is affected.
+   Tokens are global; component rules stay scoped to .about so other pages are untouched.
    ========================================================================== */
 
-.about-page {
+:root {
   --ab-accent: #16c47f;
   --ab-accent-soft: #8ef3c6;
   --ab-muted: #4a6154;
