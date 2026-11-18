@@ -321,16 +321,17 @@
     });
   }
 
-  // Form: kartu masuk dari kanan, lalu isi bertahap
+  // Form: kartu masuk dari kanan (desktop) atau bawah (mobile), lalu isi bertahap
   const formItems = form.querySelectorAll(".chips-wrap, .field, .btn");
-  gsap.set(form, { opacity: 0, x: 50 });
+  const isNarrow = matchMedia("(max-width: 680px)").matches;
+  gsap.set(form, { opacity: 0, x: isNarrow ? 0 : 50, y: isNarrow ? 24 : 0 });
   gsap.set(formItems, { opacity: 0, y: 20 });
   const formTl = gsap.timeline({
     paused: true,
     defaults: { ease: "power3.out" },
   });
   formTl
-    .to(form, { opacity: 1, x: 0, duration: 0.9 })
+    .to(form, { opacity: 1, x: 0, y: 0, duration: 0.9 })
     .to(formItems, { opacity: 1, y: 0, duration: 0.6, stagger: 0.09 }, "-=0.5");
   if (hasST) {
     ScrollTrigger.create({

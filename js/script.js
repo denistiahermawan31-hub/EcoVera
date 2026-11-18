@@ -1,3 +1,5 @@
+import logoUrl from '../assets/images/logo1.png';
+
 const pages = [
   ["index.html", "Home"],
   ["about.html", "About"],
@@ -8,7 +10,7 @@ const pages = [
 
 const cur = location.pathname.split("/").pop() || "index.html";
 
-const ecoIconImage = '<img src="assets/images/logo1.png" alt="" width="54" height="38">';
+const ecoIconImage = `<img src="${logoUrl}" alt="" width="54" height="38">`;
 
 // Injeksi Skip Link & Navbar
 document.body.insertAdjacentHTML(

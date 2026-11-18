@@ -18,6 +18,9 @@
     />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="css/style.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <style>
       /* Pastikan navbar tetap terang di atas latar gelap halaman Artikel */
       body.nav-filled nav.top,
@@ -79,6 +82,27 @@
         color: var(--sage);
       }
 
+      /* Judul dan ringkasan masuk sekali saat halaman dibuka */
+      @keyframes artIntro {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      html.js .article-header h1,
+      html.js .article-header .lead {
+        animation: artIntro 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      html.js .article-header .lead {
+        animation-delay: 0.12s;
+      }
+
       /* Layout Editorial 2 Kolom: Sidebar Daftar Isi (Kiri) + Konten Artikel (Kanan) */
       .editorial-grid {
         display: grid;
@@ -86,6 +110,10 @@
         gap: 3.5rem;
         align-items: start;
         margin-top: 2.5rem;
+      }
+
+      .editorial-grid > * {
+        min-width: 0;
       }
 
       /* Sidebar Daftar Isi Sticky */
@@ -154,6 +182,7 @@
       }
 
       .article-page .art {
+        position: relative;
         display: grid;
         grid-template-columns: 5fr 7fr;
         gap: 2.5rem;
@@ -162,6 +191,24 @@
         border-top: none;
         border-bottom: 1px solid var(--line-light);
         scroll-margin-top: 96px;
+      }
+
+      /* Garis tipis tumbuh saat artikel masuk ke layar */
+      .article-page .art::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, var(--acid), rgba(208, 245, 111, 0));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .article-page .art.is-visible::before {
+        transform: scaleX(1);
       }
 
       .article-page .art:first-child {
@@ -186,8 +233,18 @@
         aspect-ratio: 4 / 3;
         border: none;
         border-radius: 0;
-        transform: scale(1.04);
-        transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .article-page .art .photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      html.js .article-page .art .photo {
+        transform: scale(1.08);
+        transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .article-page .art .photo::after {
@@ -198,26 +255,46 @@
         );
       }
 
-      .art.is-visible .photo {
+      html.js .art.is-visible .photo {
         transform: scale(1);
       }
 
+      html.js .art.is-visible:hover .photo {
+        transform: scale(1.035);
+      }
+
       /* Animasi Scroll Reveal Bertahap */
-      .reveal-media,
-      .reveal-body {
+      html.js .reveal-media {
         opacity: 0;
-        transform: translateY(14px);
+        transform: translateY(18px);
+        clip-path: inset(0 0 8% 0);
+        transition:
+          opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+          clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      html.js .reveal-body > * {
+        opacity: 0;
+        transform: translateY(12px);
         transition:
           opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
           transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       }
 
-      .reveal-body {
-        transition-delay: 0.12s;
+      html.js .reveal-body > *:nth-child(1) { transition-delay: 0.12s; }
+      html.js .reveal-body > *:nth-child(2) { transition-delay: 0.2s; }
+      html.js .reveal-body > *:nth-child(3) { transition-delay: 0.28s; }
+      html.js .reveal-body > *:nth-child(4) { transition-delay: 0.36s; }
+      html.js .reveal-body > *:nth-child(5) { transition-delay: 0.44s; }
+
+      html.js .art.is-visible .reveal-media {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: inset(0 0 0 0);
       }
 
-      .art.is-visible .reveal-media,
-      .art.is-visible .reveal-body {
+      html.js .art.is-visible .reveal-body > * {
         opacity: 1;
         transform: translateY(0);
       }
@@ -259,8 +336,7 @@
         font-size: 1.03rem;
         line-height: 1.78;
         max-width: 62ch;
-        color: var(--bone);
-        opacity: 0.92;
+        color: rgba(241, 239, 228, 0.92);
       }
 
       .article-page .art p + p {
@@ -278,10 +354,16 @@
         font-size: 0.86rem;
         line-height: 1.6;
         color: var(--sage);
-        opacity: 1;
       }
 
       /* Responsif Tablet & Mobile */
+      @media (max-width: 1180px) {
+        .editorial-grid {
+          grid-template-columns: 190px minmax(0, 1fr);
+          gap: 2rem;
+        }
+      }
+
       @media (max-width: 980px) {
         .editorial-grid {
           grid-template-columns: 1fr;
@@ -305,6 +387,9 @@
 
         .article-page .toc {
           flex-direction: row;
+          flex-wrap: nowrap;
+          width: 100%;
+          max-width: 100%;
           overflow-x: auto;
           border-left: none;
           gap: 0.5rem;
@@ -317,6 +402,7 @@
 
         .article-page .toc a {
           flex-shrink: 0;
+          white-space: nowrap;
           margin-left: 0;
           padding: 0.45rem 0.85rem;
           border: 1px solid var(--line-light);
@@ -342,24 +428,60 @@
         }
       }
 
+      @media (max-width: 860px) {
+        .article-page .art {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .article-page .art .photo {
+          aspect-ratio: 16 / 10;
+        }
+      }
+
       @media (max-width: 680px) {
         .article-page {
           padding-top: 6.75rem;
         }
 
         .article-page .art {
-          grid-template-columns: 1fr;
           gap: 1.4rem;
           padding: 2.5rem 0;
         }
       }
 
+      @media (max-width: 480px) {
+        .article-page {
+          padding-top: 5.75rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        .article-page .toc a {
+          padding: 0.4rem 0.7rem;
+          font-size: 0.82rem;
+        }
+
+        .article-page .art {
+          padding: 2rem 0;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
-        .reveal-media,
-        .reveal-body,
+        html.js .article-header h1,
+        html.js .article-header .lead,
+        html.js .reveal-media,
+        html.js .reveal-body > *,
         .article-page .art .photo {
+          animation: none !important;
           opacity: 1 !important;
           transform: none !important;
+          clip-path: none !important;
+          transition: none !important;
+        }
+
+        .article-page .art::before {
+          transform: scaleX(1) !important;
           transition: none !important;
         }
       }
@@ -399,8 +521,14 @@
                     class="photo"
                     role="img"
                     aria-label="Ilustrasi memahami sampah"
-                    style="--img: url(&quot;assets/images/memahami.jpg&quot;)"
-                  ></div>
+                  >
+                    <img
+                      src="assets/images/Foto7.png"
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
                 <div class="reveal-body">
                   <div class="article-meta">
@@ -432,8 +560,14 @@
                     class="photo"
                     role="img"
                     aria-label="Ilustrasi jenis-jenis sampah"
-                    style="--img: url(&quot;assets/images/jenis.jpg&quot;)"
-                  ></div>
+                  >
+                    <img
+                      src="assets/images/Foto6.png"
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
                 <div class="reveal-body">
                   <div class="article-meta">
@@ -465,8 +599,14 @@
                     class="photo"
                     role="img"
                     aria-label="Ilustrasi dampak sampah terhadap ekosistem"
-                    style="--img: url(&quot;assets/images/dampak.jpg&quot;)"
-                  ></div>
+                  >
+                    <img
+                      src="assets/images/foto13.jpg"
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
                 <div class="reveal-body">
                   <div class="article-meta">
@@ -498,8 +638,14 @@
                     class="photo"
                     role="img"
                     aria-label="Ilustrasi pemilahan dan pengelolaan sampah"
-                    style="--img: url(&quot;assets/images/kelola.jpg&quot;)"
-                  ></div>
+                  >
+                    <img
+                      src="assets/images/Foto11.png"
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
                 <div class="reveal-body">
                   <div class="article-meta">
@@ -530,8 +676,14 @@
                     class="photo"
                     role="img"
                     aria-label="Ilustrasi prinsip Reduce, Reuse, Recycle"
-                    style="--img: url(&quot;assets/images/3r.jpg&quot;)"
-                  ></div>
+                  >
+                    <img
+                      src="assets/images/Foto4.png"
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
                 <div class="reveal-body">
                   <div class="article-meta">
@@ -562,8 +714,14 @@
                     class="photo"
                     role="img"
                     aria-label="Ilustrasi kesadaran lingkungan"
-                    style="--img: url(&quot;assets/images/sadar.jpg&quot;)"
-                  ></div>
+                  >
+                    <img
+                      src="assets/images/Foto9.png"
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
                 <div class="reveal-body">
                   <div class="article-meta">
@@ -592,7 +750,7 @@
       </div>
     </main>
 
-    <script src="js/script.js"></script>
+    <script type="module" src="js/script.js"></script>
     <script>
       (function () {
         const articles = Array.from(document.querySelectorAll(".article-page .art"));

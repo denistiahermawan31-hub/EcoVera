@@ -1,30 +1,22 @@
 (() => {
   'use strict';
 
-  const PHOTOS = [
-    'assets/images/Foto1.png',
-    'assets/images/Foto2.png',
-    'assets/images/Foto3.png',
-    'assets/images/Foto4.png',
-    'assets/images/Foto6.png',
-    'assets/images/Foto7.png',
-    'assets/images/foto8.png',
-    'assets/images/Foto9.png',
-    'assets/images/Foto10.png',
-    'assets/images/Foto11.png',
-    'assets/images/foto12.jpg',
-    'assets/images/foto13.jpg',
-    'assets/images/foto15.png',
-    'assets/images/foto16.png',
-    'assets/images/foto17.jpg',
-    'assets/images/foto18.jpg',
-    'assets/images/foto19.jpg',
-    'assets/images/foto20.jpg',
-    'assets/images/foto21.jpg',
-    'assets/images/foto22.jpg',
-    'assets/images/foto23.jpg',
-    'assets/images/foto24.jpg',
+  const photoFiles = import.meta.glob(
+    '../assets/images/*.{png,jpg,jpeg}',
+    { eager: true, query: '?url', import: 'default' },
+  );
+  const PHOTO_NAMES = [
+    'Foto1', 'Foto2', 'Foto3', 'Foto4', 'Foto6', 'Foto7',
+    'foto8', 'Foto9', 'Foto10', 'Foto11', 'foto12', 'foto13',
+    'foto15', 'foto16', 'foto17', 'foto18', 'foto19', 'foto20',
+    'foto21', 'foto22', 'foto23', 'foto24',
   ];
+  const PHOTOS = PHOTO_NAMES.map((name) => {
+    const file = Object.keys(photoFiles).find((path) =>
+      new RegExp(`/${name}\\.(png|jpe?g)$`, 'i').test(path),
+    );
+    return file ? photoFiles[file] : '';
+  }).filter(Boolean);
   const TOTAL = PHOTOS.length;
   const IMG = (n) => PHOTOS[n];
   const ABS = (n) => new URL(IMG(n), document.baseURI).href;
