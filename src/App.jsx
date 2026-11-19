@@ -188,6 +188,7 @@ function App() {
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
   const [isIntroExiting, setIsIntroExiting] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     let frameId = 0
@@ -211,6 +212,29 @@ function App() {
       window.cancelAnimationFrame(frameId)
       window.removeEventListener('scroll', requestUpdate)
       window.removeEventListener('resize', requestUpdate)
+    }
+  }, [])
+
+  useEffect(() => {
+    const closeMenu = () => setIsMenuOpen(false)
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') closeMenu()
+    }
+    const onResize = () => {
+      if (window.innerWidth > 800) closeMenu()
+    }
+    const onPointerDown = (event) => {
+      if (event.target instanceof Element && !event.target.closest('nav.top')) {
+        closeMenu()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('resize', onResize)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 
@@ -367,14 +391,27 @@ function App() {
       </a>
       <div className="page-progress" aria-hidden="true" />
 
-      <nav className="top" aria-label="Navigasi utama">
-        <a className="logo" href="index.html" aria-label="EcoVera — Beranda">
+      <nav
+        className={`top${isMenuOpen ? ' is-open' : ''}`}
+        aria-label="Navigasi utama"
+      >
+        <a
+          className="logo"
+          href="index.html"
+          aria-label="EcoVera — Beranda"
+          onClick={() => setIsMenuOpen(false)}
+        >
           <span className="logo-icon" aria-hidden="true">
             <img src={logoImage} alt="" width="54" height="38" />
           </span>
           <span className="logo-text">EcoVera</span>
         </a>
-        <ul id="menu">
+        <ul
+          id="menu"
+          onClick={(event) => {
+            if (event.target.closest('a')) setIsMenuOpen(false)
+          }}
+        >
           {pages.map(([href, label]) => (
             <li key={href}>
               <a href={href} aria-current={href === currentPage ? 'page' : undefined}>
@@ -383,6 +420,18 @@ function App() {
             </li>
           ))}
         </ul>
+        <button
+          className="burger"
+          type="button"
+          aria-label={isMenuOpen ? 'Tutup menu' : 'Buka menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="menu"
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </nav>
 
       {isIntroVisible && (

@@ -12,25 +12,31 @@ const cur = location.pathname.split("/").pop() || "index.html";
 
 const ecoIconImage = `<img src="${logoUrl}" alt="" width="54" height="38">`;
 
-// Injeksi Skip Link & Navbar
-document.body.insertAdjacentHTML(
-  "afterbegin",
-  `<a href="#main" style="position:absolute;left:-999px">Lewati ke konten</a>
-  <nav class="top" aria-label="Navigasi utama">
-    <a class="logo" href="index.html" aria-label="EcoVera — Beranda">
-      <span class="logo-icon">${ecoIconImage}</span>
-      <span class="logo-text">EcoVera</span>
-    </a>
-    <ul id="menu">
-      ${pages
-        .map(
-          (p) =>
-            `<li><a href="${p[0]}"${p[0] === cur ? ' aria-current="page"' : ""}>${p[1]}</a></li>`
-        )
-        .join("")}
-    </ul>
-  </nav>`
-);
+// Injeksi Skip Link & Navbar hanya sebagai fallback untuk halaman
+// yang belum memiliki navbar statis di HTML.
+if (!document.querySelector("nav.top")) {
+  document.body.insertAdjacentHTML(
+    "afterbegin",
+    `<a class="skip-link" href="#main">Lewati ke konten</a>
+    <nav class="top" aria-label="Navigasi utama">
+      <a class="logo" href="index.html" aria-label="EcoVera — Beranda">
+        <span class="logo-icon">${ecoIconImage}</span>
+        <span class="logo-text">EcoVera</span>
+      </a>
+      <ul id="menu">
+        ${pages
+          .map(
+            (p) =>
+              `<li><a href="${p[0]}"${p[0] === cur ? ' aria-current="page"' : ""}>${p[1]}</a></li>`
+          )
+          .join("")}
+      </ul>
+      <button class="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>`
+  );
+}
 
 // Injeksi Footer — sama seperti footer homepage
 document.body.insertAdjacentHTML(
@@ -54,50 +60,54 @@ document.body.insertAdjacentHTML(
 );
 
 const nav = document.querySelector("nav.top");
-const logoBtn = nav.querySelector(".logo");
-let manualExpanded = false;
+const menu = nav.querySelector("#menu");
+const burger = nav.querySelector(".burger");
 
-// Saat scroll ke bawah: ciutkan navbar menjadi ikon logo saja
+// Buka/tutup menu mobile (hamburger)
+const setMenuOpen = (open) => {
+  nav.classList.toggle("is-open", open);
+  burger.setAttribute("aria-expanded", String(open));
+  burger.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+};
+
+burger.addEventListener("click", () => {
+  setMenuOpen(!nav.classList.contains("is-open"));
+});
+
+// Tutup menu setelah memilih tautan
+menu.addEventListener("click", (e) => {
+  if (e.target.closest("a")) setMenuOpen(false);
+});
+
+// Tutup menu dengan tombol Escape
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && nav.classList.contains("is-open")) {
+    setMenuOpen(false);
+    burger.focus();
+  }
+});
+
+// Tutup menu saat pengguna klik di luar navbar
+document.addEventListener("click", (e) => {
+  if (nav.classList.contains("is-open") && !nav.contains(e.target)) {
+    setMenuOpen(false);
+  }
+});
+
+// Kembali ke tampilan desktop: pastikan menu mobile tertutup
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 800 && nav.classList.contains("is-open")) {
+    setMenuOpen(false);
+  }
+});
+
+// Saat scroll ke bawah: navbar memakai latar kaca
 const handleScrollNav = () => {
   nav.classList.toggle("is-solid", window.scrollY > 60);
-
-  if (window.scrollY > 60) {
-    if (!manualExpanded) {
-      nav.classList.add("collapsed");
-    }
-  } else {
-    manualExpanded = false;
-    nav.classList.remove("collapsed");
-  }
 };
 
 handleScrollNav();
 window.addEventListener("scroll", handleScrollNav, { passive: true });
-
-// Saat ikon logo ditekan dalam kondisi mengecil: munculkan kembali menu navbar
-logoBtn.addEventListener("click", (e) => {
-  if (nav.classList.contains("collapsed")) {
-    e.preventDefault();
-    manualExpanded = true;
-    nav.classList.remove("collapsed");
-  }
-});
-
-// Jika user scroll lagi setelah membuka manual, kembali mengecil
-let lastScrollY = window.scrollY;
-window.addEventListener(
-  "scroll",
-  () => {
-    if (manualExpanded && Math.abs(window.scrollY - lastScrollY) > 40) {
-      manualExpanded = false;
-      if (window.scrollY > 60) {
-        nav.classList.add("collapsed");
-      }
-    }
-    lastScrollY = window.scrollY;
-  },
-  { passive: true }
-);
 
 // Scroll Reveal
 const io = new IntersectionObserver(

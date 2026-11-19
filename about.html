@@ -22,7 +22,27 @@
       document.documentElement.classList.add("js");
     </script>
   </head>
-  <body>
+  <body class="nav-filled">
+    <a class="skip-link" href="#main">Lewati ke konten</a>
+    <nav class="top" aria-label="Navigasi utama">
+      <a class="logo" href="index.html" aria-label="EcoVera — Beranda">
+        <span class="logo-icon">
+          <img src="assets/images/logo1.png" alt="" width="54" height="38" />
+        </span>
+        <span class="logo-text">EcoVera</span>
+      </a>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" aria-current="page">About</a></li>
+        <li><a href="content.html">Artikel</a></li>
+        <li><a href="gallery.html">Galeri</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
     <main id="main">
       <div class="about">
         <!-- 01 — Hero: the same place, two possible futures -->
